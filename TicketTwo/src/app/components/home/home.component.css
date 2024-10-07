@@ -1,0 +1,9 @@
+.container {
+    background-color: lightblue;
+    margin: 10px;
+    border: 2px black solid;
+    width: auto;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
