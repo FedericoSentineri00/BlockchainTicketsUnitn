@@ -1,0 +1,28 @@
+<div>
+    <div class="container">
+        <h1>Add Organizer</h1>
+        <input type="text" id="organizerAddress" placeholder="Organizer Address">
+        <button (click)="addOrganizer()">Add Organizer</button>
+    </div>
+
+    <div class="container">
+        <h1>Create Ticket</h1>
+        <input type="text" id="eventName" placeholder="Event Name">
+        <input type="number" id="eventDate" placeholder="Event Date (Unix Timestamp)">
+        <input type="number" id="ticketPrice" placeholder="Ticket Price">
+        <button (click)="createTicket()">Create Ticket</button>
+    </div>
+
+    <div class="container">
+        <h1>Buy Ticket</h1>
+        <input type="number" id="ticketId" placeholder="Ticket ID">
+        <button (click)="buyTicket()">Buy Ticket</button>
+    </div>
+
+    <div class="container">
+        <h1>Retrieve Ticket Details</h1>
+        <input type="number" id="retrieveTicketId" placeholder="Ticket ID">
+        <button (click)="retrieveTicket()">Retrieve Ticket</button>
+        <h2 id="ticketDetails"></h2>
+    </div>
+</div>
