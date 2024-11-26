@@ -5,6 +5,7 @@
       <div class="tab" [class.active]="activeTab === 'organizerFunctions'" (click)="setActiveTab('organizerFunctions')">Organizer Functions</div>
       <div class="tab" [class.active]="activeTab === 'generalFunctions'" (click)="setActiveTab('generalFunctions')">General Functions</div>
       <div class="tab" [class.active]="activeTab === 'retrieveInfo'" (click)="setActiveTab('retrieveInfo')">Retrieve Information</div>
+      <div class="tab" [class.active]="activeTab === 'manageGroup'" (click)="setActiveTab('manageGroup')">Manage Group</div>
     </div>
   
     <div class="tab-content">
@@ -39,11 +40,11 @@
       <!-- General Functions -->
       <div *ngIf="activeTab === 'generalFunctions'">
         <h2>Buy Ticket</h2>
-        <input type="number" id="ticketIdToBuy" placeholder="Ticket ID">
+        <input type="text" id="ticketIdToBuy" placeholder="Ticket ID">
         <input type="number" id="ticketPriceToPay" placeholder="Ticket Price (ETH)">
         <button (click)="buyTicket()">Buy Ticket</button>
         <h2>Sell Ticket</h2>
-        <input type="number" id="ticketIdToSell" placeholder="Ticket ID">
+        <input type="text" id="ticketIdToSell" placeholder="Ticket ID">
         <button (click)="sellTicket()">Sell Ticket</button>
       </div>
   
@@ -72,7 +73,7 @@
         </div>
   
         <h1>Retrieve Ticket Details</h1>
-        <input type="number" id="retrieveTicketId" placeholder="Ticket ID">
+        <input type="text" id="retrieveTicketId" placeholder="Ticket ID">
         <button (click)="retrieveTicket()">Retrieve Ticket</button>
         <div *ngIf="ticketDetails" class="ticket-details">
           <p><strong>Ticket ID:</strong> {{ ticketDetails.id }}</p>
@@ -81,8 +82,27 @@
           <p><strong>Owner:</strong> {{ ticketDetails.owner }}</p>
           <p><strong>Status:</strong> {{ ticketDetails.status }}</p>
           <p><strong>Original Price (ETH):</strong> {{ ticketDetails.originalPrice }}</p>
+          <p><strong>Group</strong> {{ ticketDetails.groupId }}</p>
         </div>
       </div>
+
+      <div *ngIf="activeTab === 'manageGroup'">
+        <h2>Create Group</h2>
+        <input type="text" id="retrieveTicketIdforGroup" placeholder="Ticket ID">
+        <button (click)="createGroup()">Create Group</button>
+  
+        <h2>Add Participant</h2>
+        <input type="number" id="groupIdforAdd" placeholder="Group ID">
+        <input type="text" id="retrieveTicketIdforAdd" placeholder="Ticket ID">
+        <button (click)="addParticipant()">Add Participant</button>
+  
+        <h2>Remove Participant</h2>
+        <input type="number" id="groupIdforRemove" placeholder="Group ID">
+        <input type="text" id="retrieveTicketIdforRemove" placeholder="Ticket ID">
+        <button (click)="removeParticipant()">Remove Participant</button>
+  
+      </div>
+
     </div>
   </div>
   

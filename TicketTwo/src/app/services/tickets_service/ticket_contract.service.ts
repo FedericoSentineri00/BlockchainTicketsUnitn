@@ -4,11 +4,34 @@ import { Contract, ethers } from 'ethers';
 
 const contractABI = [
 	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_ticketId",
+				"name": "groupId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "ticketId",
+				"type": "string"
+			}
+		],
+		"name": "addParticipant",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_ticketId",
+				"type": "string"
 			}
 		],
 		"name": "buyTicket",
@@ -30,6 +53,19 @@ const contractABI = [
 			}
 		],
 		"name": "createEvent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "ticketId",
+				"type": "string"
+			}
+		],
+		"name": "createGroup",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -92,37 +128,6 @@ const contractABI = [
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer",
-				"type": "address"
-			}
-		],
-		"name": "removeOrganizer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_ticketId",
-				"type": "uint256"
-			}
-		],
-		"name": "sellTicket",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
 	},
 	{
 		"inputs": [],
@@ -270,17 +275,17 @@ const contractABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "_ticketId",
-				"type": "uint256"
+				"type": "string"
 			}
 		],
 		"name": "getTicketDetails",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "id",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -306,6 +311,35 @@ const contractABI = [
 				"internalType": "uint256",
 				"name": "originalPrice",
 				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "groupId",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "groups",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -344,6 +378,50 @@ const contractABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_organizer",
+				"type": "address"
+			}
+		],
+		"name": "removeOrganizer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "groupId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "ticketId",
+				"type": "string"
+			}
+		],
+		"name": "removeParticipant",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_ticketId",
+				"type": "string"
+			}
+		],
+		"name": "sellTicket",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "ticketCount",
 		"outputs": [
@@ -357,19 +435,32 @@ const contractABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
+		"inputs": [],
+		"name": "ticketIdLength",
+		"outputs": [
 			{
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
 			}
 		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
 		"name": "tickets",
 		"outputs": [
 			{
-				"internalType": "uint256",
+				"internalType": "string",
 				"name": "id",
-				"type": "uint256"
+				"type": "string"
 			},
 			{
 				"internalType": "uint256",
@@ -379,6 +470,11 @@ const contractABI = [
 			{
 				"internalType": "uint256",
 				"name": "sectorId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "groupId",
 				"type": "uint256"
 			},
 			{
@@ -401,8 +497,8 @@ const contractABI = [
 		"type": "function"
 	}
 ];
-const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
-// https://sepolia.etherscan.io/address/0x2763620c1aff7bffb7a0360caf81740bb804ae3d
+const contractAddress = '0x7Dd500dADeB7ad9C5D827bf1b18038DCc2782A06';
+// https://sepolia.etherscan.io/address/0x7dd500dadeb7ad9c5d827bf1b18038dcc2782a06
 
 @Injectable({
   providedIn: 'root'
@@ -415,7 +511,7 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
     private provider: ethers.BrowserProvider;
     private signer: Promise<ethers.JsonRpcSigner> | undefined;
     private contract: ethers.Contract;
-  
+
     constructor() {
       // Initialize ethers provider and contract
       this.provider = new ethers.BrowserProvider((window as any).ethereum);
@@ -431,7 +527,7 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
     async connect() {
       // Request account access from MetaMask
       await this.provider.send("eth_requestAccounts", []);
-      this.signer = this.provider.getSigner();
+	  this.signer =  this.provider.getSigner();
       this.contract = this.contract.connect(await this.signer) as Contract;
     }
 
@@ -460,7 +556,7 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
 		console.log(`Organizzatore rimosso: ${organizerAddress}`);
 	}
 
-
+	
 	async createEvent(name: string, time: number): Promise<number> {
 		const tx = await this.contract['createEvent'](name, time);
 		const receipt = await tx.wait();
@@ -484,14 +580,14 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
 		console.log(`Biglietto creato per l'evento ${eventId}, settore ${sectorId}`);
 	}
   
-	async buyTicket(ticketId: number, price: string): Promise<void> {
+	async buyTicket(ticketId: string, price: string): Promise<void> {
 		const tx = await this.contract['buyTicket'](ticketId, { value: ethers.parseEther(price) });
 		await tx.wait();
 		console.log(`Biglietto acquistato con ID: ${ticketId}`);
 	}
 	
 	  // Funzione per vendere un biglietto
-	async sellTicket(ticketId: number): Promise<void> {
+	async sellTicket(ticketId: string): Promise<void> {
 		const tx = await this.contract['sellTicket'](ticketId);
 		await tx.wait();
 		console.log(`Biglietto messo in vendita con ID: ${ticketId}`);
@@ -523,7 +619,7 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
 	}
 
 
-	async getTicketDetails(ticketId: number): Promise<{ id: number, eventId: number, sectorId: number, owner: string, status: TicketStatus, originalPrice: number }> {
+	async getTicketDetails(ticketId: string): Promise<{ id: number, eventId: number, sectorId: number, owner: string, status: TicketStatus, originalPrice: number, groupId: number }> {
 		const details = await this.contract['getTicketDetails'](ticketId);  
 		return {
 			id: details[0].toString(),
@@ -532,7 +628,31 @@ const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
 			owner: details[3].toString(),
 			status: details[4].toString(),
 			originalPrice: details[5].toString(),
+			groupId: details[6].toString(),
 		};
+	}
+
+	async createGroup(ticketId: string): Promise<number> {
+		const tx = await this.contract['createGroup'](ticketId);
+		const receipt = await tx.wait();
+		const groupId = receipt.logs[0].args[0].toString();
+      	console.log(`Gruppo creato con ID: ${groupId}`);
+      	return parseInt(groupId);
+
+	}
+
+
+	async addParticipant(ticketId: string, groupId:number): Promise<void> {
+		const tx = await this.contract['addParticipant'](ticketId, groupId);
+		await tx.wait();
+		console.log(`Partecipante aggiunto al gruppo: ${groupId}`);
+	}
+
+
+	async removeParticipant(ticketId: string, groupId:number): Promise<void> {
+		const tx = await this.contract['removeParticipant'](ticketId, groupId);
+		await tx.wait();
+		console.log(`Partecipante rimosso dal gruppo: ${groupId}`);
 	}
 
 	  

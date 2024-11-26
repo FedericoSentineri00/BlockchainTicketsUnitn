@@ -77,7 +77,7 @@ export class HomeComponent {
   }
 
   async buyTicket(): Promise<void> {
-    const ticketId = parseInt((document.getElementById("ticketIdToBuy") as HTMLInputElement).value);
+    const ticketId = (document.getElementById("ticketIdToBuy") as HTMLInputElement).value;
     const ticketPrice = parseFloat((document.getElementById("ticketPriceToPay") as HTMLInputElement).value);
     if (ticketId && ticketPrice) {
       await this.contractService.buyTicket(ticketId, ticketPrice.toString());
@@ -86,7 +86,7 @@ export class HomeComponent {
   }
 
   async sellTicket(): Promise<void> {
-    const ticketId = parseInt((document.getElementById("ticketIdToSell") as HTMLInputElement).value);
+    const ticketId = (document.getElementById("ticketIdToSell") as HTMLInputElement).value;
     if (ticketId) {
       await this.contractService.sellTicket(ticketId);
       console.log(`Ticket set for sale: ${ticketId}`);
@@ -121,7 +121,7 @@ export class HomeComponent {
   }
 
   async retrieveTicket(): Promise<void> {
-    const ticketId = parseInt((document.getElementById("retrieveTicketId") as HTMLInputElement).value);
+    const ticketId = (document.getElementById("retrieveTicketId") as HTMLInputElement).value;
     if (ticketId) {
       try {
         const ticketDetails = await this.contractService.getTicketDetails(ticketId);
@@ -131,6 +131,36 @@ export class HomeComponent {
       }
     }
   }
+
+
+  async createGroup(): Promise<void> {
+    const ticketId = (document.getElementById("retrieveTicketIdforGroup") as HTMLInputElement).value;
+    if (ticketId) {
+      const groupId = await this.contractService.createGroup(ticketId);
+      console.log('Event created:', { groupId });
+    }
+  }
+
+  async addParticipant(): Promise<void> {
+    const ticketId = (document.getElementById("retrieveTicketIdforAdd") as HTMLInputElement).value;
+    const groupId = parseInt((document.getElementById("groupIdforAdd") as HTMLInputElement).value);
+    if (ticketId && groupId) {
+      await this.contractService.addParticipant(ticketId,groupId);
+      console.log('Participant added to', { groupId });
+    }
+  }
+
+  async removeParticipant(): Promise<void> {
+    const ticketId = (document.getElementById("retrieveTicketIdforRemove") as HTMLInputElement).value;
+    const groupId = parseInt((document.getElementById("groupIdforRemove") as HTMLInputElement).value);
+    if (ticketId && groupId) {
+      await this.contractService.removeParticipant(ticketId,groupId);
+      console.log('Participant removed from', { groupId });
+    }
+  }
+
+
+
 
   
 }
