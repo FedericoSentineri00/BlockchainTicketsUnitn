@@ -4,159 +4,10 @@ import { Contract, ethers } from 'ethers';
 
 const contractABI = [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "organizer",
-				"type": "address"
-			}
-		],
-		"name": "OrganizerAdded",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "organizer",
-				"type": "address"
-			}
-		],
-		"name": "OrganizerRemoved",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "eventName",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "eventDate",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address payable",
-				"name": "oldOwner",
-				"type": "address"
-			},
-			{
-				"indexed": false,
-				"internalType": "address payable",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "TicketBought",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "string",
-				"name": "eventName",
-				"type": "string"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "eventDate",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "address payable",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "TicketCreated",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "uint256",
-				"name": "price",
-				"type": "uint256"
-			},
-			{
-				"indexed": false,
-				"internalType": "bool",
-				"name": "isForSale",
-				"type": "bool"
-			}
-		],
-		"name": "TicketForSale",
-		"type": "event"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer",
-				"type": "address"
-			}
-		],
-		"name": "addOrganizer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "_ticketId",
 				"type": "uint256"
 			}
 		],
@@ -169,17 +20,71 @@ const contractABI = [
 		"inputs": [
 			{
 				"internalType": "string",
-				"name": "_eventName",
+				"name": "_name",
 				"type": "string"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_eventDate",
+				"name": "_Time",
+				"type": "uint256"
+			}
+		],
+		"name": "createEvent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_organizer",
+				"type": "address"
+			}
+		],
+		"name": "createOrganizer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_eventId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "_name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_totalSeats",
+				"type": "uint256"
+			}
+		],
+		"name": "createSector",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_eventId",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "_price",
+				"name": "_sectorId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_originalPrice",
 				"type": "uint256"
 			}
 		],
@@ -191,8 +96,182 @@ const contractABI = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "_organizer",
+				"type": "address"
+			}
+		],
+		"name": "removeOrganizer",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "uint256",
-				"name": "_id",
+				"name": "_ticketId",
+				"type": "uint256"
+			}
+		],
+		"name": "sellTicket",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"inputs": [],
+		"name": "eventCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "events",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Time",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "organizer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sectorCount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "fee",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_eventId",
+				"type": "uint256"
+			}
+		],
+		"name": "getEventDetails",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "Time",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "organizer",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sectorCount",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_eventId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "_sectorId",
+				"type": "uint256"
+			}
+		],
+		"name": "getSectorDetails",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "id",
+				"type": "uint256"
+			},
+			{
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"internalType": "uint256",
+				"name": "totalSeats",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "availableSeats",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_ticketId",
 				"type": "uint256"
 			}
 		],
@@ -200,33 +279,33 @@ const contractABI = [
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
+				"name": "id",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "eventId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "sectorId",
 				"type": "uint256"
 			},
 			{
 				"internalType": "address",
-				"name": "",
+				"name": "owner",
 				"type": "address"
 			},
 			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
+				"internalType": "enum TicketReselling.TicketStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "originalPrice",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -253,7 +332,7 @@ const contractABI = [
 	},
 	{
 		"inputs": [],
-		"name": "owner",
+		"name": "platformOwner",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -262,50 +341,6 @@ const contractABI = [
 			}
 		],
 		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			}
-		],
-		"name": "removeFromSale",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer",
-				"type": "address"
-			}
-		],
-		"name": "removeOrganizer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_price",
-				"type": "uint256"
-			}
-		],
-		"name": "sellTicket",
-		"outputs": [],
-		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -337,37 +372,37 @@ const contractABI = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "string",
-				"name": "eventName",
-				"type": "string"
-			},
-			{
 				"internalType": "uint256",
-				"name": "eventDate",
+				"name": "eventId",
 				"type": "uint256"
 			},
 			{
 				"internalType": "uint256",
-				"name": "price",
+				"name": "sectorId",
 				"type": "uint256"
 			},
 			{
-				"internalType": "address payable",
+				"internalType": "address",
 				"name": "owner",
 				"type": "address"
 			},
 			{
-				"internalType": "bool",
-				"name": "isForSale",
-				"type": "bool"
+				"internalType": "enum TicketReselling.TicketStatus",
+				"name": "status",
+				"type": "uint8"
+			},
+			{
+				"internalType": "uint256",
+				"name": "originalPrice",
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
 		"type": "function"
 	}
 ];
-const contractAddress = '0x790c80fee43f19b98e51de3f4525ff3c6f8c0713';
-
+const contractAddress = '0x2763620c1aFF7Bffb7A0360Caf81740Bb804aE3d';
+// https://sepolia.etherscan.io/address/0x2763620c1aff7bffb7a0360caf81740bb804ae3d
 
 @Injectable({
   providedIn: 'root'
@@ -399,105 +434,109 @@ const contractAddress = '0x790c80fee43f19b98e51de3f4525ff3c6f8c0713';
       this.signer = this.provider.getSigner();
       this.contract = this.contract.connect(await this.signer) as Contract;
     }
-  
-    async createTicket(eventName: string, eventDate: number, price: number): Promise<number> {
 
-		const tx = await this.contract['createTicket'](eventName, eventDate, price);
-	
-		const receipt = await tx.wait(); 
-
-		if (receipt.logs.length > 0) {
-
-			const iface = new ethers.Interface(contractABI);
-
-			const decodedLog = iface.parseLog(receipt.logs[0]);
-
-			if (decodedLog  && decodedLog.name === 'TicketCreated') {
-				const ticketId = decodedLog.args[0]; 
-				const eventName = decodedLog.args[1]; 
-				const eventDate = decodedLog.args[2]; 
-				const price = decodedLog.args[3]; 
-				const owner = decodedLog.args[4]; 
-
-				console.log('Ticket ID:', ticketId.toString()); 
-				console.log('Event Name:', eventName);
-				console.log('Event Date:', eventDate.toString());
-				console.log('Price:', price.toString());
-				console.log('Owner:', owner);
-
-				return ticketId;
-			} else {
-				console.error("Event is not ticketcreated");
-			}
-		} else {
-			console.error("Receipt log not found");
-		}
-	
-		throw new Error("Impossible to found ticketcreated event.");
-	}
-  
-    async buyTicket(ticketId: number): Promise<void> {
-        const tx = await this.contract['buyTicket'](ticketId, { value: ethers.parseEther("1.0") }); // Sostituisci con il prezzo reale
-        await tx.wait(); // Aspetta che la transazione venga completata
-      }
-    
-      // Funzione per ottenere i dettagli di un biglietto
-      async getTicketDetails(ticketId: number): Promise<{ id: number, eventName: string, eventDate: number, price: number, owner: string, isForSale: boolean }> {
-        const details = await this.contract['getTicketDetails'](ticketId);
-        return {
-          id: details[0].toString(),
-          eventName: details[1],
-          eventDate: details[2].toString(),
-          price: details[3].toString(),
-          owner: details[4],
-          isForSale: details[5],
-        };
-      }
-    
-
-      async getTicketCount(): Promise<number> {
-        const count = await this.contract['ticketCount']();
-        return count;
-      }
-    
-
-      async addOrganizer(organizerAddress: string): Promise<void> {
-        const tx = await this.contract['addOrganizer'](organizerAddress);
-        await tx.wait(); 
-      }
-    
-
-      async removeOrganizer(organizerAddress: string): Promise<void> {
-        const tx = await this.contract['removeOrganizer'](organizerAddress);
-        await tx.wait(); 
-      }
-    
-
-      async isOrganizer(organizerAddress: string): Promise<boolean> {
-        return await this.contract['organizers'](organizerAddress);
-      }
-    
-
-      async removeFromSale(ticketId: number): Promise<void> {
-        const tx = await this.contract['removeFromSale'](ticketId);
-        await tx.wait(); 
-      }
-    
-
-      async sellTicket(ticketId: number, price: number): Promise<void> {
-        const tx = await this.contract['sellTicket'](ticketId, price);
-        await tx.wait(); 
-      }
-
-	  async getSignerAddress(): Promise<string> {
+	async getSignerAddress(): Promise<string> {
 		if (!this.signer) {
 		  throw new Error('Signer is not connected.'); // Gestisci l'errore
 		}
 		return (await this.signer).getAddress(); // Ottieni l'indirizzo del firmatario
-	  }
+	}
 	
-	  getContractAddress(): string {
+	getContractAddress(): string {
 		return contractAddress; // Return the contract address
-	  }
+	}
+
+
+
+	async createOrganizer(organizerAddress: string): Promise<void> {
+		const tx = await this.contract['createOrganizer'](organizerAddress);
+		await tx.wait();
+		console.log(`Organizzatore creato: ${organizerAddress}`);
+	}
+
+	async removeOrganizer(organizerAddress: string): Promise<void> {
+		const tx = await this.contract['removeOrganizer'](organizerAddress);
+		await tx.wait();
+		console.log(`Organizzatore rimosso: ${organizerAddress}`);
+	}
+
+
+	async createEvent(name: string, time: number): Promise<number> {
+		const tx = await this.contract['createEvent'](name, time);
+		const receipt = await tx.wait();
+	
+		const eventId = receipt.logs[0].args[0].toString();
+		console.log(`Evento creato con ID: ${eventId}`);
+		return parseInt(eventId);
+	}
+
+
+	async createSector(eventId: number, name: string, totalSeats: number): Promise<void> {
+		const tx = await this.contract['createSector'](eventId, name, totalSeats);
+		await tx.wait();
+		console.log(`Settore creato per l'evento ${eventId}: ${name}`);
+	}
+	
+
+	async createTicket(eventId: number, sectorId: number, originalPrice: number): Promise<void> {
+		const tx = await this.contract['createTicket'](eventId, sectorId, originalPrice);
+		await tx.wait();
+		console.log(`Biglietto creato per l'evento ${eventId}, settore ${sectorId}`);
+	}
+  
+	async buyTicket(ticketId: number, price: string): Promise<void> {
+		const tx = await this.contract['buyTicket'](ticketId, { value: ethers.parseEther(price) });
+		await tx.wait();
+		console.log(`Biglietto acquistato con ID: ${ticketId}`);
+	}
+	
+	  // Funzione per vendere un biglietto
+	async sellTicket(ticketId: number): Promise<void> {
+		const tx = await this.contract['sellTicket'](ticketId);
+		await tx.wait();
+		console.log(`Biglietto messo in vendita con ID: ${ticketId}`);
+	}
+
+	
+	async getEventDetails(eventId: number): Promise<{ id: number, name: string, time: number, organizer: string, sectorCount: number }> {
+		const details = await this.contract['getEventDetails'](eventId);  
+		return {
+			id: details[0].toString(),         
+			name: details[1],
+			time: details[2].toString(),       
+			organizer: details[3],
+			sectorCount: details[4].toString() 
+		};
+	}
+
+	
+
+
+	async getSectorDetails(eventId: number, sectorId:number): Promise<{ id: number, name: string, totalSeats: number, availableSeats: string}> {
+		const details = await this.contract['getSectorDetails'](eventId, sectorId);  
+		return {
+			id: details[0].toString(),         
+			name: details[1],
+			totalSeats: details[2].toString(),       
+			availableSeats: details[3].toString(),
+		};
+	}
+
+
+	async getTicketDetails(ticketId: number): Promise<{ id: number, eventId: number, sectorId: number, owner: string, status: TicketStatus, originalPrice: number }> {
+		const details = await this.contract['getTicketDetails'](ticketId);  
+		return {
+			id: details[0].toString(),
+			eventId: details[1].toString(),
+			sectorId: details[2].toString(),
+			owner: details[3].toString(),
+			status: details[4].toString(),
+			originalPrice: details[5].toString(),
+		};
+	}
+
+	  
   }
+
+  enum TicketStatus { Available, Owned, Validated, Expired } 
   
