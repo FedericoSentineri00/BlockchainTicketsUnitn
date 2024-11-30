@@ -4,501 +4,501 @@ import { Contract, ethers } from 'ethers';
 
 const contractABI = [
 	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "groupId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "addParticipant",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "groupId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "ticketId",
-				"type": "string"
-			}
-		],
-		"name": "addParticipant",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "_ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "buyTicket",
+	  "outputs": [],
+	  "stateMutability": "payable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_ticketId",
-				"type": "string"
-			}
-		],
-		"name": "buyTicket",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "_name",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "_Time",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "createEvent",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_Time",
-				"type": "uint256"
-			}
-		],
-		"name": "createEvent",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "createGroup",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "ticketId",
-				"type": "string"
-			}
-		],
-		"name": "createGroup",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "address",
+		  "name": "_organizer",
+		  "type": "address"
+		}
+	  ],
+	  "name": "createOrganizer",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer",
-				"type": "address"
-			}
-		],
-		"name": "createOrganizer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "_eventId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "_name",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "_totalSeats",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "createSector",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_eventId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_totalSeats",
-				"type": "uint256"
-			}
-		],
-		"name": "createSector",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "_eventId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "_sectorId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "_originalPrice",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "createTicket",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_eventId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_sectorId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_originalPrice",
-				"type": "uint256"
-			}
-		],
-		"name": "createTicket",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "address",
+		  "name": "_organizer",
+		  "type": "address"
+		}
+	  ],
+	  "name": "removeOrganizer",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "eventCount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "groupId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "removeParticipant",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "events",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "Time",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "organizer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sectorCount",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "_ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "sellTicket",
+	  "outputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "fee",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [],
+	  "stateMutability": "nonpayable",
+	  "type": "constructor"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_eventId",
-				"type": "uint256"
-			}
-		],
-		"name": "getEventDetails",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "Time",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "organizer",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sectorCount",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [],
+	  "name": "eventCount",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_eventId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_sectorId",
-				"type": "uint256"
-			}
-		],
-		"name": "getSectorDetails",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "id",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "totalSeats",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "availableSeats",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "events",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "name",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "Time",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "address",
+		  "name": "organizer",
+		  "type": "address"
+		},
+		{
+  "internalType": "uint256",
+		  "name": "sectorCount",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_ticketId",
-				"type": "string"
-			}
-		],
-		"name": "getTicketDetails",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "id",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "eventId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sectorId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "enum TicketReselling.TicketStatus",
-				"name": "status",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "originalPrice",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "groupId",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [],
+	  "name": "fee",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"name": "groups",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "_eventId",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "getEventDetails",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "name",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "Time",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "address",
+		  "name": "organizer",
+		  "type": "address"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "sectorCount",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "organizers",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "_eventId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "_sectorId",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "getSectorDetails",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "id",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "string",
+		  "name": "name",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "totalSeats",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "availableSeats",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "platformOwner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "_ticketId",
+		  "type": "string"
+		}
+	  ],
+	  "name": "getTicketDetails",
+	  "outputs": [
+		{
+		  "internalType": "string",
+		  "name": "id",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "eventId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "sectorId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "address",
+		  "name": "owner",
+		  "type": "address"
+		},
+		{
+		  "internalType": "enum TicketReselling.TicketStatus",
+		  "name": "status",
+		  "type": "uint8"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "originalPrice",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "groupId",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer",
-				"type": "address"
-			}
-		],
-		"name": "removeOrganizer",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "name": "groups",
+	  "outputs": [
+		{
+		  "internalType": "string",
+		  "name": "",
+		  "type": "string"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "groupId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "string",
-				"name": "ticketId",
-				"type": "string"
-			}
-		],
-		"name": "removeParticipant",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "address",
+		  "name": "",
+		  "type": "address"
+		}
+	  ],
+	  "name": "organizers",
+	  "outputs": [
+		{
+		  "internalType": "bool",
+		  "name": "",
+		  "type": "bool"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_ticketId",
-				"type": "string"
-			}
-		],
-		"name": "sellTicket",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
+	  "inputs": [],
+	  "name": "platformOwner",
+	  "outputs": [
+		{
+		  "internalType": "address",
+		  "name": "",
+		  "type": "address"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "ticketCount",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [],
+	  "name": "ticketCount",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+  "type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "ticketIdLength",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [],
+	  "name": "ticketIdLength",
+	  "outputs": [
+		{
+		  "internalType": "uint256",
+		  "name": "",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
-			}
-		],
-		"name": "tickets",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "id",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "eventId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "sectorId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "groupId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			},
-			{
-				"internalType": "enum TicketReselling.TicketStatus",
-				"name": "status",
-				"type": "uint8"
-			},
-			{
-				"internalType": "uint256",
-				"name": "originalPrice",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
+	  "inputs": [
+		{
+		  "internalType": "string",
+		  "name": "",
+		  "type": "string"
+		}
+	  ],
+	  "name": "tickets",
+	  "outputs": [
+		{
+		  "internalType": "string",
+		  "name": "id",
+		  "type": "string"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "eventId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "sectorId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "groupId",
+		  "type": "uint256"
+		},
+		{
+		  "internalType": "address",
+		  "name": "owner",
+		  "type": "address"
+		},
+		{
+		  "internalType": "enum TicketReselling.TicketStatus",
+		  "name": "status",
+		  "type": "uint8"
+		},
+		{
+		  "internalType": "uint256",
+		  "name": "originalPrice",
+		  "type": "uint256"
+		}
+	  ],
+	  "stateMutability": "view",
+	  "type": "function"
 	}
-];
-const contractAddress = '0x7Dd500dADeB7ad9C5D827bf1b18038DCc2782A06';
-// https://sepolia.etherscan.io/address/0x7dd500dadeb7ad9c5d827bf1b18038dcc2782a06
+  ];
+const contractAddress = '0x9ADF81F1E7a62E199Ab456E39Be4E9615dE1065a';
+// https://sepolia.etherscan.io/address/0x9adf81f1e7a62e199ab456e39be4e9615de1065a
 
 @Injectable({
   providedIn: 'root'
@@ -581,8 +581,10 @@ const contractAddress = '0x7Dd500dADeB7ad9C5D827bf1b18038DCc2782A06';
 	}
   
 	async buyTicket(ticketId: string, price: string): Promise<void> {
-		const tx = await this.contract['buyTicket'](ticketId, { value: ethers.parseEther(price) });
+		console.log(ethers.parseEther(price));
+		const tx = await this.contract['buyTicket'](ticketId, { value: price});
 		await tx.wait();
+		
 		console.log(`Biglietto acquistato con ID: ${ticketId}`);
 	}
 	
