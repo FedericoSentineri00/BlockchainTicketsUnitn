@@ -68,7 +68,7 @@ contract TicketReselling {
         createSector(1, "VIP", 20,10);
         createTicket(1, 1, 1);
         createTicket(1, 1, 1);
-        createTicket(1, 2, 2);
+        createTicket(1, 1, 1);
     } 
  
     // Crea un gruppo associato a un ticket
@@ -357,14 +357,27 @@ contract TicketReselling {
         // Itera su tutti i biglietti per verificare e assegnare i posti
         for (uint i = 1; i <= ticketCount; i++) {
             Ticket storage _ticket = tickets[i];
+            //ha un grppuo
+            if ( _ticket.eventId == _eventId && _ticket.sectorId == _sectorId && bytes(_ticket.seat).length == 0 && _ticket.status == TicketStatus.Owned && _ticket.groupId != 0 ){
+                uint[] storage ticketsInGroup = groups[_ticket.groupId]; // Accedi all'array di ticket del gruppo
+
+                for (uint x = 0; x < ticketsInGroup.length; x++) {
+                    _ticket = tickets[ticketsInGroup[x]]; // Ticket associato
+                    require(assignedCount < _sector.seats.length, "Not enough seats to assign");
+
+                    // Assegna un posto al biglietto
+                    _ticket.seat = _sector.seats[assignedCount];
+                    assignedCount++;
+                }
+            }
 
             // Verifica che il biglietto sia del giusto evento, settore e senza posto assegnato
             if (
                 _ticket.eventId == _eventId &&
                 _ticket.sectorId == _sectorId &&
                 bytes(_ticket.seat).length == 0 &&
-                _ticket.status == TicketStatus.Owned // Assicura che il biglietto sia in stato 'Owned'
-            ) {
+                _ticket.status == TicketStatus.Owned
+            ){
                 // Verifica che ci siano ancora posti disponibili
                 require(assignedCount < _sector.seats.length, "Not enough seats to assign");
 
