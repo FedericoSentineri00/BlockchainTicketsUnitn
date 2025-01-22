@@ -11,7 +11,11 @@ export class NavbarComponent {
   currentStatus : string = ""
 
   constructor(private router: Router) {
-    this.currentStatus = "dashboard"
+    this.currentStatus = "event"
+  }
+
+  ngAfterViewInit() : void {
+    this.router.navigate(['/event']);
   }
 
   login() {
@@ -25,7 +29,7 @@ export class NavbarComponent {
       switch(newStatus) {
         case 'dashboard' : this.router.navigate(['/dashboard']); break;
         case 'event' : this.router.navigate(['/event']); break;
-        case 'personal' : this.router.navigate(['/dashboard']); break;
+        case 'personal' : this.router.navigate(['/personal']); break;
         default: this.router.navigate(['/dashboard']); break;
       }
     }

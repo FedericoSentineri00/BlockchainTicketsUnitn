@@ -1,8 +1,3 @@
-#navbar {
-    background-color: #212129;
-    width: 100%;
-    height: 10vh;
-}
 
 #text-area {
     position: relative;
@@ -16,39 +11,8 @@
 #body {
     background-color: #323949;
     width: 100%;
-    height: 90vh;
 }
 
-.text {
-    color: white;
-    display: inline-block;
-    cursor: pointer;
-    margin: 0;
-}
-
-.underline {
-    text-decoration: underline;
-}
-
-.login-container {
-    position: absolute;
-    left: 90%;
-    top: 10px;
-}
-
-.login {
-    background-color: #f64586;
-    color: white;
-    display: inline-block;
-    
-    padding: 2px 20px;
-    border-radius: 10px;
-    border: 1px white solid;
-    cursor: pointer;
-
-    font-size: 20px;
-    font-weight: bold;
-}
 
 .grid-container {
     display: grid;

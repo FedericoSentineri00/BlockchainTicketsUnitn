@@ -1,1 +1,47 @@
-<p>event works!</p>
+<div class="body">
+    <div class="filters">
+        <p class="plain-text title">Additional Filters</p>
+
+        <div style="margin-top: 30px;">
+            <p class="plain-text subtitle" >Price</p>
+            <div style="display: flex;">
+                <div style="width: 50%;">
+                    <p class="plain-text">Min</p>
+                    <div>
+                        <input [(ngModel)]="minFilter" class="plain-text" type="number" style="width: 100px;"/>
+                    </div>
+                </div>
+                <div style="width: 50%;">
+                    <p class="plain-text">Max</p>
+                    <div>
+                        <input [(ngModel)]="maxFilter" class="plain-text" type="number" style="width: 100px;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 30px;">
+            <p class="plain-text subtitle">Date</p>
+            <div style="display: flex;">
+                <div style="width: 50%;">
+                    <p class="plain-text">From</p>
+                    <div>
+                        <input [(ngModel)]="minDateFilter" class="plain-text" type="date" style="width: 150px;"/>
+                    </div>
+                </div>
+                <div style="width: 50%;">
+                    <p class="plain-text">To</p>
+                    <div>
+                        <input [(ngModel)]="maxDateFilter" class="plain-text" type="date" style="width: 150px;"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="event-list">
+        <div style="display: flex; justify-content: center; margin-top: 10px;">
+            <input [(ngModel)]="name" type="text" class="name-input" placeholder="Search Name"/>
+        </div>
+    </div>
+</div>

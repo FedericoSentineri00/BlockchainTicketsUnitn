@@ -7,4 +7,15 @@ import { Component } from '@angular/core';
 })
 export class EventComponent {
 
+  minFilter : string = ""
+  maxFilter : string = ""
+  minDateFilter : string = ""
+  maxDateFilter : string = ""
+
+  name : string = ""
+
+  constructor() {
+
+  }
+
 }
