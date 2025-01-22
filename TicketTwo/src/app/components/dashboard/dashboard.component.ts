@@ -18,8 +18,6 @@ export class DashboardComponent {
   }
 
 
-  login() {
-    
-  }
+
 
 }
