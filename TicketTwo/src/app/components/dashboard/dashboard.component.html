@@ -1,0 +1,23 @@
+<div id="navbar">
+    <div class="login-container">
+        <button class="login" (click)="login()">Login</button>
+    </div>
+    <div id="text-area">
+        <h2 class="text">HOME</h2>
+        <h2 class="text">EVENTS</h2>
+        <h2 class="text">PERSONAL AREA</h2>
+    </div>
+</div>
+<div id="body">
+    <div class="grid-container" id="gridContainer" >
+        <div class="grid-item" *ngFor="let item of items">
+            <div class="grid-item-top">
+                <p class="plain-text bottom-left">{{ item.first }}</p>
+                <p class="plain-text bottom-right">0.01 eth</p>
+            </div>
+            <div class="grid-item-bottom">
+                <p class="plain-text center title">{{ item.second }}</p>
+            </div>
+        </div>
+    </div>
+</div>
