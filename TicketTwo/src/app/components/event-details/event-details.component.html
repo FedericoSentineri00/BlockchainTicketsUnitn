@@ -1,0 +1,115 @@
+<div class="body">
+    <div style="width: 60%; margin-top: 50px;">
+        <div style=" display: flex; align-items: center;" >
+            <div style="flex-grow: 1;">
+                <p class="plain-text title">Test</p>
+                <div class="top-margin-20">
+                    <p class="plain-text">Name:</p>
+                    <p class="plain-text left-margin-10">{{event_name}}</p>
+                </div>
+
+                <div class="top-margin-20">
+                    <p class="plain-text">Date:</p>
+                    <p class="plain-text left-margin-10">{{event_date}}</p>
+                </div>
+
+                <div class="top-margin-20">
+                    <p class="plain-text">Details:</p>
+                    <p class="plain-text left-margin-10">{{event_details}}</p>
+                </div>
+
+                <div class="top-margin-20">
+                    <p class="plain-text">Available tickets:</p>
+                    <p class="plain-text left-margin-10">{{available_tickets}}</p>
+                </div>
+            </div>
+            <div style="flex-grow: 1; position: relative;">
+                <div style=" background-color: lightblue; width: 400px; height: 400px; margin: auto;" >
+
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="available_tickets > 0" style="margin-top: 100px;">
+            <p class="plain-text title">Buy Ticket</p>
+
+            <div class="top-margin-20" style="display: flex; align-items: center;">
+                <p class="plain-text">Group Ticket:</p>
+                <input type="checkbox" [(ngModel)]="is_group_buy" class="left-margin-10 checkbox"/>
+            </div>
+
+            <div *ngIf="is_group_buy" class="top-margin-20" >
+                <div style="display: flex; align-items: center;">
+                    <label for="ticketCount" class="plain-text">Ticket count:</label>
+                    <input type="number" [(ngModel)]="buy_ticket_count" (change)="updateDivs()" min="1" class="left-margin-10 count-input input-text" id="ticketCount"/>
+                </div>
+
+                <div class="top-margin-20">
+                    <p class="plain-text">Owners:</p>
+                    <div>
+                        <div *ngFor="let item of array;">
+                            <div style="display: flex;" class="top-margin-20">
+                                <div style="flex-grow: 1;"  >
+                                    <p class="plain-text">Name</p>
+                                    <div>
+                                        <input [(ngModel)]="item.first" class="input-text" type="text" style="width: 100px;" placeholder="Name"/>
+                                    </div>
+                                </div>
+                                <div style="flex-grow: 1;" class="left-margin-10">
+                                    <p class="plain-text">Surname</p>
+                                    <div>
+                                        <input [(ngModel)]="item.second" class="input-text" type="text" style="width: 100px;" placeholder="Surname"/>
+                                    </div>
+                                </div>
+                                <div style="flex-grow: 1;" class="left-margin-10">
+                                    <p class="plain-text">Wallet Address</p>
+                                    <div>
+                                        <input [(ngModel)]="item.third" class="input-text" type="text" style="width: 200px;" placeholder="0xasdfghj..."/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div *ngIf="!is_group_buy" class="top-margin-20">
+                <p class="plain-text">Owner:</p>
+                <div style="display: flex;" class="top-margin-20">
+                    <div style="flex-grow: 1;"  >
+                        <p class="plain-text">Name</p>
+                        <div>
+                            <input [(ngModel)]="array[0].first" class="input-text" type="text" style="width: 100px;" placeholder="Name"/>
+                        </div>
+                    </div>
+                    <div style="flex-grow: 1;" class="left-margin-10">
+                        <p class="plain-text">Surname</p>
+                        <div>
+                            <input [(ngModel)]="array[0].second" class="input-text" type="text" style="width: 100px;" placeholder="Surname"/>
+                        </div>
+                    </div>
+                    <div style="flex-grow: 1;" class="left-margin-10">
+                        <p class="plain-text">Wallet Address</p>
+                        <div>
+                            <input [(ngModel)]="array[0].third" class="input-text" type="text" style="width: 200px;" placeholder="0xasdfghj..."/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="top-margin-20">
+                <p class="plain-text" style="display: block;">Sector:</p>
+                <select [(ngModel)]="selected_sector" class=" input-text" style="width: 200px;">
+                    <option *ngFor="let item of sectors" [value]="item">{{ item }}</option>
+                </select>
+            </div>
+
+            <p class="plain-text top-margin-20" style="display: block;">Total price: {{price}}</p>
+
+            <div style="display: flex; justify-content: center;">
+                <p class="confirm-button">Confirm</p>
+            </div>
+            
+        </div>
+    </div>
+</div>

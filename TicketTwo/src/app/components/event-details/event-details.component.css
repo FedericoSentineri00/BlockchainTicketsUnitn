@@ -1,0 +1,72 @@
+.body {
+    background-color: #323949;
+    width: 100%;
+    height: 90vh;
+    overflow: auto;
+    display: flex;
+    justify-content: center;
+}
+
+.plain-text {
+    color: white;
+    display:  inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    margin: 0;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 25px;
+}
+
+.input-text {
+    color: black;
+    display:  inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    margin: 0;
+    padding: 5px;
+    border-radius: 5px; 
+}
+
+.confirm-button {
+    color: white;
+    background-color:coral;
+    border: 1px black solid;
+    border-radius: 10px;
+    width: 200px;
+    padding: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.left-margin-10 {
+    margin-left: 10px;
+}
+
+.top-margin-20 {
+    margin-top: 20px;
+}
+
+.checkbox {
+    width: 20px;
+    height: 20px;
+}
+
+.count-input {
+    width: 40px;
+}
+
+.flex-central-align {
+    display: flex; 
+    align-items: center;
+}
