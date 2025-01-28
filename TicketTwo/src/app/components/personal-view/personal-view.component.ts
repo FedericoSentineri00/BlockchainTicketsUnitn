@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-personal-view',
@@ -17,11 +18,19 @@ export class PersonalViewComponent {
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
 
+  constructor(private router : Router) {
+
+  }
+
   addOrganizer() {
     console.log(this.addAddress);
   }
 
   removeOrganizer() {
     console.log(this.removeAddress);
+  }
+
+  createEvent() {
+    this.router.navigate(['/new']);
   }
 }

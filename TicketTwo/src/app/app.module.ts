@@ -10,6 +10,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { EventComponent } from './components/event/event.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
 import { PersonalViewComponent } from './components/personal-view/personal-view.component';
+import { NewEventComponent } from './components/new-event/new-event.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PersonalViewComponent } from './components/personal-view/personal-view.
     NavbarComponent,
     EventComponent,
     EventDetailsComponent,
-    PersonalViewComponent
+    PersonalViewComponent,
+    NewEventComponent
   ],
   imports: [
     BrowserModule,

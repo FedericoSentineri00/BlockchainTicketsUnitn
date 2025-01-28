@@ -18,7 +18,10 @@
         </div>
 
         <div *ngIf="isOrganizer" class="mt-20">
-            <p class="plain-text title">My events</p>
+            <div  style="display: flex; align-items: center;">
+                <p class="plain-text title" style="display: inline-block !important ;">My events</p>
+                <p class="general-button ml-10" style="width: 200px; display: inline-block;" (click)="createEvent()">Create event</p>
+            </div>
             <div *ngFor="let item of events" class="ticket">
                 <div>
                     <p class="ticket-text">{{item}}</p>
@@ -38,13 +41,13 @@
             <div>
                 <p class="plain-text title">Organization manager</p>
                 <p class="plain-text subtitle mt-10">Add Organizer</p>
-                <div style="display: flex; align-items: center;" class="mt-20">
+                <div style="display: flex; align-items: center;">
                     <p class="plain-text">Address:</p>
                     <input class="input-text ml-10" type="text" placeholder="0x000..." [(ngModel)]="addAddress" />
                     <p class="general-button ml-10" (click)="addOrganizer()">Confirm</p>
                 </div>
                 <p class="plain-text subtitle mt-10">Remove Organizer</p>
-                <div style="display: flex; align-items: center;" class="mt-20">
+                <div style="display: flex; align-items: center;">
                     <p class="plain-text">Address:</p>
                     <input class="input-text ml-10" type="text" placeholder="0x000..." [(ngModel)]="removeAddress"/>
                     <p class="general-button ml-10" (click)="removeOrganizer()">Confirm</p>
