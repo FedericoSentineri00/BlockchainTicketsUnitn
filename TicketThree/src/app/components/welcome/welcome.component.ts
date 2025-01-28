@@ -12,6 +12,12 @@ export class WelcomeComponent {
   password: string = '';
   errorMessage: string | null = null;
 
+
+  regUsername: string = '';
+  regEmail: string = '';
+  regPassword: string = '';
+  registerErrorMessage: string | null = null;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   //esegue il login e manda alla home
@@ -26,6 +32,25 @@ export class WelcomeComponent {
       (error) => {
         
         this.errorMessage = error.error.message;
+      }
+    );
+  }
+
+
+  register() {
+    const userData = {
+      username: this.regUsername,
+      email: this.regEmail,
+      password: this.regPassword
+    };
+
+    this.authService.register(userData).subscribe(
+      (response) => {
+        console.log('Registrazione avvenuta con successo');
+        this.router.navigate(['/']); 
+      },
+      (error) => {
+        this.registerErrorMessage = error.error.message;
       }
     );
   }

@@ -16,6 +16,10 @@ export class AuthService {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, password }, { withCredentials: true });
   }
 
+  register(userData: { username: string, email: string, password: string }): Observable<any> {
+    return this.http.post<any>(`${this.apiUrl}/register`, userData);
+  }
+
   // rimuove il cookie dal backend (ancora da implementare in front)
   logout(): Observable<any> {
     return this.http.post(`${this.apiUrl}/logout`, {}, { withCredentials: true });
