@@ -1,4 +1,4 @@
-/*const OrganizerManager = artifacts.require("Organizer_manager");
+const OrganizerManager = artifacts.require("Organizer_manager");
 const TicketNFT = artifacts.require("Ticket_NFT");
 
 contract("Ticket_NFT", (accounts) => {
@@ -181,4 +181,4 @@ contract("Ticket_NFT", (accounts) => {
       }
     });
   });
-}); */
+}); 

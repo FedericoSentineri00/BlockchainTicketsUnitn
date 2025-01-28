@@ -1,6 +1,6 @@
 const OrganizerManager = artifacts.require("Organizer_manager");
 const TicketNFT = artifacts.require("Ticket_NFT");
-const Marketplace2 = artifacts.require("Marketplace2"); 
+const Marketplace = artifacts.require("Marketplace"); 
 
 
 module.exports = async function(deployer) {
@@ -10,5 +10,5 @@ module.exports = async function(deployer) {
   await deployer.deploy(TicketNFT, "MyOrganization", organizerManager.address);
   const ticketNFT = await TicketNFT.deployed();
 
-  await deployer.deploy(Marketplace2);
+  await deployer.deploy(Marketplace);
 };

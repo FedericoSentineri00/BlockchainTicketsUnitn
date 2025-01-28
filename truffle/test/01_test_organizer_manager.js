@@ -1,5 +1,5 @@
 
-/*const OrganizerManager = artifacts.require("Organizer_manager");
+const OrganizerManager = artifacts.require("Organizer_manager");
 const TicketNFT = artifacts.require("Ticket_NFT");
 const { BN, expectRevert } = require("@openzeppelin/test-helpers");
 const assert = require("assert");
@@ -156,4 +156,4 @@ contract("Organizer_manager", (accounts) => {
         
     });
     
-}); */
+}); 

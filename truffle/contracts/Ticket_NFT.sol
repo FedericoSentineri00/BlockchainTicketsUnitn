@@ -289,7 +289,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply{
     }
 
     function setOwnerName(uint ticketId, string memory name, string memory surname) external {
-        require(balanceOf(msg.sender, ticketId) > 0, "Not the ticket owner");
+        require(hasRole(ORGANIZER_ROLE, msg.sender) ||balanceOf(msg.sender, ticketId) > 0, "Not the ticket owner");
         Ticket storage ticket = tickets[ticketId];
         ticket.hashName = generateHash(string(abi.encodePacked(name,"-",surname)), ticketId);
     }
