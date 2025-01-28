@@ -1,6 +1,6 @@
 <div id="body">
     <div class="grid-container" id="gridContainer" >
-        <div class="grid-item" *ngFor="let item of items">
+        <div class="grid-item" *ngFor="let item of items" (click)="openEvent()">
             <div class="grid-item-top">
                 <p class="plain-text bottom-left">{{ item.first }}</p>
                 <p class="plain-text bottom-right">0.01 eth</p>

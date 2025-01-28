@@ -3,11 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { EventComponent } from './components/event/event.component';
 import { EventDetailsComponent } from './components/event-details/event-details.component';
+import { PersonalViewComponent } from './components/personal-view/personal-view.component';
 
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'event', component: EventComponent},
-  { path: 'personal', component: EventDetailsComponent},
+  { path: 'details', component: EventDetailsComponent},
+  { path: 'personal', component: PersonalViewComponent},
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' }];
 
 @NgModule({

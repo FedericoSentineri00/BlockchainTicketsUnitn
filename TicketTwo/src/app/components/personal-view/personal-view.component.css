@@ -26,6 +26,33 @@
     font-size: 25px;
 }
 
+.ticket {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.ticket-text {
+    color: black;
+    display:  inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    margin: 0;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.ml-10 {
+    margin-left: 10px !important; 
+}
+
 .input-text {
     color: black;
     display:  inline-block;
@@ -36,21 +63,8 @@
     border-radius: 5px; 
 }
 
-.confirm-button {
-    color: white;
-    background-color:coral;
-    border: 1px black solid;
-    border-radius: 10px;
-    width: 200px;
-    padding: 5px;
-    cursor: pointer;
-    text-align: center;
-    text-transform: uppercase;
-    font-size: 30px;
-    font-weight: bold;
-}
 
-.back-button {
+.general-button {
     color: white;
     background-color:coral;
     border: 1px black solid;
@@ -62,29 +76,4 @@
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
-
-    position: absolute;
-    top: -40px;
-}
-
-.left-margin-10 {
-    margin-left: 10px;
-}
-
-.top-margin-20 {
-    margin-top: 20px;
-}
-
-.checkbox {
-    width: 20px;
-    height: 20px;
-}
-
-.count-input {
-    width: 40px;
-}
-
-.flex-central-align {
-    display: flex; 
-    align-items: center;
 }

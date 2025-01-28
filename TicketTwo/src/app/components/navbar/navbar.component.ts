@@ -11,11 +11,11 @@ export class NavbarComponent {
   currentStatus : string = ""
 
   constructor(private router: Router) {
-    this.currentStatus = "event"
+    this.currentStatus = "dashboard"
   }
 
   ngAfterViewInit() : void {
-    this.router.navigate(['/event']);
+    this.router.navigate(['/dashboard']);
   }
 
   login() {

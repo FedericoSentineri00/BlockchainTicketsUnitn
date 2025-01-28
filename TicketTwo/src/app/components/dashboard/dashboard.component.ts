@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Static } from '../../utils/Static';
 
 @Component({
   selector: 'app-dashboard',
@@ -7,7 +9,7 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
-  constructor() {
+  constructor(private router: Router) {
     
   }
 
@@ -17,7 +19,11 @@ export class DashboardComponent {
   ngAfterViewInit() : void {
   }
 
+  openEvent() {
 
+    Static.source = '/dashboard'
+    this.router.navigate(['/details'])
+  }
 
 
 }

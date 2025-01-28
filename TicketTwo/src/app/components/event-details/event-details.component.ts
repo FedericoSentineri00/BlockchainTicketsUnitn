@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Static } from '../../utils/Static';
 
 @Component({
   selector: 'app-event-details',
@@ -21,12 +23,16 @@ export class EventDetailsComponent {
 
   price = 0;
 
-  constructor() {
+  constructor(private router: Router) {
     this.updateDivs();
   }
 
   updateDivs() {
     this.array = Array(this.buy_ticket_count).fill(""); // Crea un array con 'n' elementi
+  }
+
+  back() {
+    this.router.navigate([Static.source]);
   }
 
 }
