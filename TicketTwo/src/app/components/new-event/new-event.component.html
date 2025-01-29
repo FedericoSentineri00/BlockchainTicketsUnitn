@@ -1,0 +1,61 @@
+<div class="body">
+    <div style="width: 60%; margin-top: 50px; position: relative;">
+        <p class="back-button" (click)="back()"> Back</p>
+        <div>
+            <p class="plain-text title">Create a new Event</p>
+            <div>
+                <p class="plain-text subtitle mt-20">General</p>
+                <div class="mt-20">
+                    <p class="plain-text new-line">Name:</p>
+                    <input class="input-text ml-10 mt-10" [(ngModel)]="name" placeholder="Event name"/>
+                </div>
+
+                <div class="mt-20">
+                    <p class="plain-text new-line">Date:</p>
+                    <input class="input-text ml-10 mt-10" [(ngModel)]="date" type="date" placeholder="Event date"/>
+                </div>
+
+                <div class="mt-20">
+                    <p class="plain-text new-line">Details:</p>
+                    <input class="input-text ml-10 mt-10" [(ngModel)]="details" placeholder="Event details"/>
+                </div>
+
+            </div>
+
+            <div>
+                <p class="plain-text subtitle mt-20">Sectors</p>
+
+                <div class="mt-20" >
+                    <p class="plain-text new-line"> Sector count:</p>
+                    <input class="input-text count-input ml-10" type="number" [(ngModel)]="sectorCount" min="1" (change)="updateDivs()"/>
+                </div>
+
+                <div class="mt-20">
+                    <p class="plain-text">Sector details:</p>
+                    <div *ngFor="let item of array; let i = index" style="display: flex;" class="mt-20">
+                        <div style="flex-grow: 1;">
+                            <p class="plain-text new-line">Name:</p>
+                            <input class="input-text ml-10 mt-10" [(ngModel)]="sectorNames[i]">
+                        </div>      
+                        <div style="flex-grow: 1;">
+                            <p class="plain-text new-line">Lines:</p>
+                            <input class="input-text count-input ml-10 mt-10" type="number" min="1" [(ngModel)]="sectorLines[i]">
+                        </div>    
+                        <div style="flex-grow: 1;">
+                            <p class="plain-text new-line">Seats for line:</p>
+                            <input class="input-text count-input ml-10 mt-10" type="number" min="1" [(ngModel)]="sectorSeats[i]">
+                        </div>    
+                        <div style="flex-grow: 1;">
+                            <p class="plain-text new-line">Price (ETH):</p>
+                            <input class="input-text ml-10 mt-10" type="number" min="0" [(ngModel)]="sectorPrices[i]">
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <p class="confirm-button" (click)="confirm()">Confirm</p>
+        </div>
+    </div>
+</div>

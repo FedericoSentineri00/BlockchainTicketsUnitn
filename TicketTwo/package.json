@@ -18,13 +18,9 @@
     "@angular/platform-browser": "^18.2.0",
     "@angular/platform-browser-dynamic": "^18.2.0",
     "@angular/router": "^18.2.0",
-<<<<<<< HEAD
-    "ethers": "^6.13.3",
-=======
     "body-parser": "^1.20.3",
     "ethers": "^6.13.4",
     "express": "^4.21.1",
->>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.10"

@@ -27,6 +27,8 @@
     color: black;
     width: 300px;
     margin: 30px auto;
+
+    cursor: pointer;
 } 
 
 .grid-item-top {

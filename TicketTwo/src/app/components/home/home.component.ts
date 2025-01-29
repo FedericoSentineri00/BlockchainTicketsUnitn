@@ -1,24 +1,9 @@
-<<<<<<< HEAD
-import { Component, input } from '@angular/core';
-import { ContractService} from '../../services/baseContract/contract.service';
-=======
 import { Component } from '@angular/core';
 import { ContractService } from '../../services/tickets_service/ticket_contract.service';
->>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-<<<<<<< HEAD
-  styleUrl: './home.component.css'
-})
-export class HomeComponent {
-
-  value = 0;
-
-  constructor (private contractService: ContractService) {
-    this.connect()
-=======
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
@@ -37,44 +22,10 @@ export class HomeComponent {
   
   setActiveTab(tab: string): void {
     this.activeTab = tab;
->>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b
   }
 
   async connect() {
     await this.contractService.connect();
-<<<<<<< HEAD
-    console.log('Connected to MetaMask');  }
-
-  public save() : void {
-    
-    const inputText = document.getElementById("input") as HTMLInputElement
-
-    this.value = parseInt(inputText.value)
-    if(this.value != null) {
-      this.setValue()
-    }
-  }
-
-  public retrive() : void {
-    this.getValue()
-  }
-
-  async setValue() {
-    if (this.value !== null) {
-      await this.contractService.setData(this.value);
-      console.log('Value set to', this.value);
-    }
-  }
-
-  async getValue() {
-    this.value = await this.contractService.getData();
-    console.log(this.value);
-    (document.getElementById("output") as HTMLTitleElement).innerText = String(this.value) 
-  }
-}
-
-
-=======
     this.currentAccount = await this.contractService.getSignerAddress(); // Get signer address
     console.log('Connected to MetaMask account:', this.currentAccount);
   }
@@ -213,4 +164,3 @@ export class HomeComponent {
 
   
 }
->>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b

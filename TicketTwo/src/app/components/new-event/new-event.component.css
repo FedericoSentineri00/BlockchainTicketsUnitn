@@ -62,29 +62,24 @@
     text-transform: uppercase;
     font-size: 20px;
     font-weight: bold;
-
-    position: absolute;
-    top: -40px;
 }
 
-.left-margin-10 {
-    margin-left: 10px;
+.mt-10 {
+    margin-top: 10px;
 }
 
-.top-margin-20 {
+.mt-20 {
     margin-top: 20px;
 }
 
-.checkbox {
-    width: 20px;
-    height: 20px;
+.ml-10 {
+    margin-left: 10px !important; 
 }
 
 .count-input {
     width: 40px;
 }
 
-.flex-central-align {
-    display: flex; 
-    align-items: center;
+.new-line {
+    display: block !important; 
 }
