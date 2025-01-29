@@ -39,15 +39,15 @@
                         </div>      
                         <div style="flex-grow: 1;">
                             <p class="plain-text new-line">Lines:</p>
-                            <input class="input-text count-input ml-10 mt-10" type="numer" [(ngModel)]="sectorLines[i]">
+                            <input class="input-text count-input ml-10 mt-10" type="number" min="1" [(ngModel)]="sectorLines[i]">
                         </div>    
                         <div style="flex-grow: 1;">
                             <p class="plain-text new-line">Seats for line:</p>
-                            <input class="input-text count-input ml-10 mt-10" type="numer" [(ngModel)]="sectorSeats[i]">
+                            <input class="input-text count-input ml-10 mt-10" type="number" min="1" [(ngModel)]="sectorSeats[i]">
                         </div>    
                         <div style="flex-grow: 1;">
-                            <p class="plain-text new-line">Price:</p>
-                            <input class="input-text count-inputml-10 mt-10" type="numer" [(ngModel)]="sectorPrices[i]">
+                            <p class="plain-text new-line">Price (ETH):</p>
+                            <input class="input-text ml-10 mt-10" type="number" min="0" [(ngModel)]="sectorPrices[i]">
                         </div>    
                     </div>
                 </div>
