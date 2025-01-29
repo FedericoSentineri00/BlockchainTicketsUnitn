@@ -1,0 +1,55 @@
+.body {
+    background-color: #323949;
+    width: 100%;
+    height: 90vh;
+    display: flex;
+}
+
+.filters {
+    background-color: #88899e;
+    width: 380px;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+}
+
+.event-list {
+    flex-grow: 1;
+    padding: 10px;
+}
+
+.plain-text {
+    color: black;
+    display:  inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    margin: 0;
+}
+
+.title {
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.subtitle {
+    font-size: 25px;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.uppercase{
+    text-transform: uppercase;
+}
+
+.name-input {
+    border-radius: 15px;
+    width: 80%;
+    padding: 10px 5px;
+}
+
+.name-label {
+    position: relative;
+    left: 10%;
+    color: white;
+}

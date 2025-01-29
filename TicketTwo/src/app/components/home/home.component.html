@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <div>
     <div class="container">
         <h1>Insert a number</h1>
@@ -11,3 +12,113 @@
         <h1 id="output"></h1>
     </div>
 </div>
+=======
+<div class="container">
+    <h1>Platform Owner Functions</h1>
+    <div class="tabs">
+      <div class="tab" [class.active]="activeTab === 'ownerFunctions'" (click)="setActiveTab('ownerFunctions')">Owner Functions</div>
+      <div class="tab" [class.active]="activeTab === 'organizerFunctions'" (click)="setActiveTab('organizerFunctions')">Organizer Functions</div>
+      <div class="tab" [class.active]="activeTab === 'generalFunctions'" (click)="setActiveTab('generalFunctions')">General Functions</div>
+      <div class="tab" [class.active]="activeTab === 'retrieveInfo'" (click)="setActiveTab('retrieveInfo')">Retrieve Information</div>
+      <div class="tab" [class.active]="activeTab === 'manageGroup'" (click)="setActiveTab('manageGroup')">Manage Group</div>
+    </div>
+  
+    <div class="tab-content">
+      <!-- Platform Owner Functions -->
+      <div *ngIf="activeTab === 'ownerFunctions'">
+        <h2>Add Organizer</h2>
+        <input type="text" id="organizerAddress" placeholder="Organizer Address">
+        <button (click)="addOrganizer()">Add Organizer</button>
+        <h2>Remove Organizer</h2>
+        <input type="text" id="organizerAddressToRemove" placeholder="Organizer Address">
+        <button (click)="removeOrganizer()">Remove Organizer</button>
+      </div>
+  
+      <!-- Organizer Functions -->
+      <div *ngIf="activeTab === 'organizerFunctions'">
+        <h2>Create Event</h2>
+        <input type="text" id="eventName" placeholder="Event Name">
+        <input type="number" id="eventDate" placeholder="Event Date (Unix Timestamp)">
+        <button (click)="createEvent()">Create Event</button>
+        <h2>Create Sector</h2>
+        <input type="number" id="eventIdForSector" placeholder="Event ID">
+        <input type="text" id="sectorName" placeholder="Sector Name">
+        <input type="number" id="totalSeats" placeholder="Total Seats">
+        <button (click)="createSector()">Create Sector</button>
+        <h2>Create Ticket</h2>
+        <input type="number" id="eventIdForTicket" placeholder="Event ID">
+        <input type="number" id="sectorIdForTicket" placeholder="Sector ID">
+        <input type="number" id="ticketPrice" placeholder="Ticket Price (ETH)">
+        <button (click)="createTicket()">Create Ticket</button>
+      </div>
+  
+      <!-- General Functions -->
+      <div *ngIf="activeTab === 'generalFunctions'">
+        <h2>Buy Ticket</h2>
+        <input type="text" id="ticketIdToBuy" placeholder="Ticket ID">
+        <input type="number" id="ticketPriceToPay" placeholder="Ticket Price (ETH)">
+        <button (click)="buyTicket()">Buy Ticket</button>
+        <h2>Sell Ticket</h2>
+        <input type="text" id="ticketIdToSell" placeholder="Ticket ID">
+        <button (click)="sellTicket()">Sell Ticket</button>
+      </div>
+  
+      <!-- Retrieve Information -->
+      <div *ngIf="activeTab === 'retrieveInfo'">
+        <h1>Retrieve Event Details</h1>
+        <input type="number" id="retrieveEventId" placeholder="Event ID">
+        <button (click)="retrieveEvent()">Retrieve Event</button>
+        <div *ngIf="eventDetails" class="event-details">
+          <p><strong>Event ID:</strong> {{ eventDetails.id }}</p>
+          <p><strong>Name:</strong> {{ eventDetails.name }}</p>
+          <p><strong>Time (Unix Timestamp):</strong> {{ eventDetails.time }}</p>
+          <p><strong>Organizer:</strong> {{ eventDetails.organizer }}</p>
+          <p><strong>Number of Sectors:</strong> {{ eventDetails.sectorCount }}</p>
+        </div>
+  
+        <h1>Retrieve Sector Details</h1>
+        <input type="number" id="retrieveEventIdForSector" placeholder="Event ID">
+        <input type="number" id="retrieveSectorId" placeholder="Sector ID">
+        <button (click)="retrieveSector()">Retrieve Sector</button>
+        <div *ngIf="sectorDetails" class="sector-details">
+          <p><strong>Sector ID:</strong> {{ sectorDetails.id }}</p>
+          <p><strong>Name:</strong> {{ sectorDetails.name }}</p>
+          <p><strong>Total Seats:</strong> {{ sectorDetails.totalSeats }}</p>
+          <p><strong>Available Seats:</strong> {{ sectorDetails.availableSeats }}</p>
+        </div>
+  
+        <h1>Retrieve Ticket Details</h1>
+        <input type="text" id="retrieveTicketId" placeholder="Ticket ID">
+        <button (click)="retrieveTicket()">Retrieve Ticket</button>
+        <div *ngIf="ticketDetails" class="ticket-details">
+          <p><strong>Ticket ID:</strong> {{ ticketDetails.id }}</p>
+          <p><strong>Event ID:</strong> {{ ticketDetails.eventId }}</p>
+          <p><strong>Sector ID:</strong> {{ ticketDetails.sectorId }}</p>
+          <p><strong>Owner:</strong> {{ ticketDetails.owner }}</p>
+          <p><strong>Status:</strong> {{ ticketDetails.status }}</p>
+          <p><strong>Original Price (ETH):</strong> {{ ticketDetails.originalPrice }}</p>
+          <p><strong>Group</strong> {{ ticketDetails.groupId }}</p>
+        </div>
+      </div>
+
+      <div *ngIf="activeTab === 'manageGroup'">
+        <h2>Create Group</h2>
+        <input type="text" id="retrieveTicketIdforGroup" placeholder="Ticket ID">
+        <button (click)="createGroup()">Create Group</button>
+  
+        <h2>Add Participant</h2>
+        <input type="number" id="groupIdforAdd" placeholder="Group ID">
+        <input type="text" id="retrieveTicketIdforAdd" placeholder="Ticket ID">
+        <button (click)="addParticipant()">Add Participant</button>
+  
+        <h2>Remove Participant</h2>
+        <input type="number" id="groupIdforRemove" placeholder="Group ID">
+        <input type="text" id="retrieveTicketIdforRemove" placeholder="Ticket ID">
+        <button (click)="removeParticipant()">Remove Participant</button>
+  
+      </div>
+
+    </div>
+  </div>
+  
+>>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b

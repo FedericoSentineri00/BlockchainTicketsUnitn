@@ -1,0 +1,35 @@
+<div class="login-container">
+  <h2>Login</h2>
+  <form (ngSubmit)="login()">
+    <div class="input-group">
+      <label for="username">Username:</label>
+      <input type="text" id="username" [(ngModel)]="username" name="username" required />
+    </div>
+    <div class="input-group">
+      <label for="password">Password:</label>
+      <input type="password" id="password" [(ngModel)]="password" name="password" required />
+    </div>
+    <div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+    <button type="submit" class="btn">Login</button>
+  </form>
+
+
+
+  <h2>Registrati</h2>
+  <form (ngSubmit)="register()">
+    <div class="input-group">
+      <label for="reg-username">Username:</label>
+      <input type="text" id="reg-username" [(ngModel)]="regUsername" name="reg-username" required />
+    </div>
+    <div class="input-group">
+      <label for="reg-email">Email:</label>
+      <input type="email" id="reg-email" [(ngModel)]="regEmail" name="reg-email" required />
+    </div>
+    <div class="input-group">
+      <label for="reg-password">Password:</label>
+      <input type="password" id="reg-password" [(ngModel)]="regPassword" name="reg-password" required />
+    </div>
+    <div *ngIf="registerErrorMessage" class="error">{{ registerErrorMessage }}</div>
+    <button type="submit" class="btn">Register</button>
+  </form>
+</div>

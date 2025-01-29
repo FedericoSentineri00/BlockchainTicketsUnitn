@@ -1,1 +1,10 @@
+<<<<<<< HEAD
 /* You can add global styles to this file, and also import other style files */
+=======
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%; /* Consigliato per layout completi */
+  overflow: hidden; /* Facoltativo, se necessario */
+}
+>>>>>>> 220d4c2ec2084abc804326e0c3ac103c26b8671b
