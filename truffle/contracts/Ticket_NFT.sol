@@ -14,6 +14,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         uint256 sectorCount;
     }
 
+    /*
     struct EventDetails {
         uint64 id;
         string name;
@@ -21,6 +22,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         uint64 sectorCount;
         uint64 totAvailableSeats;
     }
+    */
 
     struct Sector {
         uint256 id;
@@ -270,6 +272,39 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
 
         return (_event.id, _event.name, _event.time, _event.sectorCount, totAvailableSeats);
     }
+
+
+    function getAllEventsDetails() external view returns (
+        uint256[] memory ids,
+        string[] memory names,
+        uint256[] memory times,
+        uint256[] memory sectorCounts,
+        uint256[] memory availableSeats
+        ) {
+            ids = new uint256[](eventCount);
+            names = new string[](eventCount);
+            times = new uint256[](eventCount);
+            sectorCounts = new uint256[](eventCount);
+            availableSeats = new uint256[](eventCount);
+
+            for (uint256 i = 1; i <= eventCount; i++) {
+                Event storage _event = events[i];
+                uint256 totAvailableSeats = 0;
+
+                // available seats for every sector
+                for (uint256 j = 1; j <= _event.sectorCount; j++) {
+                    totAvailableSeats += _event.sectors[j].availableSeats;
+                }
+
+                // populate array
+                ids[i - 1] = _event.id;
+                names[i - 1] = _event.name;
+                times[i - 1] = _event.time;
+                sectorCounts[i - 1] = _event.sectorCount;
+                availableSeats[i - 1] = totAvailableSeats;
+            }
+        }
+
 
     function getTickets(uint _start, uint _end) public view returns (Ticket[] memory) {
         require(_end <= ticketCount, "Invalid end");

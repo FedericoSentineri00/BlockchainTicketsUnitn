@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Static } from '../../utils/Static';
 import { EventDetails } from '../../classes/EventDetail';
+import { ConnectionService } from '../../services/Connection/connection.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,6 +10,20 @@ import { EventDetails } from '../../classes/EventDetail';
   styleUrl: './dashboard.component.css'
 })
 export class DashboardComponent {
+
+  contractAddress!: string; // Optional chaining
+  currentAccount: string | undefined; // Property for the current account
+
+  constructor(private router: Router, private connectionService: ConnectionService) {
+    this.connect();
+    this.getEvents()
+  }
+
+  async connect() {
+    await this.connectionService.connect();
+    this.currentAccount = await this.connectionService.getSignerAddress(); // Get signer address
+    console.log('Connected to MetaMask account:', this.currentAccount);
+  }
 
   items = [ {first : "02/04/2000", second: "ciaomodno123456789"}, {first : "ciao2", second: "ciao2"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"} , {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}]
   events : EventDetails[] = [new EventDetails(0,"ciao",new Date(1 * 1000), 0,0)]
@@ -24,9 +39,6 @@ export class DashboardComponent {
     timeZone: "UTC",
   });  
 
-  constructor(private router: Router) {
-    this.getEvents()
-  }
 
   
   //Function call after the component is initialized
