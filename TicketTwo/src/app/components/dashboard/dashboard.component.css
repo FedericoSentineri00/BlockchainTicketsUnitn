@@ -18,14 +18,14 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); /* Colonne flessibili */
+    grid-template-columns: repeat(auto-fit, minmax(500px, 1fr)); /* Colonne flessibili */
 
     padding: 50px;
 }
 
 .grid-item {
     color: black;
-    width: 300px;
+    width: 400px;
     margin: 30px auto;
 
     cursor: pointer;

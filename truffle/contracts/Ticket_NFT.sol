@@ -14,6 +14,14 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         uint256 sectorCount;
     }
 
+    struct EventDetails {
+        uint64 id;
+        string name;
+        uint64 time;
+        uint64 sectorCount;
+        uint64 totAvailableSeats;
+    }
+
     struct Sector {
         uint256 id;
         string name;
@@ -242,18 +250,25 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
     }
 
     // get an event detail based on the event id
-    function getEvent(uint256 _eventId)
+    function getEventDetails(uint256 _eventId)
         external
         view
         returns (
             uint256 id,
             string memory name,
             uint256 time,
-            uint256 sectorCount
+            uint256 sectorCount,
+            uint256 availableSeats
         )
     {
         Event storage _event = events[_eventId];
-        return (_event.id, _event.name, _event.time, _event.sectorCount);
+
+        uint256 totAvailableSeats = 0;
+        for (uint i = 0; i < _event.sectorCount + 1; i++) {
+            totAvailableSeats += _event.sectors[i].availableSeats;
+        }
+
+        return (_event.id, _event.name, _event.time, _event.sectorCount, totAvailableSeats);
     }
 
     function getTickets(uint _start, uint _end) public view returns (Ticket[] memory) {

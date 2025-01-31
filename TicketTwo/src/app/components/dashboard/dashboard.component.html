@@ -1,12 +1,12 @@
 <div id="body">
     <div class="grid-container" id="gridContainer" >
-        <div class="grid-item" *ngFor="let item of items" (click)="openEvent()">
+        <div class="grid-item" *ngFor="let item of events" (click)="openEvent()">
             <div class="grid-item-top">
-                <p class="plain-text bottom-left">{{ item.first }}</p>
-                <p class="plain-text bottom-right">0.01 eth</p>
+                <p class="plain-text bottom-left">{{this.formatter.format(item.time)}}</p>
+                <p class="plain-text bottom-right">{{ item.totAvailableSeats }} tickets left</p>
             </div>
             <div class="grid-item-bottom">
-                <p class="plain-text center title">{{ item.second }}</p>
+                <p class="plain-text center title">{{ item.name }}</p>
             </div>
         </div>
     </div>
