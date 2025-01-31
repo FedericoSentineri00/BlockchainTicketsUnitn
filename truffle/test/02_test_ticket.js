@@ -96,7 +96,9 @@ contract("Ticket_NFT", (accounts) => {
 
       // aggiorna lo stato del biglietto a owned
       await ticketNFT.updateTicketStatus(1, 1, { from: organizer });
-      await ticketNFT.assignSeats(1, 1, { from: organizer });
+      const ticketIds = [1];
+      const seatAssignment = ["A1"];
+      await ticketNFT.assignSeats(ticketIds, seatAssignment, { from: organizer });
 
       const updatedTicket = await ticketNFT.getTicket(1);
       assert.isNotEmpty(updatedTicket.seat, "Seat was not assigned to the ticket");

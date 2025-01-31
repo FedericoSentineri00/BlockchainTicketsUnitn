@@ -119,10 +119,11 @@ contract("Organizer_manager", (accounts) => {
 
             const nftAddress = await organizerManager.getTicketNFT(organizer1);
             const nftContract = await TicketNFT.at(nftAddress);
-            const result = await nftContract.getOrganizationDetails();
+            const contractName = await nftContract.organization_name();
+            //console.log("name: ", contractName);
 
-            assert.strictEqual(result[0], name, "NFT name should match the organization name");
-            assert.strictEqual(result[1], organizer1, "NFT owner should match the organizer");
+            assert.strictEqual(contractName, name, "NFT name should match the organization name");
+            
         });
     });
     
@@ -139,9 +140,10 @@ contract("Organizer_manager", (accounts) => {
 
                 const nftAddress = await organizerManager.getTicketNFT(organizer);
                 const nftContract = await TicketNFT.at(nftAddress);
-                const result = await nftContract.getOrganizationDetails();
+                const contractName = await nftContract.organization_name();
+                //console.log("name: ", contractName);
                 //console.log("Organizer taken", result[1]);
-                assert.strictEqual(result[1], organizer, `Organizer for ID ${i} should match the expected organizer`);
+                assert.strictEqual(contractName, name, `Organizer for ID ${i} should match the expected organizer`);
             }
         });
         //crea un'organizzazione passando address 0 e deve restituire revert

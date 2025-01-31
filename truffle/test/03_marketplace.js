@@ -88,11 +88,14 @@ contract("Marketplace", (accounts) => {
       
       await ticketNFT.setApprovalForAll(marketplace.address, true, { from: organizer });
       await ticketNFT.setApprovalForAll(buyer, true, { from: organizer });
+      console.log("Permission set");
       
       await marketplace.buyTicket(1, "eddie", "veronese", { from: buyer, value: web3.utils.toWei("1", "ether") });
+      console.log("Buy function ok");
 
       const listing = await marketplace.listings(1);
       assert.equal(listing.status, 1, "Listing status was not updated to Sold");
+      console.log("Assert equal ok");
 
       // controlla se il buyer ha il biglietto
       const ticketBalance = await ticketNFT.balanceOf(buyer, 1);
