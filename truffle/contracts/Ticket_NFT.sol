@@ -218,13 +218,15 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
     {
         Ticket storage ticket = tickets[ticketId];
 
-        if(newStatus == TicketStatus.Validated || newStatus == TicketStatus.Available)
+        if((newStatus == TicketStatus.Validated || newStatus == TicketStatus.Available) && (ticket.status == TicketStatus.Owned || ticket.status == TicketStatus.Available))
             require(hasRole(ORGANIZER_ROLE, msg.sender) || balanceOf(msg.sender, ticketId) > 0, "Not authorized to update ticket status");
         else 
             require(hasRole(ORGANIZER_ROLE, msg.sender), "Not authorized to update ticket status");
 
         ticket.status = newStatus;
     }
+
+
 
     //chiama per mettere tutti i ticket di un evento expired
     function expireTickets(uint256 _eventId) external onlyRole(ORGANIZER_ROLE) {
