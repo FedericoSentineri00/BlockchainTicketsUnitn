@@ -36,5 +36,7 @@ export class ConnectionService {
 	}
 
 
-
+  getProvider() {
+    return this.provider;
+  }
 }

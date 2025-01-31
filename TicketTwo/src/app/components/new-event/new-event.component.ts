@@ -39,5 +39,6 @@ export class NewEventComponent {
   confirm() {
     //TODO: Richiamare funzioni per generare l'evento, i settori e i tickets
   }
+  
 
 }
