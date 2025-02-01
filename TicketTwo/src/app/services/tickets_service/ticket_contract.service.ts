@@ -498,7 +498,7 @@ const contractABI = [
 	}
   ];
 const contractAddress = '0x9ADF81F1E7a62E199Ab456E39Be4E9615dE1065a';
-// https://sepolia.etherscan.io/address/0x9adf81f1e7a62e199ab456e39be4e9615de1065a
+
 
 @Injectable({
   providedIn: 'root'
