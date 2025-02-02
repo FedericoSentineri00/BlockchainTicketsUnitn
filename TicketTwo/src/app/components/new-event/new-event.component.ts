@@ -52,17 +52,23 @@ export class NewEventComponent {
         const sectorId=await this.createSector(eventId, sectorName, sectorLines, sectorSeats);
       }
     }
+
+    console.log("Finish");
     
   }
 
-
+  
   
 
   async createEvent(): Promise<number | void> {
 
     if(this.name && this.date){
       try{
-        const event_id= await this.ticketNFTService.createEvent(this.name, this.date)
+
+        const eventDate = new Date(this.date);
+        const timestamp = Math.floor(eventDate.getTime() / 1000);
+
+        const event_id= await this.ticketNFTService.createEvent(this.name, timestamp)
         console.log(`Event created`);
         return event_id
       }catch (error) {
