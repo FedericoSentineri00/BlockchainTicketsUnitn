@@ -1775,7 +1775,7 @@
   },
   "networks": {},
   "schemaVersion": "3.4.16",
-  "updatedAt": "2025-01-29T21:24:49.765Z",
+  "updatedAt": "2025-02-01T09:41:01.640Z",
   "devdoc": {
     "details": "Required interface of an ERC-1155 compliant contract, as defined in the https://eips.ethereum.org/EIPS/eip-1155[ERC].",
     "events": {

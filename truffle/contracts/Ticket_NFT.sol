@@ -85,6 +85,8 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
 
     //------------------------Gestione biglietti-----------------------------------------------------------
 
+    event EventCreated(uint256 indexed eventId, string name, uint256 time);
+
     function createEvent(string memory _name, uint256 _time)
         external
         onlyRole(ORGANIZER_ROLE)
@@ -95,7 +97,11 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         newEvent.name = _name;
         newEvent.time = _time;
         newEvent.sectorCount = 0;
+
+        emit EventCreated(eventCount, _name, _time);
     }
+
+    event SectorCreated(uint256 indexed eventId, uint256 indexed sectorId, string name);
 
     function createSector(
         uint256 _eventId,
@@ -112,8 +118,11 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         newSector.totalSeats = _totalSeats;
         newSector.availableSeats = _totalSeats;
         newSector.seats_x_lines = _seat_x_lines;
+        
+        emit SectorCreated(_eventId, newSector.id, _name);
     }
 
+    event TicketCreated(uint256 indexed ticketId, uint256 eventId, uint256 sectorId, uint256 price);
     function createTicket(
         uint256 _eventId,
         uint256 _sectorId,
@@ -134,6 +143,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         newTicket.hashName = generateHash(organization_name, ticketId);
         sector.availableSeats--;
 
+        emit TicketCreated(ticketId, _eventId, _sectorId, _originalPrice);
         _mint(msg.sender, ticketCount, 1, "");
     }
 

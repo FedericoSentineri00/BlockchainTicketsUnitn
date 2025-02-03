@@ -176,6 +176,31 @@ const contract_ticket_ABI = [
 		"inputs": [
 			{
 				"indexed": true,
+				"internalType": "uint256",
+				"name": "eventId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "time",
+				"type": "uint256"
+			}
+		],
+		"name": "EventCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
 				"internalType": "bytes32",
 				"name": "role",
 				"type": "bytes32"
@@ -244,6 +269,62 @@ const contract_ticket_ABI = [
 			}
 		],
 		"name": "RoleRevoked",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "eventId",
+				"type": "uint256"
+			},
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "sectorId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "name",
+				"type": "string"
+			}
+		],
+		"name": "SectorCreated",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "uint256",
+				"name": "ticketId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "eventId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "sectorId",
+				"type": "uint256"
+			},
+			{
+				"indexed": false,
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"name": "TicketCreated",
 		"type": "event"
 	},
 	{
@@ -1487,11 +1568,9 @@ export class TicketNFTService {
 		const tx = await this.contract['createEvent'](name, time);
 		const receipt = await tx.wait();
 	
-		//const eventId = receipt.logs[0].args[0].toString();
-		console.log("Receipt:",receipt);
-		//console.log(`Evento creato con ID: ${eventId}`);
-		//return parseInt(eventId);
-		return 1;
+		const eventId = receipt.logs[0].args[0].toString();
+		console.log(`Evento creato con ID: ${eventId}`);
+		return parseInt(eventId);
 	}
 
   //Function for retreive an event based on its id
@@ -1535,13 +1614,16 @@ export class TicketNFTService {
   // ----- MANAGEMENT SECTORS -----
 
   //Function for the creation of a new sector
-  async createSector(eventId: number, name: string, lines : number , seat_x_lines : number): Promise<void> {
+  async createSector(eventId: number, name: string, lines : number , seat_x_lines : number): Promise<number> {
 	if(!this.contract){
 		throw new Error('Contract not initialized');
 	}
 		const tx = await this.contract['createSector'](eventId, name, lines*seat_x_lines, seat_x_lines);
-		await tx.wait();
-		console.log(`Settore creato per l'evento ${eventId}: ${name}`);
+		const receipt=await tx.wait();
+		const sectorId = receipt.logs[0].args[1].toString();
+		console.log(`Settore creato per id ${sectorId}: ${name}`);
+		return parseInt(sectorId);
+
 	}
 
   //Funtion to ge the details of a specific sector by its id in a event
@@ -1559,5 +1641,21 @@ export class TicketNFTService {
       details[5]
     );
 	}
+
+
+	async createTicket(eventId: number, sectorId: number, originalPrice: number): Promise<number> {
+		if(!this.contract){
+			throw new Error('Contract not initialized');
+		}
+			const tx = await this.contract['createTicket'](eventId, sectorId, originalPrice);
+			const receipt=await tx.wait();
+			const ticketId = receipt.logs[0].args[0].toString();
+			console.log(`Ticket creato con id ${ticketId}`);
+			return parseInt(ticketId);
+	
+	}
+
+
+
 
 }
