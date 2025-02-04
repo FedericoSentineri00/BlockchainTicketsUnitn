@@ -301,9 +301,14 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
                 Event storage _event = events[i];
                 uint256 totAvailableSeats = 0;
 
+                /*
                 // available seats for every sector
-                for (uint256 j = 1; j <= _event.sectorCount; j++) {
+                for (uint256 j = 0; j <= _event.sectorCount; j++) {
                     totAvailableSeats += _event.sectors[j].availableSeats;
+                }*/
+
+                for (uint256 j = 0; j <= _event.sectorCount; j++) {
+                    totAvailableSeats += _event.sectors[j].totalSeats;
                 }
 
                 // populate array

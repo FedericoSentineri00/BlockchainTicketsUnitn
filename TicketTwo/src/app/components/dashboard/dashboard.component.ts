@@ -5,6 +5,7 @@ import { EventDetails } from '../../classes/EventDetail';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 import { ethers } from 'ethers';
+import { FactoryService } from '../../services/Factory/factory.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,9 +16,9 @@ export class DashboardComponent {
 
   currentAccount: string | undefined; // Property for the current account
 
-  constructor(private router: Router, private connectionService: ConnectionService, private ticketNFTService: TicketNFTService) {
+  constructor(private router: Router, private connectionService: ConnectionService, private factoryService: FactoryService, private ticketNFTService: TicketNFTService) {
     this.connect();
-    this.getEvents()
+    this.retrieveAllEventDetails()
   }
 
   async connect() {
@@ -53,16 +54,10 @@ export class DashboardComponent {
     this.router.navigate(['/details'])
   }
 
-  getEvents(){
-    //TODO: Aggiungere chiamata per ottenere gli eventi
 
-
-
-
-    //this.events.push(new EventDetails(1, "ciao2", new Date(1234567890 * 1000),0));
-  }
 
   async retrieveAllEventDetails(): Promise<void> {
+
     try {
         const allEventDetails = await this.ticketNFTService.getAllEventsDetails();
         this.events = allEventDetails; 
@@ -70,6 +65,9 @@ export class DashboardComponent {
         console.error('Error fetching all event details:', error);
     }
 }
+
+
+
 
  
 }

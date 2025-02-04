@@ -15,7 +15,7 @@ contract("Ticket_NFT", (accounts) => {
 
       // creazione di un'organizzazione e recupero Ticket_NFT
       await organizerManager.create_organization("Test Organization", organizer, { from: admin });
-      ticketNFTAddress = await organizerManager.getTicketNFT(organizer);
+      ticketNFTAddress = await organizerManager.getOrganizerNFT(organizer);
 
       // collegamento Ticket_NFT per i test
       ticketNFT = await TicketNFT.at(ticketNFTAddress);
@@ -48,7 +48,7 @@ contract("Ticket_NFT", (accounts) => {
     it("Should create an event and retrieve details", async () => {
       await ticketNFT.createEvent("Concert 2025", Math.floor(Date.now() / 1000), { from: organizer });
 
-      const event = await ticketNFT.getEvent(1);
+      const event = await ticketNFT.getEventDetails(1);
       assert.equal(event.name, "Concert 2025", "Event name is incorrect");
       assert.equal(event.id, 1, "Event ID is incorrect");
     });
@@ -62,6 +62,9 @@ contract("Ticket_NFT", (accounts) => {
       }
     });
   });
+
+  
+  
 
 
   describe("Sector Management", () => {
@@ -81,6 +84,30 @@ contract("Ticket_NFT", (accounts) => {
       } catch (err) {
         assert.include(err.message, "revert", "Error message does not contain revert");
       }
+    });
+  });
+
+  describe("All event details", () => {
+     
+    it("Should return the right info on the events", async () => {
+      
+
+      const events = await ticketNFT.getAllEventsDetails();
+      
+      const eventIds = events.ids.map((id) => id.toNumber());
+      const eventNames = events.names;
+      const eventTimes = events.times.map((time) => new Date(time.toNumber() * 1000));
+      const sectorCounts = events.sectorCounts.map((count) => count.toNumber());
+      const availableSeats = events.availableSeats.map((seats) => seats.toNumber());
+
+      console.log("Event Details:");
+      console.log("IDs:", eventIds);
+      console.log("Names:", eventNames);
+      console.log("Times:", eventTimes);
+      console.log("Sector Counts:", sectorCounts);
+      console.log("Available Seats:", availableSeats);
+
+    
     });
   });
 
@@ -111,6 +138,31 @@ contract("Ticket_NFT", (accounts) => {
       } catch (err) {
         assert.include(err.message, "revert", "Error message does not contain revert");
       }
+    });
+  });
+
+
+  describe("All event details", () => {
+     
+    it("Should return the right info on the events", async () => {
+      
+
+      const events = await ticketNFT.getAllEventsDetails();
+      
+      const eventIds = events.ids.map((id) => id.toNumber());
+      const eventNames = events.names;
+      const eventTimes = events.times.map((time) => new Date(time.toNumber() * 1000));
+      const sectorCounts = events.sectorCounts.map((count) => count.toNumber());
+      const availableSeats = events.availableSeats.map((seats) => seats.toNumber());
+
+      console.log("Event Details:");
+      console.log("IDs:", eventIds);
+      console.log("Names:", eventNames);
+      console.log("Times:", eventTimes);
+      console.log("Sector Counts:", sectorCounts);
+      console.log("Available Seats:", availableSeats);
+
+    
     });
   });
 

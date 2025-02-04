@@ -1563,12 +1563,14 @@ export class TicketNFTService {
 		if(!this.contract){
 			throw new Error('Contract not initialized');
 		}
-
+		console.log("Arrivo qua");
 		
 		const tx = await this.contract['createEvent'](name, time);
 		const receipt = await tx.wait();
-	
+		console.log("Arrivo anche qua");
+		console.log("Receipt", receipt);
 		const eventId = receipt.logs[0].args[0].toString();
+		console.log("Arrivo anche anche qua");
 		console.log(`Evento creato con ID: ${eventId}`);
 		return parseInt(eventId);
 	}
@@ -1589,24 +1591,44 @@ export class TicketNFTService {
 	}
 
 	async getAllEventsDetails(): Promise<EventDetails[]> {
-		if(!this.contract){
-			throw new Error('Contract not initialized');
-		}
-		const details = await this.contract['getAllEventsDetails'](); 
-	
 		const events: EventDetails[] = [];
-	
-		for (let i = 0; i < details[0].length; i++) {
-			const event = new EventDetails(
-				details[0][i],                               
-				details[1][i].toString(),                     
-				new Date(details[2][i].toNumber() * 1000),    
-				details[3][i],                                
-				details[4][i]                                 
-			);
-			events.push(event);
+
+		let nextNFTId= await this.factoryService.getnextNFTId();
+		
+		for (let organizerId=0; organizerId<nextNFTId; organizerId++){
+			try {
+				const organizationAddress = await this.factoryService.getOrganizationAddress(organizerId);
+				console.log(`Organization Address for ID ${organizerId}:`, organizationAddress);
+
+				const nftContractAddress = await this.factoryService.getOrganizerNFT(organizationAddress);
+				console.log(`NFT Contract Address for organizer at ${organizationAddress}:`, nftContractAddress);
+
+
+				const provider = this.connection.getProvider();
+				const signer = provider.getSigner();
+				const organizerContract = new ethers.Contract(nftContractAddress, contract_ticket_ABI, await signer);
+
+				const details = await organizerContract['getAllEventsDetails']();
+
+				for (let i = 0; i < details[0].length; i++) {
+					const eventTime = Number(details[2][i]);
+					const totAvailableSeats = Number(details[4][i]);
+					const sectorCount = Number(details[3][i]);
+					const event = new EventDetails(
+					  details[0][i],                                
+					  details[1][i].toString(),                     
+					  new Date(eventTime * 1000),   
+					  sectorCount, 
+					  totAvailableSeats,                                                                
+					);
+
+					console.log("event gu",event)
+					events.push(event);
+				  }
+			}catch(error){
+				console.error(`Error processing organizer ID ${organizerId}:`, error);
+			}
 		}
-	
 		return events;
 	}
 	

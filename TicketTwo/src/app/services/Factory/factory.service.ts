@@ -212,19 +212,13 @@ const contract_factory_ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_organizer_address",
-				"type": "address"
-			}
-		],
-		"name": "getTicketNFT",
+		"inputs": [],
+		"name": "getnextNFTId",
 		"outputs": [
 			{
-				"internalType": "address",
+				"internalType": "uint256",
 				"name": "",
-				"type": "address"
+				"type": "uint256"
 			}
 		],
 		"stateMutability": "view",
@@ -379,7 +373,7 @@ const contract_factory_ABI = [
 		"type": "function"
 	}
 ];
-const contract_factory_Address = '0xCc6aFcBA96c1FCD3F7b8905642d21F208BD0f0F9';
+const contract_factory_Address = '0x7B99344FDdf863614De3a214E1942ac498e51C7a';
 
 
 @Injectable({
@@ -405,4 +399,19 @@ export class FactoryService {
     console.log(`NFT Contract Address for ${organizerAddress}:`, nftAddress);
     return nftAddress;
   }
+
+  async getOrganizationAddress(organizerId: Number): Promise<string> {
+    const organizationAddress = await this.contract['getOrganizationAddress'](organizerId);
+    console.log(`Address for organizer number ${organizerId}:`, organizationAddress);
+    return organizationAddress;
+  }
+
+  async getnextNFTId(): Promise<number> {
+    const NFTId = await this.contract['getnextNFTId']();
+    console.log(`NFT Id max ${NFTId}:`);
+    return NFTId;
+  }
+
+
+
 }

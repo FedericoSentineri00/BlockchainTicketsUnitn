@@ -14,7 +14,7 @@ contract("Marketplace", (accounts) => {
       // Crea organizzazione, ticket nft e marketplace
       organizerManager = await OrganizerManager.new({ from: admin });
       await organizerManager.create_organization("Test Organization", organizer, { from: admin });
-      ticketNFTAddress = await organizerManager.getTicketNFT(organizer);
+      ticketNFTAddress = await organizerManager.getOrganizerNFT(organizer);
 
 
       ticketNFT = await TicketNFT.at(ticketNFTAddress);

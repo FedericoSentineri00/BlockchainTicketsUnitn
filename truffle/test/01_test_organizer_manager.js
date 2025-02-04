@@ -23,7 +23,7 @@ contract("Organizer_manager", (accounts) => {
 
             await organizerManager.create_organization(name, organizer1, { from: admin });
 
-            const nftAddress = await organizerManager.getTicketNFT(organizer1);
+            const nftAddress = await organizerManager.getOrganizerNFT(organizer1);
             assert.notStrictEqual(nftAddress, "0x0000000000000000000000000000000000000000", "NFT address should not be zero address");
         });
         // Crea una nuova oraganizzazioen con da parte di un admin -> deve fallire e ritorna revert 
@@ -44,7 +44,7 @@ contract("Organizer_manager", (accounts) => {
 
             await organizerManager.create_organization(name, organizer1, { from: admin });
 
-            const nftAddress = await organizerManager.getTicketNFT(organizer1);
+            const nftAddress = await organizerManager.getOrganizerNFT(organizer1);
             assert.notStrictEqual(nftAddress, "0x0000000000000000000000000000000000000000", "NFT address should not be zero address");
 
             const orgAddress = await organizerManager.getOrganizationAddress(0);
@@ -79,13 +79,13 @@ contract("Organizer_manager", (accounts) => {
     });
 
     describe("Getter Functions", () => {
-        // creo un'organizzazione e chiamo getTicketNFT per ottenere address dell'nft, non deve essere 0
+        // creo un'organizzazione e chiamo getOrganizerNFT per ottenere address dell'nft, non deve essere 0
         it("should return the correct TicketNFT address for an organizer", async () => {
             const name = "Org 1";
 
             await organizerManager.create_organization(name, organizer1, { from: admin });
 
-            const nftAddress = await organizerManager.getTicketNFT(organizer1);
+            const nftAddress = await organizerManager.getOrganizerNFT(organizer1);
             assert.notStrictEqual(nftAddress, "0x0000000000000000000000000000000000000000", "NFT address should not be zero address");
         });
         // creo un'organizzazione e chiamo getOrganizationAddress, l'address 
@@ -98,13 +98,13 @@ contract("Organizer_manager", (accounts) => {
             const orgAddress = await organizerManager.getOrganizationAddress(0);
             assert.strictEqual(orgAddress, organizer1, "Organization address for ID 0 should match organizer1");
         });
-        // chiamo getOrganizationAddress e getTicketNFT su organizzazioni non esistenti
+        // chiamo getOrganizationAddress e getOrganizerNFT su organizzazioni non esistenti
         // e resituisce revert
         it("should return address(0) for non-existent IDs or organizers", async () => {
             const invalidOrgAddress = await organizerManager.getOrganizationAddress(99);
             assert.strictEqual(invalidOrgAddress, "0x0000000000000000000000000000000000000000", "Non-existent ID should return address(0)");
 
-            const invalidNftAddress = await organizerManager.getTicketNFT(organizer2);
+            const invalidNftAddress = await organizerManager.getOrganizerNFT(organizer2);
             assert.strictEqual(invalidNftAddress, "0x0000000000000000000000000000000000000000", "Non-existent organizer should return address(0)");
         });
     });
@@ -117,7 +117,7 @@ contract("Organizer_manager", (accounts) => {
 
             await organizerManager.create_organization(name, organizer1, { from: admin });
 
-            const nftAddress = await organizerManager.getTicketNFT(organizer1);
+            const nftAddress = await organizerManager.getOrganizerNFT(organizer1);
             const nftContract = await TicketNFT.at(nftAddress);
             const contractName = await nftContract.organization_name();
             //console.log("name: ", contractName);
@@ -138,7 +138,7 @@ contract("Organizer_manager", (accounts) => {
 
                 await organizerManager.create_organization(name, organizer, { from: admin });
 
-                const nftAddress = await organizerManager.getTicketNFT(organizer);
+                const nftAddress = await organizerManager.getOrganizerNFT(organizer);
                 const nftContract = await TicketNFT.at(nftAddress);
                 const contractName = await nftContract.organization_name();
                 //console.log("name: ", contractName);

@@ -34,12 +34,6 @@ contract Organizer_manager is AccessControl{
         emit OrganizationCreated(_organizer_address, address(nft));
     }
 
-
-    function getTicketNFT(address _organizer_address) external view returns (address) {
-        return organization_NFT[_organizer_address];
-    }
-
-
     //get the organization NFT given the organizer address
     function getOrganizerNFT(address _organizer) external view returns (address) {
         return organization_NFT[_organizer];
@@ -50,7 +44,8 @@ contract Organizer_manager is AccessControl{
         return organizations[_id];
     }
 
+    function getnextNFTId() external view returns (uint256) {
+        return nextNFTId;
+    } 
+
 }
-
-
- // to do: funzioni getter vari
