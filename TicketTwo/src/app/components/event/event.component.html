@@ -3,36 +3,18 @@
         <p class="plain-text title">Additional Filters</p>
 
         <div style="margin-top: 30px;">
-            <p class="plain-text subtitle" >Price</p>
-            <div style="display: flex;">
-                <div style="width: 50%;">
-                    <p class="plain-text">Min</p>
-                    <div>
-                        <input [(ngModel)]="minFilter" class="plain-text" type="number" style="width: 100px;"/>
-                    </div>
-                </div>
-                <div style="width: 50%;">
-                    <p class="plain-text">Max</p>
-                    <div>
-                        <input [(ngModel)]="maxFilter" class="plain-text" type="number" style="width: 100px;"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div style="margin-top: 30px;">
             <p class="plain-text subtitle">Date</p>
             <div style="display: flex;">
                 <div style="width: 50%;">
                     <p class="plain-text">From</p>
                     <div>
-                        <input [(ngModel)]="minDateFilter" class="plain-text" type="date" style="width: 150px;"/>
+                        <input [(ngModel)]="minDateFilter" class="plain-text" (ngModelChange)="updateEvents()" type="date" style="width: 150px;"/>
                     </div>
                 </div>
                 <div style="width: 50%;">
                     <p class="plain-text">To</p>
                     <div>
-                        <input [(ngModel)]="maxDateFilter" class="plain-text" type="date" style="width: 150px;"/>
+                        <input [(ngModel)]="maxDateFilter" class="plain-text" (ngModelChange)="updateEvents()" type="date" style="width: 150px;"/>
                     </div>
                 </div>
             </div>
@@ -40,8 +22,26 @@
 
     </div>
     <div class="event-list">
-        <div style="display: flex; justify-content: center; margin-top: 10px;">
-            <input [(ngModel)]="name" type="text" class="name-input" placeholder="Search Name"/>
+        <div style="display: flex; justify-content: center;" class="mt-10">
+            <input [(ngModel)]="name" type="text" class="name-input" (ngModelChange)="updateEvents()" placeholder="Search Name"/>
+        </div>
+
+        <div style="display: flex; justify-content: center;">
+            <div style="width: 60%;">
+                <div *ngFor="let item of filtered; let i = index " class="ticket" (click)="openEvent(i)" >
+                    <div>
+                        <p class="ticket-text">{{item}}</p>
+                        <div style="display: flex;" class="mt-20">
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sectors count</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket count</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">00/00/0000</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="events.length == 0" class="mt-20">
+                    <p class="plain-text">No Event.</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>

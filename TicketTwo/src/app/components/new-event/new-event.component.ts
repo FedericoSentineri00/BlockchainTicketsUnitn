@@ -12,7 +12,8 @@ import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 export class NewEventComponent {
 
   name : string = ""
-  date: Date = new Date();
+  date: string = "";
+  time : string = ""
   details: string = ""
 
   sectorCount : number = 1
@@ -41,6 +42,7 @@ export class NewEventComponent {
   }
 
   async confirm() {
+    
     const eventId=await this.createEvent();
 
     if (eventId){
@@ -69,54 +71,42 @@ export class NewEventComponent {
   }
 
   
-  
 
-  async createEvent(): Promise<number | void> {
+    async createEvent(): Promise<number | void> {
 
-    if(this.name && this.date){
+      if(this.name && this.date && this.time){
+        try{
+
+          const eventDate = new Date(this.date + "T" + this.time);
+          const timestamp = Math.floor(eventDate.getTime() / 1000);
+
+          const event_id= await this.ticketNFTService.createEvent(this.name, timestamp)
+          console.log(`Event created`);
+          return event_id
+        }catch (error) {
+          console.error("Error during event creation: ", error);
+        }
+      }
+    }
+    
+    async createSector(eventId: number, name: string, lines: number, seatsPerLine: number): Promise<number | void> {
       try{
-
-        const eventDate = new Date(this.date);
-        const timestamp = Math.floor(eventDate.getTime() / 1000);
-
-        const event_id= await this.ticketNFTService.createEvent(this.name, timestamp)
-        console.log(`Event created`);
-        return event_id
+        const sectorID=await this.ticketNFTService.createSector(eventId, name, lines, seatsPerLine)
+        console.log(`Sector created`);
+        return sectorID;
       }catch (error) {
-        console.error("Error during event creation: ", error);
+        console.error("Error during sector creation: ", error);
+      }
+    }
+
+
+    async createTicket(eventId: number, sectorId: number, price: number): Promise<number | void> {
+      try{
+        const ticketID=await this.ticketNFTService.createTicket(eventId, sectorId, price)
+        console.log(`Ticket created`);
+        return ticketID;
+      }catch (error) {
+        console.error("Error during ticket creation: ", error);
       }
     }
   }
-  
-  async createSector(eventId: number, name: string, lines: number, seatsPerLine: number): Promise<number | void> {
-    try{
-      const sectorID=await this.ticketNFTService.createSector(eventId, name, lines, seatsPerLine)
-      console.log(`Sector created`);
-      return sectorID;
-    }catch (error) {
-      console.error("Error during sector creation: ", error);
-    }
-  }
-
-
-  async createTicket(eventId: number, sectorId: number, price: number): Promise<number | void> {
-    try{
-      const ticketID=await this.ticketNFTService.createTicket(eventId, sectorId, price)
-      console.log(`Ticket created`);
-      return ticketID;
-    }catch (error) {
-      console.error("Error during ticket creation: ", error);
-    }
-  }
-
-
-
-
-  }
-
-
-  
-
-
-
-

@@ -1,6 +1,6 @@
 <div id="body">
     <div class="grid-container" id="gridContainer" >
-        <div class="grid-item" *ngFor="let item of events" (click)="openEvent()">
+        <div class="grid-item" *ngFor="let item of events; let i = index" (click)="openEvent(i)">
             <div class="grid-item-top">
                 <p class="plain-text bottom-left">{{this.formatter.format(item.time)}}</p>
                 <p class="plain-text bottom-right">{{ item.totAvailableSeats }} tickets left</p>
