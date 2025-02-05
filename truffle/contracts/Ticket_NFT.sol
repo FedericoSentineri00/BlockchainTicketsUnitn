@@ -14,16 +14,6 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         uint256 sectorCount;
     }
 
-    /*
-    struct EventDetails {
-        uint64 id;
-        string name;
-        uint64 time;
-        uint64 sectorCount;
-        uint64 totAvailableSeats;
-    }
-    */
-
     struct Sector {
         uint256 id;
         string name;
@@ -80,7 +70,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
     }
 
     function removeOrganizer(address _organizer) public onlyRole(ADMIN_ROLE) {
-        revokeRole(ORGANIZER_ROLE, _organizer);
+        _revokeRole(ORGANIZER_ROLE, _organizer);
     }
 
     //------------------------Gestione biglietti-----------------------------------------------------------
@@ -138,7 +128,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         newTicket.id = ticketId;
         newTicket.eventId = _eventId;
         newTicket.sectorId = _sectorId;
-        newTicket.status = TicketStatus.Available;
+        newTicket.status = TicketStatus.Owned;
         newTicket.originalPrice = _originalPrice;
         newTicket.hashName = generateHash(organization_name, ticketId);
         sector.availableSeats--;
@@ -301,12 +291,6 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
                 Event storage _event = events[i];
                 uint256 totAvailableSeats = 0;
 
-                /*
-                // available seats for every sector
-                for (uint256 j = 0; j <= _event.sectorCount; j++) {
-                    totAvailableSeats += _event.sectors[j].availableSeats;
-                }*/
-
                 for (uint256 j = 0; j <= _event.sectorCount; j++) {
                     totAvailableSeats += _event.sectors[j].totalSeats;
                 }
@@ -426,6 +410,13 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
     function isTicketInGroup(uint256 ticketId) external view returns (bool) {
         return tickets[ticketId].groupId != 0;
     }
+
+
+    function getnextTicketCount() external view returns (uint256) {
+        return ticketCount;
+    } 
+
+
 
     function supportsInterface(bytes4 _interfaceId)
         public

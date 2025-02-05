@@ -4,8 +4,6 @@ import { Static } from '../../utils/Static';
 import { EventDetails } from '../../classes/EventDetail';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
-import { ethers } from 'ethers';
-import { FactoryService } from '../../services/Factory/factory.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,7 +14,7 @@ export class DashboardComponent {
 
   currentAccount: string | undefined; // Property for the current account
 
-  constructor(private router: Router, private connectionService: ConnectionService, private factoryService: FactoryService, private ticketNFTService: TicketNFTService) {
+  constructor(private router: Router, private connectionService: ConnectionService, private ticketNFTService: TicketNFTService) {
     this.connect();
     this.retrieveAllEventDetails()
   }

@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConnectionService } from '../../services/Connection/connection.service';
+import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
+import { EventDetails } from '../../classes/EventDetail';
+import { TicketDetails } from '../../classes/TicketDetails';
 
 @Component({
   selector: 'app-personal-view',
@@ -7,32 +11,82 @@ import { Router } from '@angular/router';
   styleUrl: './personal-view.component.css'
 })
 export class PersonalViewComponent {
-                                                                                              
+  
+  currentAccount: string | undefined;
+
   addAddress :string = ""
   removeAddress :string = ""
 
-  tickets : string[] = []
-  events : string[] = ["test","test2"]
-
+  tickets : TicketDetails[] = []
 
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
 
-  constructor(private router : Router) {
-
+  constructor(private router : Router, private connectionService: ConnectionService, private ticketNFTService: TicketNFTService) {
+    this.connect();
+    this.getMyTickets();
+    this.getMyEvents();
   }
 
-  addOrganizer() {
-    console.log(this.addAddress);
+  formatter = new Intl.DateTimeFormat("it-IT", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "UTC",
+  });  
+
+  events : EventDetails[] = [new EventDetails(0,"ciao",new Date(1 * 1000), 0,0)]
+
+
+  async connect() {
+    await this.connectionService.connect();
+    this.currentAccount = await this.connectionService.getSignerAddress(); // Get signer address
+    console.log('Connected to MetaMask account:', this.currentAccount);
   }
 
-  removeOrganizer() {
-    console.log(this.removeAddress);
+  async addOrganizer(): Promise<void>{
+    try {
+        await this.ticketNFTService.addOrganizer(this.addAddress);
+    } catch (error) {
+        console.error('Error fetching organizer address:', error);
+    }
+  }
+
+  async removeOrganizer(): Promise<void> {
+    try {
+        await this.ticketNFTService.removeOrganizer(this.removeAddress);
+    } catch (error) {
+        console.error('Error fetching organizer address:', error);
+    }
   }
 
   createEvent() {
     this.router.navigate(['/new']);
   }
+
+  async getMyEvents(): Promise<void> {
+
+    try {
+      const myEvents = await this.ticketNFTService.getMyEvents();
+      this.events = myEvents; 
+    } catch (error) {
+      console.error('Error fetching my events details:', error);
+    }
+  }
+
+  async getMyTickets(): Promise<void> {
+
+    try {
+      const myTickets = await this.ticketNFTService.getMyTickets();
+      this.tickets = myTickets; 
+    } catch (error) {
+      console.error('Error fetching my tickets details:', error);
+    }
+  }
+
 
 
   assignSeats() {

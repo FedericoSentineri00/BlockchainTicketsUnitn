@@ -3,6 +3,7 @@ import { ethers } from 'ethers';
 import { ConnectionService } from '../Connection/connection.service';
 import { FactoryService } from '../Factory/factory.service';
 import { EventDetails } from '../../classes/EventDetail';
+import { TicketDetails } from '../../classes/TicketDetails';
 import { SecotrDetails } from '../../classes/SectorDetails';
 
 
@@ -1631,6 +1632,72 @@ export class TicketNFTService {
 		}
 		return events;
 	}
+
+	async getMyTickets(): Promise<TicketDetails[]> {
+		const tickets: TicketDetails[] = [];
+
+		let nextNFTId= await this.factoryService.getnextNFTId();
+		
+		for (let organizerId=0; organizerId<nextNFTId; organizerId++){
+			try {
+				const organizationAddress = await this.factoryService.getOrganizationAddress(organizerId);
+				console.log(`Organization Address for ID ${organizerId}:`, organizationAddress);
+
+				const nftContractAddress = await this.factoryService.getOrganizerNFT(organizationAddress);
+				console.log(`NFT Contract Address for organizer at ${organizationAddress}:`, nftContractAddress);
+
+
+				const provider = this.connection.getProvider();
+				const signer = provider.getSigner();
+				const organizerContract = new ethers.Contract(nftContractAddress, contract_ticket_ABI, await signer);
+
+				const maxid =await organizerContract['getnextTicketCount']();
+				
+				for (let ticketId = 0; ticketId <= maxid; ticketId++) {
+					const balance = await organizerContract['balanceOf'](signer , ticketId);
+					if (balance > 0) {
+						const ticketinfo=await organizerContract['getTicket'](ticketId);
+						tickets.push(ticketinfo)
+					}
+				}
+			}catch(error){
+				console.error(`Error processing organizer ID ${organizerId}:`, error);
+			}
+		}
+		return tickets;
+	}
+
+
+	async getMyEvents(): Promise<EventDetails[]> {
+		
+
+		if(!this.contract){
+			throw new Error('Contract not initialized');
+		}
+		console.log("Arrivo qua");
+
+		const events: EventDetails[] = [];
+	
+		const details = await this.contract['getAllEventsDetails']();
+
+		for (let i = 0; i < details[0].length; i++) {
+			const eventTime = Number(details[2][i]);
+			const totAvailableSeats = Number(details[4][i]);
+			const sectorCount = Number(details[3][i]);
+			const event = new EventDetails(
+				details[0][i],                                
+				details[1][i].toString(),                     
+				new Date(eventTime * 1000),   
+				sectorCount, 
+				totAvailableSeats,                                                                
+			);
+
+			console.log("My events taken",event)
+			events.push(event);
+			}
+			
+		return events;
+	}
 	
 
   // ----- MANAGEMENT SECTORS -----
@@ -1676,6 +1743,35 @@ export class TicketNFTService {
 			return parseInt(ticketId);
 	
 	}
+
+
+
+
+	//function to add and remove organizer
+	async addOrganizer(organizerAddress: string): Promise<void> {
+		if (!this.contract) {
+		  throw new Error('Contract not initialized');
+		}
+		
+		const tx =await this.contract['addOrganizer'](organizerAddress);
+		const receipt =await tx.wait();
+		console.log("Receipt", receipt);
+		console.log(`Organizer ${organizerAddress} successfully added.`);
+	}
+
+	async removeOrganizer(organizerAddress: string): Promise<void> {
+		if (!this.contract) {
+		  throw new Error('Contract not initialized');
+		}
+		
+		
+		const tx =await this.contract['removeOrganizer'](organizerAddress);
+		const receipt =await tx.wait();
+		console.log("Receipt", receipt)
+		console.log(`Organizer ${organizerAddress} successfully removed.`);
+	}
+	  
+	  
 
 
 

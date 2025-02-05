@@ -54,6 +54,7 @@ contract Marketplace {
     event Debug(string message, uint256 value);
     event Debug2(string message, address addr);
     event Debug3(string message,uint256 excessAmount);
+    
     function buyTicket(uint256 listingId, string memory name, string memory surname) external payable {
         emit Debug("Start buyTicket function", listingId); //
 

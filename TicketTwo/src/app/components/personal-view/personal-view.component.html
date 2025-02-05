@@ -24,11 +24,11 @@
             </div>
             <div *ngFor="let item of events" class="ticket">
                 <div>
-                    <p class="ticket-text">{{item}}</p>
+                    <p class="ticket-text">{{item.name}}</p>
                     <div style="display: flex; margin-top: 20px;">
-                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sectors count</p>
-                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket count</p>
-                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">00/00/0000</p>
+                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector:{{item.sectorCount}}</p>
+                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Available ticket: {{item.totAvailableSeats}}</p>
+                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{this.formatter.format(item.time)}}</p>
                     </div>
                 </div>
             </div>
