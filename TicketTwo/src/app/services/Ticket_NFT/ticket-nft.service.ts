@@ -1584,11 +1584,55 @@ export class TicketNFTService {
 		const details = await this.contract['getEventDetails'](eventId);  
 		return new EventDetails(
 			details[0], 
-      details[1].toString(),
+      		details[1].toString(),
 			new Date(details[2] * 1000),       
 			details[3],
-      details[4]
-    );
+      		details[4]
+    	);
+	}
+
+	//resituisce un evento e un array di settory e i biglietti id
+	async getEventInfo(eventId: number): Promise<{ event: EventDetails, sectors: SecotrDetails[] }>{
+		if(!this.contract){
+			throw new Error('Contract not initialized');
+		}
+		
+		const eventDetailsRaw = await this.contract['getEventDetails'](eventId); 
+
+		const eventTime = Number(eventDetailsRaw[2]);
+		const totAvailableSeats = Number(eventDetailsRaw[4]);
+		const sectorCount = Number(eventDetailsRaw[3]);
+		const eventDetails = new EventDetails(
+			eventDetailsRaw[0], 
+			eventDetailsRaw[1].toString(),
+			new Date(eventTime * 1000),      
+			sectorCount,
+			totAvailableSeats
+		);
+
+		const sectors: SecotrDetails[] = [];
+
+		for (let sectorId = 1; sectorId <= sectorCount; sectorId++) {
+			const secotrDetailsRaw = await this.contract['getSector'](eventId, sectorId);  
+
+			const sectorDetails = new SecotrDetails(
+				secotrDetailsRaw[0],         
+				secotrDetailsRaw[1].toString(),
+				secotrDetailsRaw[2],       
+				secotrDetailsRaw[3],
+				secotrDetailsRaw[4],
+				secotrDetailsRaw[5]
+			);
+
+			sectors.push(sectorDetails);
+		}
+
+		return {
+			event: eventDetails,
+			sectors: sectors
+		};
+
+			
 	}
 
 	async getAllEventsDetails(): Promise<EventDetails[]> {
@@ -1726,9 +1770,9 @@ export class TicketNFTService {
 			details[1].toString(),
 			details[2],       
 			details[3],
-      details[4],
-      details[5]
-    );
+      		details[4],
+      		details[5]
+    	);
 	}
 
 

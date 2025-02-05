@@ -31,7 +31,7 @@
             </div>
         </div>
 
-        <div *ngIf="available_tickets > 0" style="margin-top: 100px;">
+        <div *ngIf="available_tickets >= 0" style="margin-top: 100px;">
             <p class="plain-text title">Buy Ticket</p>
 
             <p class="plain-text top-margin-20">Owner:</p> 
@@ -60,7 +60,7 @@
         <div class="top-margin-20">
             <p class="plain-text" style="display: block;">Sector:</p>
             <select [(ngModel)]="selected_sector" class=" input-text" style="width: 200px;">
-                <option *ngFor="let item of sectors" [value]="item">{{ item }}</option>
+                <option *ngFor="let item of sectors" [value]="item">{{ item.name }}</option>
             </select>
         </div>
 

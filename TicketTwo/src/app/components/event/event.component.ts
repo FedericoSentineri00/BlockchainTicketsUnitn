@@ -26,6 +26,7 @@ export class EventComponent {
     private router : Router,
     private ticketNFTService: TicketNFTService
   ) {
+    this.retrieveAllEventDetails();
     this.filtered = this.events
   }
 
@@ -81,6 +82,7 @@ export class EventComponent {
     try {
         const allEventDetails = await this.ticketNFTService.getAllEventsDetails();
         this.events = allEventDetails; 
+        this.updateEvents();
     } catch (error) {
         console.error('Error fetching all event details:', error);
     }

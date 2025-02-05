@@ -30,11 +30,11 @@
             <div style="width: 60%;">
                 <div *ngFor="let item of filtered; let i = index " class="ticket" (click)="openEvent(i)" >
                     <div>
-                        <p class="ticket-text">{{item}}</p>
+                        <p class="ticket-text">{{item.name}}</p>
                         <div style="display: flex;" class="mt-20">
-                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sectors count</p>
-                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket count</p>
-                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">00/00/0000</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sectors count:{{item.sectorCount}}</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket count:{{item.totAvailableSeats}}</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{item.name}}</p>
                         </div>
                     </div>
                 </div>
