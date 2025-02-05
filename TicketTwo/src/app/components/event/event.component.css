@@ -44,7 +44,7 @@
 
 .name-input {
     border-radius: 15px;
-    width: 80%;
+    width: 60%;
     padding: 10px 5px;
 }
 
@@ -52,4 +52,37 @@
     position: relative;
     left: 10%;
     color: white;
+}
+
+.ticket {
+    background-color: #d9d9d9;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 20px;
+}
+
+.ticket-text {
+    color: black;
+    display:  inline-block;
+    overflow: hidden;
+    font-size: 20px;
+    margin: 0;
+}
+
+.ticket-container {
+    width: 60%;
+    display: flex;
+    justify-content: center;
+}
+
+.mt-10 {
+    margin-top: 10px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.ml-10 {
+    margin-left: 10px !important; 
 }

@@ -14,7 +14,10 @@ export class DashboardComponent {
 
   currentAccount: string | undefined; // Property for the current account
 
-  constructor(private router: Router, private connectionService: ConnectionService, private ticketNFTService: TicketNFTService) {
+  constructor(
+    private router: Router, 
+    private connectionService: ConnectionService, 
+    private ticketNFTService: TicketNFTService) {
     this.connect();
     this.retrieveAllEventDetails()
   }
@@ -46,12 +49,13 @@ export class DashboardComponent {
     
   }
 
-  openEvent() {
+  openEvent(index : number) {
 
     Static.source = '/dashboard'
+    Static.id = this.events[index].id;
+    
     this.router.navigate(['/details'])
   }
-
 
 
   async retrieveAllEventDetails(): Promise<void> {
@@ -62,10 +66,6 @@ export class DashboardComponent {
     } catch (error) {
         console.error('Error fetching all event details:', error);
     }
-}
+  }
 
-
-
-
- 
 }

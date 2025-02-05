@@ -1,5 +1,5 @@
 export class Static {
     static source : string = ""
 
-    static events : string[] = ["", "", ""]
+    static id : number = 0;
 }
