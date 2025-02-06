@@ -1,15 +1,32 @@
 <div class="body">
     <div style="width: 60%; margin-top: 50px;">
         <p class="plain-text title">My tickets</p>
-        <div *ngFor="let item of tickets" class="ticket">
+        <div *ngFor="let item of tickets; let i = index" class="ticket mt-20">
             <div>
-                <p class="ticket-text">Event Name</p>
+                <p class="ticket-text" style="display: block;">{{item.eventId}}</p>
                 <div style="display: flex; margin-top: 20px;">
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector name</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket id: {{item.id}}</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector name: {{item.sectorId}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Seat: To be decide</p>
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">00/00/0000</p>
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Group: None</p>
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Status: Valid</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date: {{this.formatter.format(item.eventId)}}</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Group: {{item.groupId}}</p>
+                </div>
+            </div>
+            <div style="display: flex; justify-content: space-evenly;">
+                <p *ngIf="showGroupManagement === i" class="general-button" style="width: 250px;" (click)="hideManageGroup(i)"> Hide Manage group </p>
+                <p *ngIf="showGroupManagement != i" class="general-button" style="width: 250px;" (click)="manageGroup(i)"> Manage group </p>
+                <p *ngIf="item.status === 1" class="general-button" style="width: 250px;" (click)="sellTicket(i)"> Sell ticket </p>
+                <p *ngIf="item.status === 0" class="general-button" style="width: 250px;" (click)="removeSell(i)"> Remove from sell </p>
+            </div>
+            <div *ngIf="showGroupManagement === i" style="display: flex; justify-content: center; border: 1px black solid; padding: 10px; border-radius: 10px;" >
+                <div>
+                    <p *ngIf="item.groupId == 0" class="general-button" style="width: 250px; margin: auto;" (click)="createGroup(i)" >Create new Group </p>
+                    <p *ngIf="item.groupId != 0" class="general-button" style="width: 250px; margin: auto;"(click)="removeFromGroup(i)" >Exit Group </p>
+                    <div *ngIf="item.groupId != 0" style="display: flex; align-items: center;">
+                        <p class="plain-text">Add member to the group: </p>
+                        <input class="input-text ml-10" type="text" placeholder="Ticket address" [(ngModel)]="ticketAddress" />
+                        <p class="general-button ml-10" (click)="addToGroup(i)">Confirm</p>
+                    </div>
                 </div>
             </div>
         </div>

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 import { EventDetails } from '../../classes/EventDetail';
-import { TicketDetails } from '../../classes/TicketDetails';
+import { TicketDetails, TicketStatus } from '../../classes/TicketDetails';
 
 @Component({
   selector: 'app-personal-view',
@@ -17,7 +17,10 @@ export class PersonalViewComponent {
   addAddress :string = ""
   removeAddress :string = ""
 
-  tickets : TicketDetails[] = []
+  ticketAddress : string = ""
+
+  tickets : TicketDetails[] = [new TicketDetails(1,1,1,0,1,1,"asd","asd"),new TicketDetails(1,1,1,1,1,1,"asd","asd")]
+  showGroupManagement : number = -1;
 
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
@@ -87,8 +90,6 @@ export class PersonalViewComponent {
     }
   }
 
-
-
   assignSeats() {
     let nRow: number = 10; // Numero di righe (modificabile)
     let nColumns: number = 5; // Numero di colonne (modificabile)
@@ -146,6 +147,52 @@ export class PersonalViewComponent {
       }
     }
   }
+
+  sellTicket(index: number) {
+    this.tickets[index].status = TicketStatus.Available
+    
+  }
+
+  removeSell(index: number) {
+    this.tickets[index].status = TicketStatus.Owned
+  }
+
+  manageGroup(index : number) {
+    this.showGroupManagement = index;
+  }
+
+  hideManageGroup(index: number) {
+    this.showGroupManagement = -1;
+  }
+
+  async createGroup(index : number) {
+
+    try {
+      this.tickets[index].groupId = await this.ticketNFTService.addGroup(this.tickets[index].id);
+    } catch (error) {
+      console.error('Error creating new group:', error);
+    }
+  }
+
+  async removeFromGroup(index : number) {
+
+    try {
+      await this.ticketNFTService.removeFromGroup(this.tickets[index].groupId, this.tickets[index].id);
+    } catch (error) {
+      console.error('Error removing from group:', error);
+    }
+
+    this.tickets[index].groupId = 0
+  }
+
+  async addToGroup(index :number) {
+    try {
+      await this.ticketNFTService.removeFromGroup(this.tickets[index].groupId, Number(this.ticketAddress));
+    } catch (error) {
+      console.error('Error adding person to group:', error);
+    }
+  }
+
 }
 
 
