@@ -1816,8 +1816,44 @@ export class TicketNFTService {
 	}
 	  
 	  
+	// ---------- GROUP MANAGEMENT ------
 
+	async addGroup(ticketId : number) : Promise<number>  {
+		if (!this.contract) {
+			throw new Error('Contract not initialized');
+		}
+		
+		const tx = await this.contract['createGroup'](ticketId);
+		const receipt = await tx.wait();
 
+		console.log("Receipt", receipt)
+		console.log(`Group: group created.`);
 
+		return tx[0];
+	}
+
+	async addParticipant(ticketId : number, groupId : number) : Promise<void> {
+		if (!this.contract) {
+			throw new Error('Contract not initialized');
+		}
+		
+		const tx = await this.contract['addParticipant'](groupId, ticketId);
+		const receipt = await tx.wait();
+
+		console.log("Receipt", receipt)
+		console.log(`Group: ${ticketId} added to group ${groupId}.`);
+	}
+
+	async removeFromGroup(ticketId : number, groupId : number) : Promise<void> {
+		if (!this.contract) {
+			throw new Error('Contract not initialized');
+		}
+		
+		const tx = await this.contract['removeParticipant'](groupId, ticketId);
+		const receipt = await tx.wait();
+
+		console.log("Receipt", receipt)
+		console.log(`Group: ${ticketId} added to group ${groupId}.`);
+	}
 
 }

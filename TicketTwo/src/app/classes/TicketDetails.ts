@@ -1,4 +1,4 @@
-enum TicketStatus {
+export enum TicketStatus {
     Available,
     Owned,
     Validated,
