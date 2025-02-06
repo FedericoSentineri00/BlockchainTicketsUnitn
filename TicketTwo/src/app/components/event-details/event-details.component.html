@@ -48,26 +48,20 @@
                         <input [(ngModel)]="array[0].second" class="input-text" type="text" style="width: 100px;" placeholder="Surname"/>
                     </div>
                 </div>
-                <div style="flex-grow: 1;" class="left-margin-10">
-                    <p class="plain-text">Wallet Address</p>
-                    <div>
-                        <input [(ngModel)]="array[0].third" class="input-text" type="text" style="width: 200px;" placeholder="0xasdfghj..."/>
-                    </div>
-                </div>
             </div>
         </div>
 
         <div class="top-margin-20">
             <p class="plain-text" style="display: block;">Sector:</p>
             <select [(ngModel)]="selected_sector" class=" input-text" style="width: 200px;">
-                <option *ngFor="let item of sectors" [value]="item">{{ item.name }}</option>
+                <option *ngFor="let item of sectors" [value]="item">{{ item.name }} ({{ item.availableTickets }} tickets available)</option>
             </select>
         </div>
 
         <p class="plain-text top-margin-20" style="display: block;">Total price: {{price}}</p>
 
         <div style="display: flex; justify-content: center;">
-            <p class="confirm-button">Confirm</p>
+            <p class="confirm-button" (click)="confirmBuy()">Confirm</p>
         </div>
     </div>
 </div>

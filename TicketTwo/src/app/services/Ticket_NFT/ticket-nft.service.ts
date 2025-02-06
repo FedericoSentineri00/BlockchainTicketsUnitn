@@ -1022,6 +1022,19 @@ const contract_ticket_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "getnextTicketCount",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "bytes32",
@@ -1525,9 +1538,12 @@ export class TicketNFTService {
   private async initializeContract(): Promise<void> {
     try {
 		await this.connection.connect();
+		
       const organizerAddress = await this.connection.getSignerAddress();
 	  console.log("organizerAddress:",organizerAddress);
+	  
       this.contract_ticket_Address = await this.factoryService.getOrganizerNFT(organizerAddress);
+	  
 	  console.log("contract_ticket_Address:",this.contract_ticket_Address);
 
 	  const provider = this.connection.getProvider();
@@ -1592,7 +1608,7 @@ export class TicketNFTService {
 	}
 
 	//resituisce un evento e un array di settory e i biglietti id
-	async getEventInfo(eventId: number): Promise<{ event: EventDetails, sectors: SecotrDetails[] }>{
+	async getEventInfo(eventId: number): Promise<{ event: EventDetails, sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] }>{
 		if(!this.contract){
 			throw new Error('Contract not initialized');
 		}
@@ -1610,8 +1626,9 @@ export class TicketNFTService {
 			totAvailableSeats
 		);
 
-		const sectors: SecotrDetails[] = [];
+		const sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] = [];
 
+		//take info on every sector
 		for (let sectorId = 1; sectorId <= sectorCount; sectorId++) {
 			const secotrDetailsRaw = await this.contract['getSector'](eventId, sectorId);  
 
@@ -1624,12 +1641,33 @@ export class TicketNFTService {
 				secotrDetailsRaw[5]
 			);
 
-			sectors.push(sectorDetails);
+			//console.log("Sector Details", sectorDetails);
+
+			
+
+			console.log("Raw ",secotrDetailsRaw[4])
+			const ticketIds = secotrDetailsRaw[4].filter((id: BigInt) => id !== 0n);
+			console.log("Ticket ids all", ticketIds);
+			const minTicketId = ticketIds.reduce((min: number, current: number) => current < min ? current : min);
+			const maxTicketId = ticketIds.reduce((max: number, current: number) => current > max ? current : max);
+			console.log("Ticket min", minTicketId);
+			console.log("Ticket max", maxTicketId);
+			const ticketsRaw = await this.contract['getTickets'](minTicketId, maxTicketId);
+			console.log(`Ticket trovati per settore ${sectorId} sectorId`, ticketsRaw.length);
+
+
+			const availableTicketIds: number[] = ticketsRaw
+			.map((ticket: { id: number, status: String }, index: number) => ({ id: ticketIds[index], status: ticket.status }))
+			.filter((ticket: { status: string; }) => ticket.status === 'owned')
+			.map((ticket: { id: number; }) => ticket.id);
+
+			sectors.push({ sector: sectorDetails, availableTicketIds });
+			console.log("Sectors and info")
 		}
 
 		return {
 			event: eventDetails,
-			sectors: sectors
+			sectors
 		};
 
 			
@@ -1694,11 +1732,12 @@ export class TicketNFTService {
 				const provider = this.connection.getProvider();
 				const signer = provider.getSigner();
 				const organizerContract = new ethers.Contract(nftContractAddress, contract_ticket_ABI, await signer);
-
+			
 				const maxid =await organizerContract['getnextTicketCount']();
 				
 				for (let ticketId = 0; ticketId <= maxid; ticketId++) {
-					const balance = await organizerContract['balanceOf'](signer , ticketId);
+					const balance = await organizerContract['balanceOf']((await signer).getAddress() , ticketId);
+					console.log("Qua arrivo");
 					if (balance > 0) {
 						const ticketinfo=await organizerContract['getTicket'](ticketId);
 						tickets.push(ticketinfo)

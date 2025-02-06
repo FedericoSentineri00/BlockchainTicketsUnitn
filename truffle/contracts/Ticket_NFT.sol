@@ -142,12 +142,15 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
     }
 
     //------------------------Gestione gruppi-----------------------------------------------------------
-    function createGroup(uint256 ticketId) external {
+    function createGroup(uint256 ticketId) external returns (uint256){
         require(balanceOf(msg.sender, ticketId) > 0, "Not the ticket owner");
         uint256 groupId = ++groupCount;
 
         tickets[ticketId].groupId = groupId;
         groups[groupId].push(ticketId);
+
+        return groupId;
+
     }
 
     function addParticipant(uint256 groupId, uint256 ticketId) external {
@@ -309,8 +312,8 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         require(_end <= ticketCount, "Invalid end");
         require(_end >= _start, "Invalid parameters");
 
-        Ticket[] memory array = new Ticket[](_end - _start);
-        for (uint i = _start; i < _end; i++) {
+        Ticket[] memory array = new Ticket[]((_end - _start)+1);
+        for (uint i = _start; i < (_end+1); i++) {
             array[i - _start] = tickets[i];
         }
         return array;
@@ -332,7 +335,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         // Temporary array to hold ticket IDs associated with the sector
         uint256 ticketSector=0;
 
-        for (uint256 i = 0; i < ticketCount; i++) {
+        for (uint256 i = 1; i <= ticketCount; i++) {
             if (
                 tickets[i].eventId == _eventId &&
                 tickets[i].sectorId == _sectorId
@@ -342,12 +345,12 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
         }
 
         // Allocate memory for ticket IDs
-        uint256[] memory associatedTicketIds = new uint256[](ticketCount);
-        uint256[] memory groupIds = new uint256[](ticketCount);
+        uint256[] memory associatedTicketIds = new uint256[](ticketSector);
+        uint256[] memory groupIds = new uint256[](ticketSector);
 
         uint256 index = 0;
 
-        for (uint256 i = 0; i < ticketCount; i++) {
+        for (uint256 i = 1; i <= ticketCount && index<ticketSector; i++) {
             if (
                 tickets[i].eventId == _eventId &&
                 tickets[i].sectorId == _sectorId

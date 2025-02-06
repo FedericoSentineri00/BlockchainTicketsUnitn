@@ -4,7 +4,7 @@ import { ConnectionService } from '../Connection/connection.service';
 
 
 const contract_marketplace_ABI = [{}];
-const contract_marketplace_Address = '0x80832D85a6537C0fEAa0878249c349189c24a300';
+const contract_marketplace_Address = '0xf6B98a1Afaefb59D2b3027FDcA45aF0eF0372718';
 
 
 @Injectable({

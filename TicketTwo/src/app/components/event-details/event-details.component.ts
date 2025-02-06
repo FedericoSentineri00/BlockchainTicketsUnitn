@@ -20,14 +20,13 @@ export class EventDetailsComponent {
   buy_ticket_count : number = 1;
 
   array: {first: string, second: string, third : string}[] = [];
-  sectors : SecotrDetails[] = [];
+  sectors : { name: string, availableTickets: number }[] = [];
   selected_sector : string = ""
 
   price = 0;
 
   constructor(private router: Router, private ticketNFTService: TicketNFTService) {
     this.updateDivs();
-    console.log("Arrivo");
     this.getEventInfo();
   }
 
@@ -50,10 +49,18 @@ export class EventDetailsComponent {
         this.event_date = allEventDetails.event.time.toLocaleDateString();
         this.available_tickets = allEventDetails.event.totAvailableSeats;
 
-        this.sectors = allEventDetails.sectors;
+        this.sectors = allEventDetails.sectors.map(sectorData => ({
+          name: sectorData.sector.name,
+          availableTickets: sectorData.availableTicketIds.length
+        }));
     } catch (error) {
         console.error('Error fetching all event details:', error);
     }
+  }
+
+
+  async confirmBuy(): Promise<void>{
+
   }
 
 }
