@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
+import { MarketplaceService } from '../../services/Marketplace/marketplace.service';
 import { EventDetails } from '../../classes/EventDetail';
 import { TicketDetails, TicketStatus } from '../../classes/TicketDetails';
 
@@ -25,7 +26,10 @@ export class PersonalViewComponent {
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
 
-  constructor(private router : Router, private connectionService: ConnectionService, private ticketNFTService: TicketNFTService) {
+  constructor(private router : Router, 
+    private connectionService: ConnectionService, 
+    private ticketNFTService: TicketNFTService,
+    private marketPlaceService: MarketplaceService) {
     this.connect();
     this.getMyTickets();
     this.getMyEvents();
@@ -148,8 +152,17 @@ export class PersonalViewComponent {
     }
   }
 
-  sellTicket(index: number) {
-    this.tickets[index].status = TicketStatus.Available
+  async sellTicket(index: number) {
+    const id=this.tickets[index].id
+    
+    try {
+      await this.marketPlaceService.sellTicket(id);
+      this.tickets[index].status=TicketStatus.Available
+    } catch (error) {
+      console.error('Error selling ticket', error);
+    }
+
+
     
   }
 
@@ -168,6 +181,8 @@ export class PersonalViewComponent {
   async createGroup(index : number) {
 
     try {
+      //console.log("Index:",index);
+      //console.log("index id",this.tickets[index].id)
       this.tickets[index].groupId = await this.ticketNFTService.addGroup(this.tickets[index].id);
     } catch (error) {
       console.error('Error creating new group:', error);
@@ -177,6 +192,8 @@ export class PersonalViewComponent {
   async removeFromGroup(index : number) {
 
     try {
+      console.log("Index:",index);
+      console.log("index id",this.tickets[index].id)
       await this.ticketNFTService.removeFromGroup(this.tickets[index].groupId, this.tickets[index].id);
     } catch (error) {
       console.error('Error removing from group:', error);

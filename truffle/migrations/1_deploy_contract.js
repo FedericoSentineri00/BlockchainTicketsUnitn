@@ -7,8 +7,8 @@ module.exports = async function(deployer) {
   
   //organization account
   const organizations = [
-    { address: "0x18e096328D09C5FfAC5EB78508fa1D3dbac4e592", name: "Sony" },
-    { address: "0xC7E9074f61a87D5A5e56229bF85B6fC201E8222b", name: "Universal" }
+    { address: "0xBd4c95037Af089237722e5302F6cAE9B91565956", name: "Sony" },
+    { address: "0xe0c25ff0D073304634033081b7d4b9d40a165F8f", name: "Universal" }
   ];
 
   await deployer.deploy(OrganizerManager);

@@ -8,15 +8,15 @@
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket id: {{item.id}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector name: {{item.sectorId}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Seat: To be decide</p>
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date: {{this.formatter.format(item.eventId)}}</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date: {{this.formatter.format(1)}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Group: {{item.groupId}}</p>
                 </div>
             </div>
             <div style="display: flex; justify-content: space-evenly;">
                 <p *ngIf="showGroupManagement === i" class="general-button" style="width: 250px;" (click)="hideManageGroup(i)"> Hide Manage group </p>
                 <p *ngIf="showGroupManagement != i" class="general-button" style="width: 250px;" (click)="manageGroup(i)"> Manage group </p>
-                <p *ngIf="item.status === 1" class="general-button" style="width: 250px;" (click)="sellTicket(i)"> Sell ticket </p>
-                <p *ngIf="item.status === 0" class="general-button" style="width: 250px;" (click)="removeSell(i)"> Remove from sell </p>
+                <p *ngIf="item.status == 1" class="general-button" style="width: 250px;" (click)="sellTicket(i)"> Sell ticket </p>
+                <p *ngIf="item.status == 0" class="general-button" style="width: 250px;" (click)="removeSell(i)"> Remove from sell </p>
             </div>
             <div *ngIf="showGroupManagement === i" style="display: flex; justify-content: center; border: 1px black solid; padding: 10px; border-radius: 10px;" >
                 <div>

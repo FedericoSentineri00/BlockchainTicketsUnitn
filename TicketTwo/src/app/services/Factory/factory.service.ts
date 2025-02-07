@@ -373,7 +373,7 @@ const contract_factory_ABI = [
 		"type": "function"
 	}
 ];
-const contract_factory_Address = '0xbE91ACF2C5a1f97d00E045e7F686d5fE4B1770ea';
+const contract_factory_Address = '0x2E298522DE26C712F56Ab4f687339B492288c06E';
 
 
 @Injectable({

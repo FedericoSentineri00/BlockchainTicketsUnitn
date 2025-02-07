@@ -584,7 +584,13 @@ const contract_ticket_ABI = [
 			}
 		],
 		"name": "createGroup",
-		"outputs": [],
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "function"
 	},
@@ -1652,14 +1658,21 @@ export class TicketNFTService {
 			const maxTicketId = ticketIds.reduce((max: number, current: number) => current > max ? current : max);
 			console.log("Ticket min", minTicketId);
 			console.log("Ticket max", maxTicketId);
-			const ticketsRaw = await this.contract['getTickets'](minTicketId, maxTicketId);
-			console.log(`Ticket trovati per settore ${sectorId} sectorId`, ticketsRaw.length);
+			const ticketsRaws = await this.contract['getTickets'](minTicketId, maxTicketId);
+			console.log(`Ticket trovati per settore ${sectorId} sectorId`, ticketsRaws.length);
 
+			console.log("Rawssss",ticketsRaws)
 
-			const availableTicketIds: number[] = ticketsRaw
-			.map((ticket: { id: number, status: String }, index: number) => ({ id: ticketIds[index], status: ticket.status }))
-			.filter((ticket: { status: string; }) => ticket.status === 'owned')
-			.map((ticket: { id: number; }) => ticket.id);
+			const availableTicketIds = [];
+			for (let i = 0; i < ticketsRaws.length; i++){
+				console.log("Status",ticketsRaws[i][5])
+				if (ticketsRaws[i][5]==1n) {
+					console.log("Id",ticketsRaws[i][0])
+					availableTicketIds.push(ticketsRaws[i][0]);
+				}
+			}
+
+			console.log("Available ticket", availableTicketIds)
 
 			sectors.push({ sector: sectorDetails, availableTicketIds });
 			console.log("Sectors and info")
@@ -1739,8 +1752,19 @@ export class TicketNFTService {
 					const balance = await organizerContract['balanceOf']((await signer).getAddress() , ticketId);
 					console.log("Qua arrivo");
 					if (balance > 0) {
-						const ticketinfo=await organizerContract['getTicket'](ticketId);
-						tickets.push(ticketinfo)
+						const ticketinforaw=await organizerContract['getTicket'](ticketId);
+						const ticketInfo=new TicketDetails(
+							ticketinforaw[0],                                
+							ticketinforaw[1],                     
+							ticketinforaw[2],   
+							ticketinforaw[3], 
+							ticketinforaw[4], 
+							ticketinforaw[5],
+							ticketinforaw[6],
+							ticketinforaw[7],
+						)
+						tickets.push(ticketInfo)
+						console.log("Ticket info", ticketInfo)
 					}
 				}
 			}catch(error){
@@ -1883,16 +1907,16 @@ export class TicketNFTService {
 		console.log(`Group: ${ticketId} added to group ${groupId}.`);
 	}
 
-	async removeFromGroup(ticketId : number, groupId : number) : Promise<void> {
+	async removeFromGroup(groupId : number, ticketId : number) : Promise<void> {
 		if (!this.contract) {
 			throw new Error('Contract not initialized');
 		}
-		
+		console.log("ticketid",ticketId);
+		console.log("groupid",groupId);
 		const tx = await this.contract['removeParticipant'](groupId, ticketId);
 		const receipt = await tx.wait();
-
+	
 		console.log("Receipt", receipt)
-		console.log(`Group: ${ticketId} added to group ${groupId}.`);
 	}
 
 }
