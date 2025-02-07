@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Static } from '../../utils/Static';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
+import { MarketplaceService } from '../../services/Marketplace/marketplace.service';
 import { SecotrDetails } from '../../classes/SectorDetails';
 
 @Component({
@@ -20,12 +21,15 @@ export class EventDetailsComponent {
   buy_ticket_count : number = 1;
 
   array: {first: string, second: string, third : string}[] = [];
-  sectors : { name: string, availableTickets: number }[] = [];
+  sectors: { name: string, availableTickets: number, ticketIds: number[] }[] = [];
   selected_sector : string = ""
 
   price = 0;
 
-  constructor(private router: Router, private ticketNFTService: TicketNFTService) {
+  constructor(private router: Router, 
+    private ticketNFTService: TicketNFTService,
+    private marketplaceService: MarketplaceService
+  ) {
     this.updateDivs();
     this.getEventInfo();
   }
@@ -33,7 +37,7 @@ export class EventDetailsComponent {
 
 
   updateDivs() {
-    this.array = Array(this.buy_ticket_count).fill(""); // Crea un array con 'n' elementi
+    this.array = Array(this.buy_ticket_count).fill({first: '', second: '', third: ''}); // Crea un array con 'n' elementi
   }
 
   back() {
@@ -51,7 +55,8 @@ export class EventDetailsComponent {
 
         this.sectors = allEventDetails.sectors.map(sectorData => ({
           name: sectorData.sector.name,
-          availableTickets: sectorData.availableTicketIds.length
+          availableTickets: sectorData.availableTicketIds.length,
+          ticketIds: sectorData.availableTicketIds
         }));
     } catch (error) {
         console.error('Error fetching all event details:', error);
@@ -59,8 +64,28 @@ export class EventDetailsComponent {
   }
 
 
-  async confirmBuy(): Promise<void>{
+  async confirmBuy(): Promise<void> {
+    if (!this.selected_sector) {
+      console.log('Seleziona un settore prima di confermare.');
+      return;
+    }
+    
+    const selectedSectorDetails = this.sectors.find(sector => sector.name === this.selected_sector);
+    if (!selectedSectorDetails) {
+      console.log('Settore selezionato non valido.');
+      return;
+    }
 
+    console.log('Ticket IDs:', selectedSectorDetails.ticketIds);
+  
+    try {
+      const firstTicketId = selectedSectorDetails.ticketIds[0];
+      await this.marketplaceService.buyTicket(firstTicketId,  this.array[0]?.first, this.array[0]?.second);
+  
+      console.log(`Acquisto confermato per il settore: ${selectedSectorDetails.name}`);
+    } catch (error) {
+      console.error('Errore durante l’acquisto:', error);
+    }
   }
 
 }

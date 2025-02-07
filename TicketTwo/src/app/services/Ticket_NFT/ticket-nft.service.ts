@@ -1632,6 +1632,8 @@ export class TicketNFTService {
 			totAvailableSeats
 		);
 
+		console.log("Event details",eventDetails);
+
 		const sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] = [];
 
 		//take info on every sector
@@ -1647,7 +1649,7 @@ export class TicketNFTService {
 				secotrDetailsRaw[5]
 			);
 
-			//console.log("Sector Details", sectorDetails);
+			console.log("Sector Details", sectorDetails);
 
 			
 
@@ -1666,7 +1668,7 @@ export class TicketNFTService {
 			const availableTicketIds = [];
 			for (let i = 0; i < ticketsRaws.length; i++){
 				console.log("Status",ticketsRaws[i][5])
-				if (ticketsRaws[i][5]==1n) {
+				if (ticketsRaws[i][5]==0n) {
 					console.log("Id",ticketsRaws[i][0])
 					availableTicketIds.push(ticketsRaws[i][0]);
 				}

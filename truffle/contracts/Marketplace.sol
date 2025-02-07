@@ -131,4 +131,15 @@ contract Marketplace {
         Ticket_NFT(listing.ticketContract).updateTicketStatus(listing.ticketId, Ticket_NFT.TicketStatus.Owned);
         listing.status = TicketStatus.Owned;
     }
+
+
+
+    function findListingByTicketId(uint256 ticketId) external view returns (uint256) {
+    for (uint256 i = 1; i <= listingCount; i++) {
+        if (listings[i].ticketId == ticketId) {
+            return i; 
+        }
+    }
+    revert("Ticket not found for the given ticketId"); 
+}
 }

@@ -91,6 +91,25 @@ const contract_marketplace_ABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ticketId",
+				"type": "uint256"
+			}
+		],
+		"name": "findListingByTicketId",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "listingCount",
 		"outputs": [
@@ -1765,7 +1784,36 @@ export class MarketplaceService {
 		} else {
 		  console.error("Ticket non trovato o non posseduto.");
 		}
-	  }
+	}
+
+
+	async buyTicket(ticketId: number, name: string, surname: string): Promise<void> {
+
+		
+		console.log("Arrivo dentro");
+
+		if (!this.contract) {
+		  throw new Error('Contract not initialized');
+		}
+
+		const listingId = await this.contract['findListingByTicketId'](ticketId);
+		const listingIdNumber: number = Number(listingId);
+		console.log("Prendo listing id", listingIdNumber, name, surname);
+
+		const priceInEther = "1.1";  
+		const priceInWei = ethers.parseUnits(priceInEther, 18);
+
+		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:priceInWei});
+
+		console.log('Ticket buyed');
+		  
+	}
+
+
+
+
+
+	
 	  
 }
 

@@ -54,7 +54,7 @@
         <div class="top-margin-20">
             <p class="plain-text" style="display: block;">Sector:</p>
             <select [(ngModel)]="selected_sector" class=" input-text" style="width: 200px;">
-                <option *ngFor="let item of sectors" [value]="item">{{ item.name }} ({{ item.availableTickets }} tickets available)</option>
+                <option *ngFor="let item of sectors" [value]="item.name">{{ item.name }} ({{ item.availableTickets }} tickets available)</option>
             </select>
         </div>
 
