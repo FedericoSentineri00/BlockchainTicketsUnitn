@@ -1609,17 +1609,24 @@ export class TicketNFTService {
       		details[1].toString(),
 			new Date(details[2] * 1000),       
 			details[3],
-      		details[4]
+      		details[4],
+			""
     	);
 	}
 
 	//resituisce un evento e un array di settory e i biglietti id
-	async getEventInfo(eventId: number): Promise<{ event: EventDetails, sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] }>{
+	async getEventInfo(eventId: number, NFTaddress: string): Promise<{ event: EventDetails, sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] }>{
 		if(!this.contract){
 			throw new Error('Contract not initialized');
 		}
 		
-		const eventDetailsRaw = await this.contract['getEventDetails'](eventId); 
+
+		const provider = this.connection.getProvider();
+		const signer = provider.getSigner();
+		const organizerContract = new ethers.Contract(NFTaddress, contract_ticket_ABI, await signer);
+
+
+		const eventDetailsRaw = await organizerContract['getEventDetails'](eventId); 
 
 		const eventTime = Number(eventDetailsRaw[2]);
 		const totAvailableSeats = Number(eventDetailsRaw[4]);
@@ -1629,7 +1636,8 @@ export class TicketNFTService {
 			eventDetailsRaw[1].toString(),
 			new Date(eventTime * 1000),      
 			sectorCount,
-			totAvailableSeats
+			totAvailableSeats,
+			""
 		);
 
 		console.log("Event details",eventDetails);
@@ -1638,7 +1646,7 @@ export class TicketNFTService {
 
 		//take info on every sector
 		for (let sectorId = 1; sectorId <= sectorCount; sectorId++) {
-			const secotrDetailsRaw = await this.contract['getSector'](eventId, sectorId);  
+			const secotrDetailsRaw = await organizerContract['getSector'](eventId, sectorId);  
 
 			const sectorDetails = new SecotrDetails(
 				secotrDetailsRaw[0],         
@@ -1660,7 +1668,7 @@ export class TicketNFTService {
 			const maxTicketId = ticketIds.reduce((max: number, current: number) => current > max ? current : max);
 			console.log("Ticket min", minTicketId);
 			console.log("Ticket max", maxTicketId);
-			const ticketsRaws = await this.contract['getTickets'](minTicketId, maxTicketId);
+			const ticketsRaws = await organizerContract['getTickets'](minTicketId, maxTicketId);
 			console.log(`Ticket trovati per settore ${sectorId} sectorId`, ticketsRaws.length);
 
 			console.log("Rawssss",ticketsRaws)
@@ -1717,7 +1725,8 @@ export class TicketNFTService {
 					  details[1][i].toString(),                     
 					  new Date(eventTime * 1000),   
 					  sectorCount, 
-					  totAvailableSeats,                                                                
+					  totAvailableSeats,  
+					  nftContractAddress                                                    
 					);
 
 					console.log("event gu",event)
@@ -1798,7 +1807,8 @@ export class TicketNFTService {
 				details[1][i].toString(),                     
 				new Date(eventTime * 1000),   
 				sectorCount, 
-				totAvailableSeats,                                                                
+				totAvailableSeats,   
+				""                                                             
 			);
 
 			console.log("My events taken",event)

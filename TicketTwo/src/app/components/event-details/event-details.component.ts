@@ -47,7 +47,7 @@ export class EventDetailsComponent {
   async getEventInfo(): Promise<void> {
 
     try {
-        const allEventDetails = await this.ticketNFTService.getEventInfo(Static.id);
+        const allEventDetails = await this.ticketNFTService.getEventInfo(Static.id, Static.NFTaddress);
         console.log("All details to buy:", allEventDetails)
         this.event_name = allEventDetails.event.name;
         this.event_date = allEventDetails.event.time.toLocaleDateString();

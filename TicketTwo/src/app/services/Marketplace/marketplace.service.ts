@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import { ConnectionService } from '../Connection/connection.service';
 import { FactoryService } from '../Factory/factory.service';
+import { Static } from '../../utils/Static';
 
 
 const contract_marketplace_ABI = [
@@ -1795,13 +1796,26 @@ export class MarketplaceService {
 		if (!this.contract) {
 		  throw new Error('Contract not initialized');
 		}
-
+		// attento devi sistemare
 		const listingId = await this.contract['findListingByTicketId'](ticketId);
 		const listingIdNumber: number = Number(listingId);
 		console.log("Prendo listing id", listingIdNumber, name, surname);
 
 		const priceInEther = "1.1";  
 		const priceInWei = ethers.parseUnits(priceInEther, 18);
+		console.log("Prendo listing id", priceInWei);
+
+		const provider = this.connection.getProvider();
+		const signer = provider.getSigner();
+		const NFTcontract = new ethers.Contract(Static.NFTaddress, contract_ticket_ABI, await signer);
+
+
+		const signeradd=(await signer).getAddress()
+		await NFTcontract['setApprovalForAll'](contract_marketplace_Address, true);
+		console.log("Ggogogogogog");
+		await NFTcontract['setApprovalForAll'](signeradd, true);
+
+		console.log("Gugugugugu");
 
 		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:priceInWei});
 

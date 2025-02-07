@@ -45,7 +45,7 @@ export class PersonalViewComponent {
     timeZone: "UTC",
   });  
 
-  events : EventDetails[] = [new EventDetails(0,"ciao",new Date(1 * 1000), 0,0)]
+  events : EventDetails[] = []
 
 
   async connect() {

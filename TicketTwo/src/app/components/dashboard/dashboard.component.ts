@@ -29,7 +29,7 @@ export class DashboardComponent {
   }
 
   items = [ {first : "02/04/2000", second: "ciaomodno123456789"}, {first : "ciao2", second: "ciao2"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"} , {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}]
-  events : EventDetails[] = [new EventDetails(0,"ciao",new Date(1 * 1000), 0,0)]
+  events : EventDetails[] = []
 
   //Formatter for the date
   formatter = new Intl.DateTimeFormat("it-IT", {
@@ -53,6 +53,7 @@ export class DashboardComponent {
 
     Static.source = '/dashboard'
     Static.id = this.events[index].id;
+    Static.NFTaddress=this.events[index].address;
     
     this.router.navigate(['/details'])
   }
