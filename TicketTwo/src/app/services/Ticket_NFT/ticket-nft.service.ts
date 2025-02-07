@@ -1923,12 +1923,50 @@ export class TicketNFTService {
 		if (!this.contract) {
 			throw new Error('Contract not initialized');
 		}
+
 		console.log("ticketid",ticketId);
 		console.log("groupid",groupId);
 		const tx = await this.contract['removeParticipant'](groupId, ticketId);
 		const receipt = await tx.wait();
 	
 		console.log("Receipt", receipt)
+	}
+
+
+	async validateTicket(ticketId: number, name : string, surname : string, NFTaddress : string) : Promise<void> {
+		
+		try {
+			const provider = this.connection.getProvider();
+			const signer = provider.getSigner();
+			const organizerContract = new ethers.Contract(NFTaddress, contract_ticket_ABI, await signer);
+
+			let tx = await organizerContract['validateTicket'](ticketId, name, surname);
+			const receipt = await tx.wait()
+
+			console.log("Receipt", receipt)
+			console.log(`Validation: Ticket ${ticketId} valid`);
+
+		} catch(error){ 
+			throw error;
+		}
+	}
+
+	async expireTickets(eventId : number, NFTaddress : string) {
+
+		try {
+			const provider = this.connection.getProvider();
+			const signer = provider.getSigner();
+			const organizerContract = new ethers.Contract(NFTaddress, contract_ticket_ABI, await signer);
+
+			let tx = await organizerContract['expireTickets'](eventId);
+			const receipt = await tx.wait()
+
+			console.log("Receipt", receipt)
+			console.log(`Expire Tickets: Tickets of event ${eventId} expired`);
+
+		} catch(error){ 
+			throw error;
+		}
 	}
 
 }

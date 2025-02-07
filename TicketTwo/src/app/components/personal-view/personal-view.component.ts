@@ -20,8 +20,11 @@ export class PersonalViewComponent {
 
   ticketAddress : string = ""
 
-  tickets : TicketDetails[] = [new TicketDetails(1,1,1,0,1,1,"asd","asd"),new TicketDetails(1,1,1,1,1,1,"asd","asd")]
+  validationData : {id : string, name : string, surname : string} = {id: "", name : "", surname : ""}
+
+  tickets : TicketDetails[] = []
   showGroupManagement : number = -1;
+  showValidation : number = -1;
 
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
@@ -45,7 +48,7 @@ export class PersonalViewComponent {
     timeZone: "UTC",
   });  
 
-  events : EventDetails[] = []
+  events : EventDetails[] = [new EventDetails(1,"ciao",new Date(1),1,1,"")]
 
 
   async connect() {
@@ -94,7 +97,7 @@ export class PersonalViewComponent {
     }
   }
 
-  assignSeats() {
+  assignSeats(index : number) {
     let nRow: number = 10; // Numero di righe (modificabile)
     let nColumns: number = 5; // Numero di colonne (modificabile)
     let tickets: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Lista dei biglietti
@@ -161,8 +164,6 @@ export class PersonalViewComponent {
     } catch (error) {
       console.error('Error selling ticket', error);
     }
-
-
     
   }
 
@@ -176,6 +177,29 @@ export class PersonalViewComponent {
 
   hideManageGroup(index: number) {
     this.showGroupManagement = -1;
+  }
+
+  showValidationPage(index : number) {
+    this.showValidation = index
+  }
+
+  hideValidationPage(index : number) {
+    this.showValidation = -1
+  }
+
+  async verifyTicket(index : number) {
+
+    try {
+
+      await this.ticketNFTService.validateTicket(Number(this.validationData.id), this.validationData.name, this.validationData.surname, this.events[index].address)
+
+      this.validationData.id = ""
+      this.validationData.name = ""
+      this.validationData.surname = ""
+
+    } catch (error) {
+      console.error('Error in group validation:', error);
+    }
   }
 
   async createGroup(index : number) {
@@ -208,6 +232,19 @@ export class PersonalViewComponent {
     } catch (error) {
       console.error('Error adding person to group:', error);
     }
+  }
+
+  async expireTickets(index : number) {
+
+    try {
+
+      await this.ticketNFTService.expireTickets(this.events[index].id, this.events[index].address);
+
+    } catch(error) {
+      console.error('Error expiring tickets', error);
+
+    }
+
   }
 
 }

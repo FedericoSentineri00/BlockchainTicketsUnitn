@@ -23,7 +23,7 @@
                     <p *ngIf="item.groupId == 0" class="general-button" style="width: 250px; margin: auto;" (click)="createGroup(i)" >Create new Group </p>
                     <p *ngIf="item.groupId != 0" class="general-button" style="width: 250px; margin: auto;"(click)="removeFromGroup(i)" >Exit Group </p>
                     <div *ngIf="item.groupId != 0" style="display: flex; align-items: center;">
-                        <p class="plain-text">Add member to the group: </p>
+                        <p class="ticket-text">Add member to the group: </p>
                         <input class="input-text ml-10" type="text" placeholder="Ticket address" [(ngModel)]="ticketAddress" />
                         <p class="general-button ml-10" (click)="addToGroup(i)">Confirm</p>
                     </div>
@@ -39,13 +39,42 @@
                 <p class="plain-text title" style="display: inline-block !important ;">My events</p>
                 <p class="general-button ml-10" style="width: 200px; display: inline-block;" (click)="createEvent()">Create event</p>
             </div>
-            <div *ngFor="let item of events" class="ticket">
+            <div *ngFor="let item of events; let i = index" class="ticket">
                 <div>
                     <p class="ticket-text">{{item.name}}</p>
                     <div style="display: flex; margin-top: 20px;">
                         <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector:{{item.sectorCount}}</p>
                         <p style="flex-grow: 1; text-align: center;" class="ticket-text">Available ticket: {{item.totAvailableSeats}}</p>
                         <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{this.formatter.format(item.time)}}</p>
+                    </div>
+                </div>
+                <div style="display: flex; justify-content: space-evenly;">
+                    <p *ngIf="showValidation === i" class="general-button" style="width: 250px;" (click)="hideValidationPage(i)"> Hide Validation </p>
+                    <p *ngIf="showValidation != i" class="general-button" style="width: 250px;" (click)="showValidationPage(i)"> Validate </p>
+                    <p  class="general-button" style="width: 250px;" (click)="expireTickets(i)"> Expire tickets </p>
+                    <p  class="general-button" style="width: 250px;" (click)="assignSeats(i)"> Assign seat </p>
+                </div>
+                <div *ngIf="showValidation === i" style="border: 1px black solid; padding: 10px; border-radius: 10px;" >
+                    <div style="display: flex; justify-content: space-evenly;" class="top-margin-20">
+                        <div style="flex-grow: 1; text-align: center;"  >
+                            <p class="ticket-text">Id</p>
+                            <div>
+                                <input [(ngModel)]="validationData.id" class="input-text" type="text" style="width: 100px;" placeholder="Name"/>
+                            </div>
+                        </div>
+                        <div style="flex-grow: 1; text-align: center;"  >
+                            <p class="ticket-text">Name</p>
+                            <div>
+                                <input [(ngModel)]="validationData.name" class="input-text" type="text" style="width: 100px;" placeholder="Name"/>
+                            </div>
+                        </div>
+                        <div style="flex-grow: 1; text-align: center;" class="left-margin-10">
+                            <p class="ticket-text">Surname</p>
+                            <div>
+                                <input [(ngModel)]="validationData.surname" class="input-text" type="text" style="width: 100px;" placeholder="Surname"/>
+                            </div>
+                        </div>
+                        <p class="general-button ml-10" (click)="verifyTicket(i)">Confirm</p>
                     </div>
                 </div>
             </div>
