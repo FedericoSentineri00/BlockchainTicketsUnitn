@@ -1081,6 +1081,11 @@ const contract_ticket_ABI = [
 				"type": "uint256"
 			},
 			{
+				"internalType": "uint256",
+				"name": "seats_x_lines",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint256[]",
 				"name": "ticketIds",
 				"type": "uint256[]"

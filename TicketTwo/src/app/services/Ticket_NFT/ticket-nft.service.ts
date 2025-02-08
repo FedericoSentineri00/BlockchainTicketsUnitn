@@ -894,6 +894,11 @@ const contract_ticket_ABI = [
 				"type": "uint256"
 			},
 			{
+				"internalType": "uint256",
+				"name": "seats_x_lines",
+				"type": "uint256"
+			},
+			{
 				"internalType": "uint256[]",
 				"name": "ticketIds",
 				"type": "uint256[]"
@@ -1615,7 +1620,7 @@ export class TicketNFTService {
 	}
 
 	//resituisce un evento e un array di settory e i biglietti id
-	async getEventInfo(eventId: number, NFTaddress: string): Promise<{ event: EventDetails, sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] }>{
+	async getEventInfo(eventId: number, NFTaddress: string, onlyAvailable : boolean = true): Promise<{ event: EventDetails, sectors: { sector: SecotrDetails, returnedTickets: number[] }[] }>{
 		if(!this.contract){
 			throw new Error('Contract not initialized');
 		}
@@ -1642,7 +1647,7 @@ export class TicketNFTService {
 
 		console.log("Event details",eventDetails);
 
-		const sectors: { sector: SecotrDetails, availableTicketIds: number[] }[] = [];
+		const sectors: { sector: SecotrDetails, returnedTickets: number[] }[] = [];
 
 		//take info on every sector
 		for (let sectorId = 1; sectorId <= sectorCount; sectorId++) {
@@ -1654,6 +1659,7 @@ export class TicketNFTService {
 				secotrDetailsRaw[2],       
 				secotrDetailsRaw[3],
 				secotrDetailsRaw[4],
+				secotrDetailsRaw[5],
 				secotrDetailsRaw[5]
 			);
 
@@ -1661,8 +1667,8 @@ export class TicketNFTService {
 
 			
 
-			console.log("Raw ",secotrDetailsRaw[4])
-			const ticketIds = secotrDetailsRaw[4].filter((id: BigInt) => id !== 0n);
+			console.log("Raw ",secotrDetailsRaw[5])
+			const ticketIds = secotrDetailsRaw[5].filter((id: BigInt) => id !== 0n);
 			console.log("Ticket ids all", ticketIds);
 			const minTicketId = ticketIds.reduce((min: number, current: number) => current < min ? current : min);
 			const maxTicketId = ticketIds.reduce((max: number, current: number) => current > max ? current : max);
@@ -1673,18 +1679,25 @@ export class TicketNFTService {
 
 			console.log("Rawssss",ticketsRaws)
 
-			const availableTicketIds = [];
-			for (let i = 0; i < ticketsRaws.length; i++){
-				console.log("Status",ticketsRaws[i][5])
-				if (ticketsRaws[i][5]==0n) {
-					console.log("Id",ticketsRaws[i][0])
-					availableTicketIds.push(ticketsRaws[i][0]);
+			let returnedTickets : number[] = [];
+
+			if(onlyAvailable) {
+				for (let i = 0; i < ticketsRaws.length; i++){
+					console.log("Status",ticketsRaws[i][5])
+					if (ticketsRaws[i][5]==0n) {
+						console.log("Id",ticketsRaws[i][0])
+						returnedTickets.push(ticketsRaws[i][0]);
+					}
+				}
+			} else {
+				for (let i = 0; i < ticketsRaws.length; i++){
+					returnedTickets.push(ticketsRaws[i][0]);
 				}
 			}
 
-			console.log("Available ticket", availableTicketIds)
+			console.log("Available ticket", returnedTickets)
 
-			sectors.push({ sector: sectorDetails, availableTicketIds });
+			sectors.push({ sector: sectorDetails, returnedTickets });
 			console.log("Sectors and info")
 		}
 
@@ -1792,6 +1805,8 @@ export class TicketNFTService {
 		if(!this.contract){
 			throw new Error('Contract not initialized');
 		}
+
+		let address = await this.contract.getAddress()
 		console.log("Arrivo qua");
 
 		const events: EventDetails[] = [];
@@ -1808,7 +1823,7 @@ export class TicketNFTService {
 				new Date(eventTime * 1000),   
 				sectorCount, 
 				totAvailableSeats,   
-				""                                                             
+				address
 			);
 
 			console.log("My events taken",event)
@@ -1835,18 +1850,24 @@ export class TicketNFTService {
 	}
 
   //Funtion to ge the details of a specific sector by its id in a event
-  async getSectorDetails(eventId: number, sectorId:number): Promise<SecotrDetails> {
-	if(!this.contract){
-		throw new Error('Contract not initialized');
-	}
-		const details = await this.contract['getSectorDetails'](eventId, sectorId);  
+  	async getSectorDetails(eventId: number, sectorId:number, NFTaddress : string): Promise<SecotrDetails> {
+		if(!this.contract){
+			throw new Error('Contract not initialized');
+		}
+
+		const provider = this.connection.getProvider();
+		const signer = provider.getSigner();
+		const organizerContract = new ethers.Contract(NFTaddress, contract_ticket_ABI, await signer);
+
+		const details = await organizerContract['getSectorDetails'](eventId, sectorId);  
 		return new SecotrDetails(
 			details[0],         
 			details[1].toString(),
 			details[2],       
 			details[3],
       		details[4],
-      		details[5]
+      		details[5],
+			details[6]
     	);
 	}
 
@@ -1963,6 +1984,23 @@ export class TicketNFTService {
 
 			console.log("Receipt", receipt)
 			console.log(`Expire Tickets: Tickets of event ${eventId} expired`);
+
+		} catch(error){ 
+			throw error;
+		}
+	}
+
+	async assignSeats(NFTaddress : string, ticket_ids : number[], seats : string[]) {
+		try {
+			const provider = this.connection.getProvider();
+			const signer = provider.getSigner();
+			const organizerContract = new ethers.Contract(NFTaddress, contract_ticket_ABI, await signer);
+
+			let tx = await organizerContract['assignSeats'](ticket_ids, seats);
+			const receipt = await tx.wait()
+
+			console.log("Receipt", receipt)
+			console.log(`Seats assigned`);
 
 		} catch(error){ 
 			throw error;

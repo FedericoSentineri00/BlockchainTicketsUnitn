@@ -55,8 +55,8 @@ export class EventDetailsComponent {
 
         this.sectors = allEventDetails.sectors.map(sectorData => ({
           name: sectorData.sector.name,
-          availableTickets: sectorData.availableTicketIds.length,
-          ticketIds: sectorData.availableTicketIds
+          availableTickets: sectorData.returnedTickets.length,
+          ticketIds: sectorData.returnedTickets
         }));
     } catch (error) {
         console.error('Error fetching all event details:', error);

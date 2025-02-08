@@ -13,7 +13,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@openzeppelin/contracts": "^5.2.0"
+    "@openzeppelin/contracts": "^5.2.0",
+    "vue": "^3.5.13"
   },
   "devDependencies": {
     "@openzeppelin/test-helpers": "^0.5.16",

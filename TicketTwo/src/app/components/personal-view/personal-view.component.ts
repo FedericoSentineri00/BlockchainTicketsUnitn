@@ -5,6 +5,7 @@ import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 import { MarketplaceService } from '../../services/Marketplace/marketplace.service';
 import { EventDetails } from '../../classes/EventDetail';
 import { TicketDetails, TicketStatus } from '../../classes/TicketDetails';
+import { SecotrDetails } from '../../classes/SectorDetails';
 
 @Component({
   selector: 'app-personal-view',
@@ -97,11 +98,30 @@ export class PersonalViewComponent {
     }
   }
 
-  assignSeats(index : number) {
-    let nRow: number = 10; // Numero di righe (modificabile)
-    let nColumns: number = 5; // Numero di colonne (modificabile)
-    let tickets: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Lista dei biglietti
-    let groupsId: number[] = [4, 0, 1, 1, 4, 0, 1, 2, 3, 0]; // Gruppi associati ai biglietti
+  async assignSeats(index : number) {
+
+    let ticket_ids : number[] = []
+    let seats : string[] = []
+
+    let response = await this.ticketNFTService.getEventInfo(this.events[index].id, this.events[index].address, false);
+
+    let sectors = response.sectors
+
+    sectors.forEach(async (element, index, sectors) => {
+      let sector = element.sector;
+      let tempSeats = await this.assignSectorSeats(sector.totalSeats / sector.seatsXLines, sector.seatsXLines, sector.ticketIds, sector.groupIds)
+
+      for(let i = 0; i < tempSeats.length; i++) {
+        ticket_ids.push(sector.ticketIds[i])
+        seats.push(tempSeats[i])
+      }
+    });
+
+    await this.ticketNFTService.assignSeats(this.events[index].address,ticket_ids, seats)
+
+  }
+
+  async assignSectorSeats(nRow : number, nColumns : number, tickets_ids : number[], group_ids : number []) {
   
     const seatLabels: string[] = [];
   
@@ -127,12 +147,12 @@ export class PersonalViewComponent {
     // Raggruppamento dei biglietti per gruppo
     let groupedSeats: Map<number, number[]> = new Map();
   
-    for (let i = 0; i < tickets.length; i++) {
-      const group = groupsId[i];
+    for (let i = 0; i < tickets_ids.length; i++) {
+      const group = group_ids[i];
       if (!groupedSeats.has(group)) {
         groupedSeats.set(group, []);
       }
-      groupedSeats.get(group)?.push(tickets[i]);
+      groupedSeats.get(group)?.push(tickets_ids[i]);
     }
   
     // Assegnazione dei posti con alert per ogni ticket
@@ -153,6 +173,8 @@ export class PersonalViewComponent {
         }
       }
     }
+
+    return seatLabels
   }
 
   async sellTicket(index: number) {
@@ -175,7 +197,7 @@ export class PersonalViewComponent {
     this.showGroupManagement = index;
   }
 
-  hideManageGroup(index: number) {
+  hideManageGroup() {
     this.showGroupManagement = -1;
   }
 
@@ -183,7 +205,7 @@ export class PersonalViewComponent {
     this.showValidation = index
   }
 
-  hideValidationPage(index : number) {
+  hideValidationPage() {
     this.showValidation = -1
   }
 
@@ -237,7 +259,7 @@ export class PersonalViewComponent {
   async expireTickets(index : number) {
 
     try {
-
+      console.log(this.events[index].address)
       await this.ticketNFTService.expireTickets(this.events[index].id, this.events[index].address);
 
     } catch(error) {

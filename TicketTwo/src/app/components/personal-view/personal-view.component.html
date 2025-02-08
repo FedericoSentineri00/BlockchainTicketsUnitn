@@ -13,7 +13,7 @@
                 </div>
             </div>
             <div style="display: flex; justify-content: space-evenly;">
-                <p *ngIf="showGroupManagement === i" class="general-button" style="width: 250px;" (click)="hideManageGroup(i)"> Hide Manage group </p>
+                <p *ngIf="showGroupManagement === i" class="general-button" style="width: 250px;" (click)="hideManageGroup()"> Hide Manage group </p>
                 <p *ngIf="showGroupManagement != i" class="general-button" style="width: 250px;" (click)="manageGroup(i)"> Manage group </p>
                 <p *ngIf="item.status == 1" class="general-button" style="width: 250px;" (click)="sellTicket(i)"> Sell ticket </p>
                 <p *ngIf="item.status == 0" class="general-button" style="width: 250px;" (click)="removeSell(i)"> Remove from sell </p>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div style="display: flex; justify-content: space-evenly;">
-                    <p *ngIf="showValidation === i" class="general-button" style="width: 250px;" (click)="hideValidationPage(i)"> Hide Validation </p>
+                    <p *ngIf="showValidation === i" class="general-button" style="width: 250px;" (click)="hideValidationPage()"> Hide Validation </p>
                     <p *ngIf="showValidation != i" class="general-button" style="width: 250px;" (click)="showValidationPage(i)"> Validate </p>
                     <p  class="general-button" style="width: 250px;" (click)="expireTickets(i)"> Expire tickets </p>
                     <p  class="general-button" style="width: 250px;" (click)="assignSeats(i)"> Assign seat </p>

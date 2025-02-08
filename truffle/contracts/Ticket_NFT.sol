@@ -325,6 +325,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
             string memory name,
             uint256 totalSeats,
             uint256 availableSeats,
+            uint256 seats_x_lines,
             uint256[] memory ticketIds,
             uint256[] memory associatedGroupIds
         )
@@ -366,6 +367,7 @@ contract Ticket_NFT is AccessControl, ERC1155Supply {
             sector.name,
             sector.totalSeats,
             sector.availableSeats,
+            sector.seats_x_lines,
             associatedTicketIds,
             groupIds
         );
