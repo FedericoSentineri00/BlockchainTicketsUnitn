@@ -5,6 +5,7 @@ import { FactoryService } from '../Factory/factory.service';
 import { EventDetails } from '../../classes/EventDetail';
 import { TicketDetails } from '../../classes/TicketDetails';
 import { SecotrDetails } from '../../classes/SectorDetails';
+import { parseEther } from 'ethers';
 
 
 const contract_ticket_ABI = [
@@ -1875,8 +1876,13 @@ export class TicketNFTService {
 	async createTicket(eventId: number, sectorId: number, originalPrice: number): Promise<number> {
 		if(!this.contract){
 			throw new Error('Contract not initialized');
-		}
-			const tx = await this.contract['createTicket'](eventId, sectorId, originalPrice);
+		}	
+		
+			console.log("originalprice", originalPrice);
+			const priceInWei = parseEther(originalPrice.toString());
+			console.log("originalPrice in wei:", priceInWei.toString());
+
+			const tx = await this.contract['createTicket'](eventId, sectorId, priceInWei);
 			const receipt=await tx.wait();
 			const ticketId = receipt.logs[0].args[0].toString();
 			console.log(`Ticket creato con id ${ticketId}`);

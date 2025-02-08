@@ -3,7 +3,7 @@ import { ethers } from 'ethers';
 import { ConnectionService } from '../Connection/connection.service';
 import { FactoryService } from '../Factory/factory.service';
 import { Static } from '../../utils/Static';
-
+import { parseEther } from 'ethers';
 
 const contract_marketplace_ABI = [
 	{
@@ -1806,9 +1806,9 @@ export class MarketplaceService {
 		const listingIdNumber: number = Number(listingId);
 		console.log("Prendo listing id", listingIdNumber, name, surname);
 
-		const priceInEther = "1.1";  
-		const priceInWei = ethers.parseUnits(priceInEther, 18);
-		console.log("Prendo listing id", priceInWei);
+		const originalPrice = "3";  
+		const priceInWei = parseEther(originalPrice.toString());
+		console.log("buyprice in wei:", priceInWei.toString());
 
 		const provider = this.connection.getProvider();
 		const signer = provider.getSigner();
@@ -1822,9 +1822,46 @@ export class MarketplaceService {
 
 		console.log("Gugugugugu");
 
+		//ascolta i Debug dello smart contrct, vanno solo se commenti safetransfer from nello smart
+		this.contract.on("Debug", (message: string, data: any) => {
+			console.log("Evento Debug ricevuto:", message, data);
+		  });
+		  
+		  this.contract.on("Debug2", (from: string, to: string) => {
+			console.log(`Evento Debug2 ricevuto: From ${from} To ${to}`);
+		  });
+
+
 		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:priceInWei});
 
 		console.log('Ticket buyed');
+
+		const receipt = await tx.wait();
+		console.log("Transazione confermata:", receipt);
+
+
+		//sempre per stampare i debug
+		for (const log of receipt.logs) {
+			try {
+			  const parsedLog = this.contract.interface.parseLog(log);
+		  
+			  
+			  if (parsedLog) {
+				
+				if (parsedLog.name === "Debug") {
+				  console.log("Evento Debug trovato:", parsedLog.args);
+				} else if (parsedLog.name === "Debug2") {
+				  console.log("Evento Debug2 trovato:", parsedLog.args);
+				}
+			  }
+			} catch (error) {
+			  console.log("Log non decodificabile:", log);
+			}
+		  }
+
+
+		this.contract.off("Debug");
+		this.contract.off("Debug2");
 		  
 	}
 
