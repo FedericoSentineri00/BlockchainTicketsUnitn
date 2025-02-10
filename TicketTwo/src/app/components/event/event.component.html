@@ -34,7 +34,7 @@
                         <div style="display: flex;" class="mt-20">
                             <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sectors count:{{item.sectorCount}}</p>
                             <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket count:{{item.totAvailableSeats}}</p>
-                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{item.name}}</p>
+                            <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{this.formatter.format(item.time)}}</p>
                         </div>
                     </div>
                 </div>

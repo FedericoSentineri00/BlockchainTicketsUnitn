@@ -3,7 +3,7 @@
         <div class="grid-item" *ngFor="let item of events; let i = index" (click)="openEvent(i)">
             <div class="grid-item-top">
                 <p class="plain-text bottom-left">{{this.formatter.format(item.time)}}</p>
-                <p class="plain-text bottom-right">{{ item.totAvailableSeats }} tickets left</p>
+                <p class="plain-text bottom-right">{{item.totAvailableSeats }} total tickets</p>
             </div>
             <div class="grid-item-bottom">
                 <p class="plain-text center title">{{ item.name }}</p>

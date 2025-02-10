@@ -1767,7 +1767,7 @@ export class MarketplaceService {
 			const organizationAddress = await this.factoryService.getOrganizationAddress(organizerId);
 			const contractAddress = await this.factoryService.getOrganizerNFT(organizationAddress);
 	  
-			
+			console.log(contractAddress)
 			const provider = this.connection.getProvider();
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(contractAddress, contract_ticket_ABI, await signer);
@@ -1777,15 +1777,25 @@ export class MarketplaceService {
 			  nftContractAddress = contractAddress;
 			  break; 
 			}
+			
 		  } catch (error) {
 			console.error(`Errore durante la verifica dell'organizer ${organizerId}:`, error);
 		  }
 		}
 	  
 		if (nftContractAddress) {
+
+			console.log(nftContractAddress)
+			const provider = this.connection.getProvider();
+			const signer = await provider.getSigner();
+			const contract = new ethers.Contract(nftContractAddress, contract_ticket_ABI, signer);
+			await contract['setApprovalForAll'](contract_marketplace_Address, true);
+
 		  console.log(`Ticket ${ticketId} trovato su contratto: ${nftContractAddress}`);
 		  
 		  const tx=await this.contract['sellTicket'](nftContractAddress, ticketId);
+		  const receipt =await tx.wait();
+			console.log("Receipt", receipt);
 		  console.log(`Ticket ${ticketId} messo in vendita.`);
 		} else {
 		  console.error("Ticket non trovato o non posseduto.");
@@ -1794,9 +1804,6 @@ export class MarketplaceService {
 
 
 	async buyTicket(ticketId: number, name: string, surname: string): Promise<void> {
-
-		
-		console.log("Arrivo dentro");
 
 		if (!this.contract) {
 		  throw new Error('Contract not initialized');
@@ -1810,18 +1817,6 @@ export class MarketplaceService {
 		const priceInWei = parseEther(originalPrice.toString());
 		console.log("buyprice in wei:", priceInWei.toString());
 
-		const provider = this.connection.getProvider();
-		const signer = provider.getSigner();
-		const NFTcontract = new ethers.Contract(Static.NFTaddress, contract_ticket_ABI, await signer);
-
-
-		const signeradd=(await signer).getAddress()
-		await NFTcontract['setApprovalForAll'](contract_marketplace_Address, true);
-		console.log("Ggogogogogog");
-		await NFTcontract['setApprovalForAll'](signeradd, true);
-
-		console.log("Gugugugugu");
-
 		//ascolta i Debug dello smart contrct, vanno solo se commenti safetransfer from nello smart
 		this.contract.on("Debug", (message: string, data: any) => {
 			console.log("Evento Debug ricevuto:", message, data);
@@ -1830,15 +1825,13 @@ export class MarketplaceService {
 		  this.contract.on("Debug2", (from: string, to: string) => {
 			console.log(`Evento Debug2 ricevuto: From ${from} To ${to}`);
 		  });
-
-
+		
 		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:priceInWei});
 
 		console.log('Ticket buyed');
 
 		const receipt = await tx.wait();
 		console.log("Transazione confermata:", receipt);
-
 
 		//sempre per stampare i debug
 		for (const log of receipt.logs) {
@@ -1857,20 +1850,12 @@ export class MarketplaceService {
 			} catch (error) {
 			  console.log("Log non decodificabile:", log);
 			}
-		  }
-
+		  
+		}
 
 		this.contract.off("Debug");
-		this.contract.off("Debug2");
-		  
-	}
-
-
-
-
-
-	
-	  
+		this.contract.off("Debug2");		  
+	} 
 }
 
 

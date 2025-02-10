@@ -1,7 +1,4 @@
 <div id="navbar">
-    <div class="login-container">
-        <button class="login" (click)="login()">Login</button>
-    </div>
     <div id="text-area">
         <h2 class="text" [ngClass]="{underline : currentStatus == 'dashboard'}" (click)="updateView('dashboard')">HOME</h2>
         <h2 class="text" [ngClass]="{underline : currentStatus == 'event'}" (click)="updateView('event')">EVENTS</h2>

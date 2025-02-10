@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 import { MarketplaceService } from '../../services/Marketplace/marketplace.service';
-import { EventDetails } from '../../classes/EventDetail';
+import { CompleteEventDetails, EventDetails } from '../../classes/EventDetail';
 import { TicketDetails, TicketStatus } from '../../classes/TicketDetails';
 import { SecotrDetails } from '../../classes/SectorDetails';
 
@@ -45,12 +45,11 @@ export class PersonalViewComponent {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     timeZone: "UTC",
   });  
 
-  events : EventDetails[] = [new EventDetails(1,"ciao",new Date(1),1,1,"")]
-
+  events : EventDetails[] = []
+  myTickets : CompleteEventDetails[] = []
 
   async connect() {
     await this.connectionService.connect();

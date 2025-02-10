@@ -17,11 +17,7 @@ export class NavbarComponent {
   ngAfterViewInit() : void {
     this.router.navigate(['/dashboard']);
   }
-
-  login() {
-    
-  }
-
+  
   updateView(newStatus : string) {
     if (newStatus != this.currentStatus) {
       this.currentStatus = newStatus;

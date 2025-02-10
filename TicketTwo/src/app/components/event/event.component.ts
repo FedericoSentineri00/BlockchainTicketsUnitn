@@ -11,15 +11,11 @@ import { Static } from '../../utils/Static';
 })
 export class EventComponent {
 
-  minFilter : string = ""
-  maxFilter : string = ""
+  name : string = ""
   minDateFilter : string = ""
   maxDateFilter : string = ""
 
-  name : string = ""
-
   events : EventDetails[] = []
-  
   filtered : EventDetails[] = []
 
   constructor(
@@ -87,5 +83,14 @@ export class EventComponent {
         console.error('Error fetching all event details:', error);
     }
   }
+
+  formatter = new Intl.DateTimeFormat("it-IT", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "UTC",
+  });  
   
 }

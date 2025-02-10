@@ -8,7 +8,7 @@
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Ticket id: {{item.id}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector name: {{item.sectorId}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Seat: To be decide</p>
-                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date: {{this.formatter.format(1)}}</p>
+                    <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date: {{this.formatter.format()}}</p>
                     <p style="flex-grow: 1; text-align: center;" class="ticket-text">Group: {{item.groupId}}</p>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                     <p class="ticket-text">{{item.name}}</p>
                     <div style="display: flex; margin-top: 20px;">
                         <p style="flex-grow: 1; text-align: center;" class="ticket-text">Sector:{{item.sectorCount}}</p>
-                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Available ticket: {{item.totAvailableSeats}}</p>
+                        <p style="flex-grow: 1; text-align: center;" class="ticket-text">Total tickets: {{item.totAvailableSeats}}</p>
                         <p style="flex-grow: 1; text-align: center;" class="ticket-text">Date:{{this.formatter.format(item.time)}}</p>
                     </div>
                 </div>

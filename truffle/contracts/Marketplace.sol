@@ -2,6 +2,8 @@
 pragma solidity ^0.8.0;
 
 import "./Ticket_NFT.sol"; // Import del contratto Ticket_NFT
+import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol";
+
 
 contract Marketplace {
 
@@ -68,23 +70,14 @@ contract Marketplace {
         emit Debug("Sufficient payment", msg.value); //
         
         //devo controllare anche listing che sia available?
-        (
-        , 
-        , 
-        , 
-        , 
-        , 
-        Ticket_NFT.TicketStatus status,
-        , 
-        ) = Ticket_NFT(listing.ticketContract).getTicket(listing.ticketId);
+        (, , , , , Ticket_NFT.TicketStatus status,, ) = Ticket_NFT(listing.ticketContract).getTicket(listing.ticketId);
+
         require(status == Ticket_NFT.TicketStatus.Available, "Ticket is no longer for sale");
         emit Debug("Ticket status before transfer", uint256(status)); //
-
 
         uint256 sellerBalance = Ticket_NFT(listing.ticketContract).balanceOf(listing.seller, listing.ticketId);
         emit Debug("Seller's ticket balance", sellerBalance);
         require(sellerBalance > 0, "Seller does not own the ticket");
-
 
         // manda soldi a proprietario biglietto
         require(msg.value >= listing.price, "Insufficient payment");
@@ -96,10 +89,25 @@ contract Marketplace {
         emit Debug("Transferring ticket", listing.ticketId);
         emit Debug2("From seller", listing.seller);
         emit Debug2("To buyer", msg.sender);
+        emit Debug2("ticket Contract", listing.ticketContract);
 
         
+        
+
         // trasferisce con safetransfer
-        Ticket_NFT(listing.ticketContract).safeTransferFrom(listing.seller, msg.sender, listing.ticketId, 1, "");
+        //Ticket_NFT(listing.ticketContract).safeTransferFrom(listing.seller, address(this), listing.ticketId, 1, "");
+        try Ticket_NFT(listing.ticketContract).safeTransferFrom(listing.seller, msg.sender, listing.ticketId, 1, "")
+        {
+            
+        }
+        catch Error(string memory reason) {
+            emit Debug("Transfer failed", 1);
+            revert(reason);
+        } catch {
+            emit Debug("Transfer failed", 2);
+            revert("Unknown transfer failure");
+        }
+
         emit Debug("Ticket transferred", listing.ticketId); //
         
         Ticket_NFT(listing.ticketContract).setOwnerName(listing.ticketId, name, surname);
@@ -110,14 +118,12 @@ contract Marketplace {
         listing.status = TicketStatus.Owned;
         emit Debug("Status updated", listing.ticketId);
         
-    
-
         uint256 excessAmount = msg.value - listing.price;
         emit Debug("Msg value", msg.value);
         emit Debug("Listing price", listing.price);
         emit Debug("Refunding excess amount", excessAmount);
-        
-        
+
+    
         
     }
 

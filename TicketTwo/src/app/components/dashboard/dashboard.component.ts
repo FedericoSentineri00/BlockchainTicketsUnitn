@@ -28,7 +28,6 @@ export class DashboardComponent {
     console.log('Connected to MetaMask account:', this.currentAccount);
   }
 
-  items = [ {first : "02/04/2000", second: "ciaomodno123456789"}, {first : "ciao2", second: "ciao2"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"} , {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}, {first : "ciao3", second: "ciao3"}]
   events : EventDetails[] = []
 
   //Formatter for the date
@@ -38,7 +37,6 @@ export class DashboardComponent {
     day: "2-digit",
     hour: "2-digit",
     minute: "2-digit",
-    second: "2-digit",
     timeZone: "UTC",
   });  
 
