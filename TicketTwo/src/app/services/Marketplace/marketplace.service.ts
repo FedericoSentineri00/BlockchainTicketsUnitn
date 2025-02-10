@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { ethers } from 'ethers';
 import { ConnectionService } from '../Connection/connection.service';
 import { FactoryService } from '../Factory/factory.service';
-import { Static } from '../../utils/Static';
 import { parseEther } from 'ethers';
 
 const contract_marketplace_ABI = [
@@ -1785,25 +1784,37 @@ export class MarketplaceService {
 	  
 		if (nftContractAddress) {
 
-			console.log(nftContractAddress)
 			const provider = this.connection.getProvider();
 			const signer = await provider.getSigner();
 			const contract = new ethers.Contract(nftContractAddress, contract_ticket_ABI, signer);
 			await contract['setApprovalForAll'](contract_marketplace_Address, true);
 
-		  console.log(`Ticket ${ticketId} trovato su contratto: ${nftContractAddress}`);
+		  	console.log(`Ticket ${ticketId} trovato su contratto: ${nftContractAddress}`);
 		  
-		  const tx=await this.contract['sellTicket'](nftContractAddress, ticketId);
-		  const receipt =await tx.wait();
+			const tx=await this.contract['sellTicket'](nftContractAddress, ticketId);
+			const receipt =await tx.wait();
 			console.log("Receipt", receipt);
-		  console.log(`Ticket ${ticketId} messo in vendita.`);
+		  	console.log(`Ticket ${ticketId} messo in vendita.`);
 		} else {
-		  console.error("Ticket non trovato o non posseduto.");
+		  	console.error("Ticket non trovato o non posseduto.");
+		}		
+	}
+
+	async removeSell(ticketId :number) : Promise<void> {
+
+		if (!this.contract) {
+			throw new Error('Contract not initialized');
 		}
+
+		const listingId = await this.contract['findListingByTicketId'](ticketId);
+
+		const tx = await this.contract['removeFromSell'](Number(listingId));
+
+		console.log(`Remove of ticket ${ticketId}:`, tx);
 	}
 
 
-	async buyTicket(ticketId: number, name: string, surname: string): Promise<void> {
+	async buyTicket(ticketId: number, name: string, surname: string, value : number = 0): Promise<void> {
 
 		if (!this.contract) {
 		  throw new Error('Contract not initialized');
@@ -1812,9 +1823,10 @@ export class MarketplaceService {
 		const listingId = await this.contract['findListingByTicketId'](ticketId);
 		const listingIdNumber: number = Number(listingId);
 		console.log("Prendo listing id", listingIdNumber, name, surname);
+		
 
-		const originalPrice = "3";  
-		const priceInWei = parseEther(originalPrice.toString());
+		const priceInWei = parseEther("3");
+		//let priceInWei = parseEther(value.toString())
 		console.log("buyprice in wei:", priceInWei.toString());
 
 		//ascolta i Debug dello smart contrct, vanno solo se commenti safetransfer from nello smart
@@ -1838,7 +1850,6 @@ export class MarketplaceService {
 			try {
 			  const parsedLog = this.contract.interface.parseLog(log);
 		  
-			  
 			  if (parsedLog) {
 				
 				if (parsedLog.name === "Debug") {

@@ -91,11 +91,7 @@ contract Marketplace {
         emit Debug2("To buyer", msg.sender);
         emit Debug2("ticket Contract", listing.ticketContract);
 
-        
-        
-
         // trasferisce con safetransfer
-        //Ticket_NFT(listing.ticketContract).safeTransferFrom(listing.seller, address(this), listing.ticketId, 1, "");
         try Ticket_NFT(listing.ticketContract).safeTransferFrom(listing.seller, msg.sender, listing.ticketId, 1, "")
         {
             
@@ -121,10 +117,7 @@ contract Marketplace {
         uint256 excessAmount = msg.value - listing.price;
         emit Debug("Msg value", msg.value);
         emit Debug("Listing price", listing.price);
-        emit Debug("Refunding excess amount", excessAmount);
-
-    
-        
+        emit Debug("Refunding excess amount", excessAmount);    
     }
 
     // Rimuovere un ticket dalla vendita

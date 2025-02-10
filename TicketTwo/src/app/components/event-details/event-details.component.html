@@ -52,9 +52,7 @@
                 <option *ngFor="let item of sectors" [value]="item.name">{{ item.name }} ({{ item.availableTickets }} tickets available)</option>
             </select>
         </div>
-
-        <p class="plain-text top-margin-20" style="display: block;">Total price: {{price}}</p>
-
+        
         <div style="display: flex; justify-content: center;">
             <p class="confirm-button" (click)="confirmBuy()">Confirm</p>
         </div>

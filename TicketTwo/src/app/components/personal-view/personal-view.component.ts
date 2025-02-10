@@ -3,9 +3,8 @@ import { Router } from '@angular/router';
 import { ConnectionService } from '../../services/Connection/connection.service';
 import { TicketNFTService } from '../../services/Ticket_NFT/ticket-nft.service';
 import { MarketplaceService } from '../../services/Marketplace/marketplace.service';
-import { CompleteEventDetails, EventDetails } from '../../classes/EventDetail';
+import { EventDetails } from '../../classes/EventDetail';
 import { TicketDetails, TicketStatus } from '../../classes/TicketDetails';
-import { SecotrDetails } from '../../classes/SectorDetails';
 
 @Component({
   selector: 'app-personal-view',
@@ -16,28 +15,21 @@ export class PersonalViewComponent {
   
   currentAccount: string | undefined;
 
-  addAddress :string = ""
-  removeAddress :string = ""
+  addAddress :string = "";
+  removeAddress :string = "";
 
   ticketAddress : string = ""
 
   validationData : {id : string, name : string, surname : string} = {id: "", name : "", surname : ""}
 
+  events : EventDetails[] = []
   tickets : TicketDetails[] = []
+
   showGroupManagement : number = -1;
   showValidation : number = -1;
 
   isOrganizer : boolean = true;
   isAdmin : boolean = true;
-
-  constructor(private router : Router, 
-    private connectionService: ConnectionService, 
-    private ticketNFTService: TicketNFTService,
-    private marketPlaceService: MarketplaceService) {
-    this.connect();
-    this.getMyTickets();
-    this.getMyEvents();
-  }
 
   formatter = new Intl.DateTimeFormat("it-IT", {
     year: "numeric",
@@ -48,8 +40,14 @@ export class PersonalViewComponent {
     timeZone: "UTC",
   });  
 
-  events : EventDetails[] = []
-  myTickets : CompleteEventDetails[] = []
+  constructor(private router : Router, 
+    private connectionService: ConnectionService, 
+    private ticketNFTService: TicketNFTService,
+    private marketPlaceService: MarketplaceService) {
+    this.connect();
+    this.getMyTickets();
+    this.getMyEvents();
+  }
 
   async connect() {
     await this.connectionService.connect();
@@ -176,11 +174,9 @@ export class PersonalViewComponent {
     return seatLabels
   }
 
-  async sellTicket(index: number) {
-    const id=this.tickets[index].id
-    
+  async sellTicket(index: number) {    
     try {
-      await this.marketPlaceService.sellTicket(id);
+      await this.marketPlaceService.sellTicket(this.tickets[index].id);
       this.tickets[index].status=TicketStatus.Available
     } catch (error) {
       console.error('Error selling ticket', error);
@@ -188,8 +184,14 @@ export class PersonalViewComponent {
     
   }
 
-  removeSell(index: number) {
-    this.tickets[index].status = TicketStatus.Owned
+  async removeSell(index: number) {
+
+    try {
+      await this.marketPlaceService.removeSell(this.tickets[index].id);
+      this.tickets[index].status = TicketStatus.Owned
+    } catch (error) {
+      console.error('Error selling ticket', error);
+    }
   }
 
   manageGroup(index : number) {

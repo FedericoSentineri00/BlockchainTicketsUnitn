@@ -18,19 +18,3 @@ export class EventDetails {
         this.address= address
     }
 }
-
-export class CompleteEventDetails {
-    id : number;
-    name : string;
-    time : Date;
-    sector : SecotrDetails;
-    ticket : TicketDetails;
-
-    constructor(id: number, name: string, time : Date, sector : SecotrDetails, ticket : TicketDetails) {
-        this.id = id;
-        this.name = name;
-        this.time = time;
-        this.sector = sector;
-        this.ticket = ticket;
-    }
-}

@@ -24,8 +24,6 @@ export class EventDetailsComponent {
   sectors: { name: string, availableTickets: number, ticketIds: number[] }[] = [];
   selected_sector : string = ""
 
-  price = 0;
-
   constructor(private router: Router, 
     private ticketNFTService: TicketNFTService,
     private marketplaceService: MarketplaceService
@@ -80,7 +78,8 @@ export class EventDetailsComponent {
   
     try {
       const firstTicketId = selectedSectorDetails.ticketIds[0];
-      await this.marketplaceService.buyTicket(firstTicketId,  this.array[0]?.first, this.array[0]?.second);
+      
+      await this.marketplaceService.buyTicket(firstTicketId, this.array[0]?.first, this.array[0]?.second);
   
       console.log(`Acquisto confermato per il settore: ${selectedSectorDetails.name}`);
     } catch (error) {
