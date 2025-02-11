@@ -133,12 +133,24 @@ contract Marketplace {
 
 
 
-    function findListingByTicketId(uint256 ticketId) external view returns (uint256) {
+    function findListingByTicketId(uint256 ticketId, address contractAddress) external view returns 
+    (uint256 listingId, uint256 price) {
     for (uint256 i = 1; i <= listingCount; i++) {
-        if (listings[i].ticketId == ticketId) {
-            return i; 
+        if (listings[i].ticketId == ticketId && listings[i].ticketContract == contractAddress && listings[i].status == TicketStatus.Available) {
+            return (i, listings[i].price);
         }
     }
-    revert("Ticket not found for the given ticketId"); 
+    revert("Ticket not found for the given ticketId and address"); 
+    }
+
+    function findListingBySeller(uint256 ticketId, address sellerAddress) external view returns 
+    (uint256 listingId, uint256 price) {
+    for (uint256 i = 1; i <= listingCount; i++) {
+        if (listings[i].ticketId == ticketId && listings[i].seller == sellerAddress && listings[i].status == TicketStatus.Available) {
+            return (i, listings[i].price);
+        }
+    }
+    revert("Ticket not found for the given ticketId and address"); 
+    }
 }
-}
+

@@ -3,3 +3,4 @@ truffle migrate --reset --network development
 truffle test --network development
 
 mnemonic -> begin spot slogan action adapt hurdle online canyon material account legend manual
+

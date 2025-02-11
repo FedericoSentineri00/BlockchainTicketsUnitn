@@ -79,7 +79,7 @@ export class EventDetailsComponent {
     try {
       const firstTicketId = selectedSectorDetails.ticketIds[0];
       
-      await this.marketplaceService.buyTicket(firstTicketId, this.array[0]?.first, this.array[0]?.second);
+      await this.marketplaceService.buyTicket(firstTicketId,  Static.NFTaddress ,this.array[0]?.first, this.array[0]?.second);
   
       console.log(`Acquisto confermato per il settore: ${selectedSectorDetails.name}`);
     } catch (error) {

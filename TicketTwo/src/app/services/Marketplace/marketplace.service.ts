@@ -96,13 +96,52 @@ const contract_marketplace_ABI = [
 				"internalType": "uint256",
 				"name": "ticketId",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "sellerAddress",
+				"type": "address"
+			}
+		],
+		"name": "findListingBySeller",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "listingId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
+				"type": "uint256"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "ticketId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "contractAddress",
+				"type": "address"
 			}
 		],
 		"name": "findListingByTicketId",
 		"outputs": [
 			{
 				"internalType": "uint256",
-				"name": "",
+				"name": "listingId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "price",
 				"type": "uint256"
 			}
 		],
@@ -1805,24 +1844,30 @@ export class MarketplaceService {
 		if (!this.contract) {
 			throw new Error('Contract not initialized');
 		}
+		const provider = this.connection.getProvider();
+		const signer = provider.getSigner();
 
-		const listingId = await this.contract['findListingByTicketId'](ticketId);
+		const listingId = await this.contract['findListingBySeller'](ticketId, (await signer).getAddress());
+		const listingIdNumber: number = Number(listingId[0]);
+		console.log("Prendo listing id", listingIdNumber);
 
-		const tx = await this.contract['removeFromSell'](Number(listingId));
+		const tx = await this.contract['removeFromSell'](listingIdNumber);
 
 		console.log(`Remove of ticket ${ticketId}:`, tx);
 	}
 
 
-	async buyTicket(ticketId: number, name: string, surname: string, value : number = 0): Promise<void> {
+	async buyTicket(ticketId: number, ticketaddress: string ,name: string, surname: string, value : number = 0): Promise<void> {
 
 		if (!this.contract) {
 		  throw new Error('Contract not initialized');
 		}
 		// attento devi sistemare
-		const listingId = await this.contract['findListingByTicketId'](ticketId);
-		const listingIdNumber: number = Number(listingId);
-		console.log("Prendo listing id", listingIdNumber, name, surname);
+		const listingId = await this.contract['findListingByTicketId'](ticketId, ticketaddress);
+		const listingIdNumber: number = Number(listingId[0]);
+		const listingIdPrice: number = Number(listingId[1]);
+		console.log("Bignumber", listingId[1])
+		console.log("Prendo listing id", listingIdNumber, name, surname, listingIdPrice);
 		
 
 		const priceInWei = parseEther("3");
@@ -1838,7 +1883,7 @@ export class MarketplaceService {
 			console.log(`Evento Debug2 ricevuto: From ${from} To ${to}`);
 		  });
 		
-		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:priceInWei});
+		const tx=await this.contract['buyTicket'](listingIdNumber, name, surname, {value:listingId[1]});
 
 		console.log('Ticket buyed');
 
